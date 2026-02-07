@@ -1,31 +1,29 @@
-// src/app/App.tsx
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Footer from '../components/Footer'; 
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import AppLayout from "../layouts/Applayout";
+import Home from "../pages/Home";
+import Profile from "../pages/Profile";
+import History from "../pages/History";
+import Routines from "../pages/Routines";
 
-
-export default function App() {
+function App() {
   return (
     <Router>
+      <Routes>
+        {/* --- RUTAS SIN NADA (Públicas) --- */}
+        {/* Aquí la Navbar no aparece, o podrías poner una distinta */}
+        {/* <Route path="/signin" element={<SignInPage />} /> */}
 
-      {/* min-h-screen: ocupa el 100% de la pantalla */}
-      <div className="flex flex-col min-h-screen bg-[#121212] text-[#FFFCFC]">
-        
-        {/* MAIN */}
-        <main className="flex-grow w-full max-w-md mx-auto p-4 flex flex-col justify-center">
-          <Routes>
-            <Route path="/" element={
-              <div className="text-center">
-                <h1 className="text-[#FF8904] text-4xl font-black">EntrenaTU</h1>
-                <p className="text-gray-500 mt-2 italic">Prueba</p>
-              </div>
-            } />
-          </Routes>
-        </main>
-
-        {/* Footer  */}
-        <Footer />
-        
-      </div>
+        {/* --- RUTAS CON EL DISEÑO DE LA FOTO (Privadas) --- */}
+        {/* Todas las rutas dentro de este Route heredarán el Header, Sidebar y Footer */}
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/routines" element={<Routines />} />
+        </Route>
+      </Routes>
     </Router>
   );
 }
+
+export default App;
