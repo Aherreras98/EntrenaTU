@@ -1,25 +1,29 @@
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { FormEvent, useState, type ChangeEvent, } from "react";
 import { Link } from "react-router-dom";
-import { InputNumber, InputText } from "../common/Input";
+import { InputText } from "../common/Input";
 import Button from "../common/Button";
 import { validateField } from "../../utils/regex";
 
-interface RegisterData {
-    username: string;
+interface LoginData {
+    email: "";
+    password: "";
+}
+
+interface LoginErrors {
     email: string;
-    age: number | string;
     password: string;
 }
 
-export default function RegisterForm() {
-    const [formData, setFormData] = useState<RegisterData>({
-        username: "",
+export default function LoginForm() {
+    const [formData, setFormData] = useState<LoginData>({
         email: "",
-        age: "",
         password: "",
     });
 
-    const [errors, setErrors] = useState<Record<string, string>>({});
+    const [errors, setErrors] = useState<LoginErrors>({
+        email: "",
+        password: "",
+    });
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -37,69 +41,50 @@ export default function RegisterForm() {
         e.preventDefault();
 
         const newErrors = {
-            username: validateField("name", formData.username), // Usamos 'name' del regex para validar usuario si encaja
-            email: validateField("email", formData.email),
-            age: validateField("age", formData.age.toString()),
+            email: validateField("email", formData.email), // Necesitas añadir validación de email en regex.ts si no está
             password: validateField("password", formData.password),
         };
-
         setErrors(newErrors);
 
-        if (!Object.values(newErrors).some(Boolean)) {
-            console.log("Registro válido:", formData);
-            // Aquí llamarías a: userRepository.createUser(formData);
+        const hasErrors = Object.values(newErrors).some(Boolean);
+        if (!hasErrors) {
+            console.log("Login correcto:", formData);
+            // Aquí llamarías a tu repositorio o servicio de autenticación
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full max-w-sm mx-auto p-4">
-            <InputText
-                label="Nombre de Usuario"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.username}
-            />
-
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full max-w-sm mx-auto p-4">
             <InputText
                 label="Correo Electrónico"
                 name="email"
                 type="email"
+                placeholder="ejemplo@correo.com"
                 value={formData.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={errors.email}
             />
 
-            <InputNumber
-                label="Edad"
-                name="age"
-                type="number"
-                value={formData.age}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.age}
-            />
-
             <InputText
                 label="Contraseña"
                 name="password"
                 type="password"
+                placeholder="******"
                 value={formData.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={errors.password}
             />
 
-            <div className="flex flex-col gap-4 mt-4">
+            <div className="flex flex-col gap-4 mt-2">
                 <Button type="submit" variant="primary">
-                    Crear Cuenta
+                    Iniciar Sesión
                 </Button>
                 <span className="text-[#FFFCFC] text-center text-sm">
-                    ¿Ya tienes cuenta?{" "}
-                    <Link to="/login" className="text-[#FF8904] font-bold hover:underline">
-                        Inicia Sesión
+                    ¿No tienes cuenta?{" "}
+                    <Link to="/register" className="text-[#FF8904] font-bold hover:underline">
+                        Regístrate
                     </Link>
                 </span>
             </div>

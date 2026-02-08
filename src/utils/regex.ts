@@ -12,6 +12,10 @@ export const validateField = (name: string, value: string) => {
         case "password":
             if (value.length < 6) return "Mínimo 6 caracteres";
             return "";
+        case "email":
+            if (!value) return "El email es obligatorio";
+            if (!/\S+@\S+\.\S+/.test(value)) return "Email inválido";
+            return "";
         default:
             return "";
     }
