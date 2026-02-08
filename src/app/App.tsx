@@ -7,6 +7,7 @@ import Routines from "../pages/Routines";
 import RegisterPage from "../pages/RegisterPage";
 import LoginPage from "../pages/LogInPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
+import LandingPage from "../pages/LandingPage";
 
 function App() {
 /* Constante utilizada para simular el estado de usuario, false para ver pantallas de login, registro y recuperar contraseña 
@@ -16,14 +17,11 @@ const isAuthenticated = true;
   return (
     <Router>
       <Routes>
+        <Route path="/" element={!isAuthenticated ? <LandingPage /> : <Navigate to="/home" />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
-        <Route 
-          path="/" 
-          element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />} 
-        />
 
         {/* Todas las rutas dentro de este Route heredarán el Header, Sidebar y Footer */}
         <Route element={<AppLayout />}>
