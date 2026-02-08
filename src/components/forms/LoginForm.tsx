@@ -76,6 +76,15 @@ export default function LoginForm() {
                 onBlur={handleBlur}
                 error={errors.password}
             />
+            
+            <div className="flex justify-end mb-2">
+                <Link
+                    to="/forgot-password"
+                    className="text-xs text-[#FF8904] hover:text-[#FFB86A] transition-colors font-semibold"
+                >
+                    ¿Olvidaste tu contraseña?
+                </Link>
+            </div>
 
             <div className="flex flex-col gap-4 mt-2">
                 <Button type="submit" variant="primary">
