@@ -1,7 +1,7 @@
 import { FormEvent, useState, type ChangeEvent, } from "react";
 import { Link } from "react-router-dom";
 import { InputText } from "../common/Input";
-import Button from "../common/Button";
+import Button from "../ui/Button";
 import { validateField } from "../../utils/regex";
 
 interface LoginData {

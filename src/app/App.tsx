@@ -4,16 +4,16 @@ import Home from "../pages/Home";
 import Profile from "../pages/Profile";
 import History from "../pages/History";
 import Routines from "../pages/Routines";
+import RegisterPage from "../pages/RegisterPage";
+import LoginPage from "../pages/LogInPage";
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* --- RUTAS SIN NADA (Públicas) --- */}
-        {/* Aquí la Navbar no aparece, o podrías poner una distinta */}
-        {/* <Route path="/signin" element={<SignInPage />} /> */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
-        {/* --- RUTAS CON EL DISEÑO DE LA FOTO (Privadas) --- */}
         {/* Todas las rutas dentro de este Route heredarán el Header, Sidebar y Footer */}
         <Route element={<AppLayout />}>
           <Route path="/" element={<Home />} />
