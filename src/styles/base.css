@@ -1,8 +1,52 @@
-@layer base{
+@layer base {
+  :root {
+    font-family: var(--font-open-sans);
+    line-height: 1.5;
+    font-weight: 400;
 
-    a {
-    @apply no-underline;
+    /* Esquema de color oscuro forzado */
+    color-scheme: dark;
+    background-color: var(--color-background);
+    color: var(--color-text-main);
+
+    /* Renderizado de fuente optimizado */
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
+  body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 320px;
+    min-height: 100vh;
+    @apply bg-background text-text-main;
+  }
+
+  /* Enlaces */
+  a {
+    font-weight: 500;
+    text-decoration: inherit;
+    @apply transition-colors duration-200 hover:text-primary;
+  }
+
+  /* Encabezados según Guía de Estilos */
+  h1 {
+    @apply text-3xl font-bold uppercase tracking-wider text-primary;
+  }
   
+  h2 {
+    @apply text-2xl font-bold text-text-main;
+  }
+  
+  h3 {
+    @apply text-xl font-bold text-primary;
+  }
+
+  /* Inputs y Elementos de Formulario (Reset básico) */
+  input, select, textarea {
+    font-family: inherit;
+  }
 }
