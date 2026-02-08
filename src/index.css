@@ -1,68 +1,32 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+/* Importamos tus módulos de estilos */
+@import "./styles/base.css";
+@import "./styles/components.css";
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@theme {
+  /* --- TIPOGRAFÍA --- */
+  --font-open-sans: "Open Sans", sans-serif;
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+  /* --- PALETA DE COLORES (Mapeo a Tailwind) --- */
+  
+  /* Primary: Usamos el Naranja de Tailwind para la marca */
+  --color-primary: var(--color-orange-500);       
+  --color-primary-hover: var(--color-orange-400); 
+  --color-primary-active: var(--color-orange-700);
+  
+  /* Neutral/Backgrounds: Usamos Zinc para un gris moderno y elegante */
+  --color-background: var(--color-zinc-950);      /* Fondo principal */
+  --color-surface: var(--color-zinc-900);         /* Tarjetas y Sidebar */
+  --color-surface-hover: var(--color-zinc-800);   /* Hover en tarjetas */
+  
+  /* Text: Jerarquía visual */
+  --color-text-main: var(--color-zinc-50);        /* Texto principal (Casi blanco) */
+  --color-text-muted: var(--color-zinc-400);      /* Texto secundario (Gris) */
+  --color-text-inverted: var(--color-zinc-950);   /* Texto sobre fondo naranja */
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  /* Semantic */
+  --color-danger: var(--color-red-500);
+  --color-success: var(--color-green-500);
 }

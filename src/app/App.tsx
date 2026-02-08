@@ -11,7 +11,7 @@ import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 function App() {
 /* Constante utilizada para simular el estado de usuario, false para ver pantallas de login, registro y recuperar contraseña 
 true para ver el resto de páginas internas de la app que serían privadas y solo accesibles por los usuarios*/
-const isAuthenticated = false;
+const isAuthenticated = true;
 
   return (
     <Router>

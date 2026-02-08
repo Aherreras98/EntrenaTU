@@ -1,8 +1,60 @@
+/* src/styles/components.css */
 @layer components {
-
-    .sidebar-link {
-    @apply flex items-center gap-4 px-6 py-4 font-bold uppercase transition-all duration-300;
+  /* --- BOTONES --- */
+  .btn {
+    @apply font-open-sans font-bold px-6 py-3 rounded-xl transition-all duration-200 inline-flex items-center justify-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-50;
   }
 
+  .btn-primary {
+    /* Usamos las variables del tema definidas en index.css */
+    @apply bg-primary text-white hover:bg-primary-hover active:bg-primary-active shadow-lg shadow-primary/20;
+  }
+
+  .btn-secondary {
+    @apply bg-surface-hover text-text-main hover:bg-zinc-700 active:bg-zinc-600;
+  }
+
+  /* --- INPUTS Y FORMULARIOS --- */
+  .input-group {
+    @apply flex flex-col gap-1.5 w-full;
+  }
+
+  .input-label {
+    @apply text-text-main font-open-sans text-xs font-bold uppercase tracking-wider ml-1 opacity-90;
+  }
+
+  .input-field {
+    @apply w-full bg-surface text-text-main font-open-sans font-semibold px-4 py-3 rounded-xl border-2 border-transparent outline-none transition-all duration-200 placeholder:text-text-muted disabled:opacity-40;
+  }
+
+  /* Estados del Input */
+  .input-field:focus {
+    @apply border-primary bg-surface-hover;
+  }
+
+  .input-field.error {
+    @apply border-danger focus:border-danger;
+  }
+
+  .input-error-msg {
+    @apply text-danger text-xs font-open-sans font-medium italic ml-1 animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite];
+  }
+
+  /* --- TARJETAS Y CONTENEDORES --- */
+  .card {
+    @apply bg-surface border border-white/5 rounded-xl p-6 shadow-xl;
+  }
   
+  /* --- SIDEBAR --- */
+  .sidebar {
+    @apply w-64 bg-surface h-screen flex flex-col border-r border-white/5;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-4 px-6 py-4 font-bold uppercase transition-all duration-300 text-text-muted hover:text-primary hover:bg-white/5 border-r-4 border-transparent;
+  }
+
+  .sidebar-link.active {
+    @apply text-primary bg-white/5 border-primary;
+  }
 }
