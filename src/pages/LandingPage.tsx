@@ -5,7 +5,7 @@ import Features from "../components/landing/Features";
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background flex flex-col selection:bg-primary selection:text-white">
+    <div className="min-h-screen bg-background text-text-main flex flex-col selection:bg-primary selection:text-white">
       <Header />
       <main className="flex-grow">
         <Hero />

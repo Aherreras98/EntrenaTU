@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Link } from "react-router-dom";
-import { InputNumber, InputText } from "../common/Input";
+import { InputText, InputNumber } from "../common/Input";
 import Button from "../ui/Button";
 import { validateField } from "../../utils/regex";
 
@@ -37,7 +37,7 @@ export default function RegisterForm() {
         e.preventDefault();
 
         const newErrors = {
-            username: validateField("name", formData.username), // Usamos 'name' del regex para validar usuario si encaja
+            username: validateField("name", formData.username),
             email: validateField("email", formData.email),
             age: validateField("age", formData.age.toString()),
             password: validateField("password", formData.password),
@@ -47,7 +47,6 @@ export default function RegisterForm() {
 
         if (!Object.values(newErrors).some(Boolean)) {
             console.log("Registro válido:", formData);
-            // Aquí llamarías a: userRepository.createUser(formData);
         }
     };
 
@@ -96,9 +95,9 @@ export default function RegisterForm() {
                 <Button type="submit" variant="primary">
                     Crear Cuenta
                 </Button>
-                <span className="text-[#FFFCFC] text-center text-sm">
+                <span className="text-text-main text-center text-sm">
                     ¿Ya tienes cuenta?{" "}
-                    <Link to="/login" className="text-[#FF8904] font-bold hover:underline">
+                    <Link to="/login" className="text-primary font-bold hover:underline hover:text-primary-hover transition-colors">
                         Inicia Sesión
                     </Link>
                 </span>
