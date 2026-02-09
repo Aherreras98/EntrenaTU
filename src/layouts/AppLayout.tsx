@@ -5,7 +5,6 @@ import Footer from "../components/common/Footer";
 
 export default function AppLayout() {
   return (
-    // Contenedor principal en vertical (flex-col)
     <div className="flex flex-col min-h-screen">
 
       <div className="flex flex-1">

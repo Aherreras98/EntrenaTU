@@ -10,7 +10,6 @@ export default function LandingPage() {
       <main className="flex-grow">
         <Hero />
         <Features />
-        {/* Aquí puedes añadir más secciones como "Steps" después */}
       </main>
       <Footer />
     </div>
