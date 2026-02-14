@@ -21,7 +21,6 @@ export default function Select({
   
   return (
     <div className="flex flex-col w-full">
-      {/* Label */}
       {label && (
         <label className="text-[#FFFCFC] font-open-sans text-[11px] font-bold uppercase tracking-wider mb-1.5 ml-1 opacity-90">
           {label}
@@ -52,7 +51,6 @@ export default function Select({
           ))}
         </select>
 
-        {/* Icono de flecha */}
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#FF8904]">
           <svg className="w-5 h-5 fill-current" viewBox="0 0 20 20">
             <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
@@ -60,7 +58,6 @@ export default function Select({
         </div>
       </div>
 
-      {/* Espacio para el error */}
       <div className="mt-1 h-5 ml-1">
         {error && (
           <p className="text-red-500 text-xs font-open-sans font-medium italic">

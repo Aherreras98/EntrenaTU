@@ -106,7 +106,7 @@ export default function EditProfileForm() {
                     type="date"
                     value={formData.birthDate}
                     onChange={handleChange}
-                    className="[color-scheme:dark]"
+                    className="scheme-dark"
                 />
             </div>
 

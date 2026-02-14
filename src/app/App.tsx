@@ -4,9 +4,10 @@ import Home from "../pages/Home";
 import Profile from "../pages/Profile";
 import History from "../pages/History";
 import Routines from "../pages/Routines";
-import RegisterPage from "../pages/RegisterPage";
+import RegisterPage from "../pages/SignUpPage";
 import LoginPage from "../pages/LogInPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
+import SignUpPage from "../pages/SignUpPage";
 
 function App() {
 /* Constante utilizada para simular el estado de usuario, false para ver pantallas de login, registro y recuperar contraseña 
@@ -17,7 +18,7 @@ const isAuthenticated = true;
     <Router>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         <Route 

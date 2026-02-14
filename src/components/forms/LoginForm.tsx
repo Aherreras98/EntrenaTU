@@ -41,7 +41,7 @@ export default function LoginForm() {
         e.preventDefault();
 
         const newErrors = {
-            email: validateField("email", formData.email), // Necesitas añadir validación de email en regex.ts si no está
+            email: validateField("email", formData.email),
             password: validateField("password", formData.password),
         };
         setErrors(newErrors);
@@ -49,7 +49,7 @@ export default function LoginForm() {
         const hasErrors = Object.values(newErrors).some(Boolean);
         if (!hasErrors) {
             console.log("Login correcto:", formData);
-            // Aquí llamarías a tu repositorio o servicio de autenticación
+            // Aquí llamaríamos al repositorio
         }
     };
 

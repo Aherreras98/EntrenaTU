@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-// Asegúrate de tener instalados los iconos: npm install @heroicons/react
+
 import {
     HomeIcon,
     ClipboardDocumentListIcon,
