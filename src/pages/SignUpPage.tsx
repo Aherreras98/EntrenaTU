@@ -1,6 +1,6 @@
-import RegisterForm from "../components/forms/RegisterForm";
+import SignUpForm from "../components/forms/SignUpForm";
 
-export default function RegisterPage() {
+export default function SignUpPage() {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-">
             <div className="mb-8">
@@ -11,7 +11,7 @@ export default function RegisterPage() {
                     Comienza tu transformación hoy
                 </p>
             </div>
-            <RegisterForm />
+            <SignUpForm />
         </div>
     );
 }

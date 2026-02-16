@@ -1,12 +1,12 @@
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { FormEvent, useState, type ChangeEvent, } from "react";
 import { Link } from "react-router-dom";
 import { InputText } from "../common/Input";
 import Button from "../ui/Button";
 import { validateField } from "../../utils/regex";
 
 interface LoginData {
-    email: string;
-    password: string;
+    email: "";
+    password: "";
 }
 
 interface LoginErrors {
@@ -49,7 +49,7 @@ export default function LoginForm() {
         const hasErrors = Object.values(newErrors).some(Boolean);
         if (!hasErrors) {
             console.log("Login correcto:", formData);
-            // Aquí iría la llamada a supabase
+            // Aquí llamaríamos al repositorio
         }
     };
 
@@ -76,11 +76,11 @@ export default function LoginForm() {
                 onBlur={handleBlur}
                 error={errors.password}
             />
-
+            
             <div className="flex justify-end mb-2">
                 <Link
                     to="/forgot-password"
-                    className="text-xs text-primary hover:text-primary-hover transition-colors font-semibold"
+                    className="text-xs text-[#FF8904] hover:text-[#FFB86A] transition-colors font-semibold"
                 >
                     ¿Olvidaste tu contraseña?
                 </Link>
@@ -90,9 +90,9 @@ export default function LoginForm() {
                 <Button type="submit" variant="primary">
                     Iniciar Sesión
                 </Button>
-                <span className="text-text-main text-center text-sm">
+                <span className="text-[#FFFCFC] text-center text-sm">
                     ¿No tienes cuenta?{" "}
-                    <Link to="/register" className="text-primary font-bold hover:underline hover:text-primary-hover transition-colors">
+                    <Link to="/register" className="text-[#FF8904] font-bold hover:underline">
                         Regístrate
                     </Link>
                 </span>

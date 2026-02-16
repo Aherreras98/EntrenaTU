@@ -1,27 +1,32 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import AppLayout from "../layouts/AppLayout";
+import AppLayout from "../layouts/Applayout";
 import Home from "../pages/Home";
 import Profile from "../pages/Profile";
 import History from "../pages/History";
 import Routines from "../pages/Routines";
-import RegisterPage from "../pages/RegisterPage";
-import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/SignUpPage";
+import LoginPage from "../pages/LogInPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
-import LandingPage from "../pages/LandingPage";
+import SignUpPage from "../pages/SignUpPage";
 
 function App() {
-  /*Ponemos esto en 'false' para simular que NO estamos logueados, así ve la Landing Page al entrar en "/". */
-  const isAuthenticated = false; 
+/* Constante utilizada para simular el estado de usuario, false para ver pantallas de login, registro y recuperar contraseña 
+true para ver el resto de páginas internas de la app que serían privadas y solo accesibles por los usuarios*/
+const isAuthenticated = true;
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={!isAuthenticated ? <LandingPage /> : <Navigate to="/home" />} />
-
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
+        <Route 
+          path="/" 
+          element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />} 
+        />
+
+        {/* Todas las rutas dentro de este Route heredarán el Header, Sidebar y Footer */}
         <Route element={<AppLayout />}>
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />

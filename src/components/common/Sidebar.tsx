@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
+
 import {
     HomeIcon,
     ClipboardDocumentListIcon,
@@ -11,28 +12,23 @@ export default function Sidebar() {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        // Lógica de logout
+        console.log("Cerrando sesión...");
         navigate("/login");
     };
 
-    // Función para clases dinámicas
     const getLinkClass = ({ isActive }: { isActive: boolean }) =>
-        `flex items-center gap-4 px-6 py-4 font-bold uppercase transition-all duration-300 border-r-4 
-    ${isActive
-            ? "text-primary bg-white/5 border-primary"
-            : "text-text-muted hover:text-primary hover:bg-white/5 border-transparent"
-        }`;
+        isActive ? "sidebar-link active" : "sidebar-link";
 
     return (
-        <aside className="w-64 bg-surface h-screen flex flex-col border-r border-white/5">
-            {/* LOGO */}
-            <div className="h-24 flex items-center justify-center border-b border-white/5 mb-2">
+        <aside className="sidebar">
+            {/* --- LOGO --- */}
+            <div className="h-20 flex items-center justify-center border-b border-white/5 mb-2">
                 <h1 className="text-2xl font-bold italic tracking-tighter text-primary">
                     ENTRENA<span className="text-text-main">TU</span>
                 </h1>
             </div>
 
-            {/* NAVEGACIÓN */}
+            {/* --- NAVEGACIÓN --- */}
             <nav className="flex-1 flex flex-col gap-2 py-4">
                 <NavLink to="/home" className={getLinkClass}>
                     <HomeIcon className="w-6 h-6" />
@@ -55,11 +51,11 @@ export default function Sidebar() {
                 </NavLink>
             </nav>
 
-            {/* BOTÓN SALIR */}
+            {/* --- BOTÓN SALIR --- */}
             <div className="p-4 border-t border-white/5">
                 <button
                     onClick={handleLogout}
-                    className="flex items-center gap-4 px-6 py-3 w-full text-left font-bold uppercase text-danger hover:text-red-400 hover:bg-danger/10 rounded-xl transition-all duration-300"
+                    className="sidebar-link w-full text-red-500 hover:text-red-400 hover:bg-red-500/10 hover:border-red-500"
                 >
                     <ArrowLeftOnRectangleIcon className="w-6 h-6" />
                     <span>Salir</span>
