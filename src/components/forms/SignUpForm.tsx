@@ -1,12 +1,13 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { InputText, InputNumber } from "../common/Input";
 import Button from "../ui/Button";
 import { validateField, passwordsMatch } from "../../utils/regex";
 import { SignUpData } from "../../interfaces/SignUpData";
-import { UserRepository } from "../../database/repositories/UserRepository"; 
+import { userRepository } from "../../database/repositories"; 
 
 export default function SignUpForm() {
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
 
     const [formData, setFormData] = useState<SignUpData>({
@@ -37,7 +38,7 @@ export default function SignUpForm() {
         }
     };
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
         const newErrors = {
@@ -50,17 +51,32 @@ export default function SignUpForm() {
 
         setErrors(newErrors);
 
-        if (!Object.values(newErrors).some(Boolean)) {
-            console.log("Registro válido:", formData);
-            const newUser: SignUpData = {
-                email: formData.email,
-                password: formData.password,
-                username: formData.username,
-                age: formData.age,
-                confirmPassword: formData.confirmPassword,
+if (!Object.values(newErrors).some(Boolean)) {
+        console.log("Registro válido:", formData);
+        
+        const newUser: SignUpData = {
+            email: formData.email,
+            password: formData.password,
+            username: formData.username,
+            age: formData.age,
+            confirmPassword: formData.confirmPassword,
+        };
+
+        try {
+            const result = await userRepository.register(newUser);
+            
+            if (result) {
+                alert("Error al registrar: " + result);
+                return;
             }
-            userRepository.createUser(newUser);
+
+            alert("Usuario registrado correctamente");
+            navigate("/login");
+
+        } catch (err) {
+            console.error("Error inesperado", err);
         }
+    }
 };
 
 const togglePasswordButton = (
