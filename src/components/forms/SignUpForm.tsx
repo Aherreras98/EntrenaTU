@@ -67,7 +67,7 @@ export default function SignUpForm() {
                     return;
                 }
 
-                alert("¡Registro exitoso! Por favor, verifica tu correo antes de entrar.");
+                alert("¡Registro exitoso!");
                 navigate("/login");
 
             } catch (err) {
