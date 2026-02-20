@@ -3,8 +3,9 @@ import { SignUpData } from "../../interfaces/SignUpData";
 import { supabase } from "./client"; 
 
 export class SupabaseUserRepository implements UserRepository {
-    async register(user: SignUpData): Promise<string | null> {
-        const { data, error } = await supabase.auth.signUp({
+    async createUser(user: SignUpData): Promise<{ error: any; }> {
+        // PASO 1: Crear el usuario en Autenticación
+        const { data, error: authError } = await supabase.auth.signUp({
             email: user.email,
             password: user.password,
             options: {
@@ -15,7 +16,27 @@ export class SupabaseUserRepository implements UserRepository {
             }
         });
 
-        if (error) throw new Error(error.message);
-        return data.user?.id || null;
+        // Si falla la autenticación, paramos aquí
+        if (authError) return { error: authError };
+
+        // PASO 2: Guardar los datos en la tabla pública
+        if (data.user) {
+            const { error: dbError } = await supabase
+                .from('Profiles') 
+                .insert([
+                    {
+                        id: data.user.id, 
+                        username: user.username,
+                        email: user.email,
+                        age: user.age
+                    }
+                ]);
+
+            // Si falla al guardar en la tabla, devolvemos el error de la base de datos
+            if (dbError) return { error: dbError };
+        }
+
+        
+        return { error: null };
     }
 }
