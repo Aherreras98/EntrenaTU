@@ -4,7 +4,7 @@ import { InputText, InputNumber } from "../common/Input";
 import Button from "../ui/Button";
 import { validateField, passwordsMatch } from "../../utils/regex";
 import { SignUpData } from "../../interfaces/SignUpData";
-import { userRepository } from "../../database/repositories"; 
+import { userRepository } from "../../database/repositories";
 
 export default function SignUpForm() {
     const navigate = useNavigate();
@@ -55,12 +55,11 @@ export default function SignUpForm() {
             try {
                 const dataToSubmit = {
                     ...formData,
-                    age: Number(formData.age) 
+                    age: Number(formData.age)
                 };
 
                 const result = await userRepository.createUser(dataToSubmit);
-                
-                // CAMBIO AQUÍ: Comprobamos si hay un error en el resultado
+
                 if (result.error) {
                     const errorMessage = result.error.message || "Error desconocido";
                     alert("Error al registrar: " + errorMessage);
@@ -161,8 +160,8 @@ export default function SignUpForm() {
                     </Link>
                 </span>
 
-                <button 
-                    type="button" 
+                <button
+                    type="button"
                     onClick={() => navigate("/home")}
                     className="text-gray-400 text-sm hover:text-gray-200 transition-colors mt-2"
                 >

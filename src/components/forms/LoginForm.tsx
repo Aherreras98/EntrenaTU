@@ -4,7 +4,7 @@ import { InputText } from "../common/Input";
 import Button from "../ui/Button";
 import { validateField } from "../../utils/regex";
 import { useAuthStore } from "../../store/useAuthStore";
-import { supabase } from "../../database/supabase/Client";
+import { supabase } from "../../database/supabase/client";
 
 interface LoginData {
     email: "";

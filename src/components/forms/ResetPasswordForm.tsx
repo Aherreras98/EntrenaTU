@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../../database/supabase/Client";
+import { supabase } from "../../database/supabase/client";
 import { InputText } from "../common/Input";
 import Button from "../ui/Button";
 
