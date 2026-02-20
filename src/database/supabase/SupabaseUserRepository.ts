@@ -1,38 +1,42 @@
 import { UserRepository } from "../repositories/UserRepository";
 import { SignUpData } from "../../interfaces/SignUpData";
-import { supabase } from "./Client"; // Asegúrate de tener este archivo (te lo dejo abajo por si acaso)
+import { supabase } from "./client"; 
 
 export class SupabaseUserRepository implements UserRepository {
+    async createUser(user: SignUpData): Promise<{ error: any; }> {
+        // PASO 1: Crear el usuario en Autenticación
+        const { data, error: authError } = await supabase.auth.signUp({
+            email: user.email,
+            password: user.password,
+            options: {
+                data: {
+                    username: user.username,
+                    age: user.age
+                }
+            }
+        });
 
-    async createUser(user: SignUpData): Promise<{ error: any }> {
-        try {
-            const { data: authData, error: authError } = await supabase.auth.signUp({
-                email: user.email,
-                password: user.password,
-            });
+        // Si falla la autenticación, paramos aquí
+        if (authError) return { error: authError };
 
-            if (authError) return { error: authError };
-            if (!authData.user) return { error: { message: "No se devolvió un usuario" } };
-
-            const { error: profileError } = await supabase
-                .from('Profiles')
+        // PASO 2: Guardar los datos en la tabla pública
+        if (data.user) {
+            const { error: dbError } = await supabase
+                .from('Profiles') 
                 .insert([
                     {
-                        id: authData.user.id,
+                        id: data.user.id, 
                         username: user.username,
-                        age: user.age,
-                        email: user.email
+                        email: user.email,
+                        age: user.age
                     }
                 ]);
 
-            if (profileError) {
-                return { error: profileError };
-            }
-
-            return { error: null };
-
-        } catch (err: any) {
-            return { error: err };
+            // Si falla al guardar en la tabla, devolvemos el error de la base de datos
+            if (dbError) return { error: dbError };
         }
+
+        
+        return { error: null };
     }
 }
