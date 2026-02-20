@@ -9,6 +9,7 @@ import LoginPage from "../pages/LogInPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import SignUpPage from "../pages/SignUpPage";
 import { useAuthStore } from "../store/useAuthStore";
+import ResetPasswordPage from "../pages/ResetPasswordPage";
 
 function App() {
 /* Constante utilizada para simular el estado de usuario, false para ver pantallas de login, registro y recuperar contraseña 
@@ -26,6 +27,7 @@ const session = useAuthStore((state) => state.session);
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
 
         <Route 
           path="/" 
