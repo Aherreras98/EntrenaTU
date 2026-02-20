@@ -38,43 +38,81 @@ export default function SignUpForm() {
         }
     };
 
-    const handleSubmit = async (e: FormEvent) => {
-        e.preventDefault();
+//     const handleSubmit = async (e: FormEvent) => {
+//         e.preventDefault();
 
-        const newErrors = {
-            username: validateField("username", formData.username),
-            email: validateField("email", formData.email),
-            age: validateField("age", formData.age.toString()),
-            password: validateField("password", formData.password),
-            confirmPassword: passwordsMatch(formData.password, formData.confirmPassword),
-        };
+//         const newErrors = {
+//             username: validateField("username", formData.username),
+//             email: validateField("email", formData.email),
+//             age: validateField("age", formData.age.toString()),
+//             password: validateField("password", formData.password),
+//             confirmPassword: passwordsMatch(formData.password, formData.confirmPassword),
+//         };
 
-        setErrors(newErrors);
+//         setErrors(newErrors);
 
-if (!Object.values(newErrors).some(Boolean)) {
-        console.log("Registro válido:", formData);
+// if (!Object.values(newErrors).some(Boolean)) {
+//         console.log("Registro válido:", formData);
         
-        const newUser: SignUpData = {
-            email: formData.email,
-            password: formData.password,
-            username: formData.username,
-            age: formData.age,
-            confirmPassword: formData.confirmPassword,
-        };
+//         const newUser: SignUpData = {
+//             email: formData.email,
+//             password: formData.password,
+//             username: formData.username,
+//             age: formData.age,
+//             confirmPassword: formData.confirmPassword,
+//         };
 
+//         try {
+//             const result = await userRepository.register(newUser);
+            
+//             if (result) {
+//                 alert("Error al registrar: " + result);
+//                 return;
+//             }
+
+//             alert("Usuario registrado correctamente");
+//             navigate("/login");
+
+//         } catch (err) {
+//             console.error("Error inesperado", err);
+//         }
+//     }
+// };
+const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    const newErrors = {
+        username: validateField("username", formData.username),
+        email: validateField("email", formData.email),
+        age: validateField("age", formData.age.toString()),
+        password: validateField("password", formData.password),
+        confirmPassword: passwordsMatch(formData.password, formData.confirmPassword),
+    };
+
+    setErrors(newErrors);
+
+    if (!Object.values(newErrors).some(Boolean)) {
         try {
-            const result = await userRepository.register(newUser);
+            const dataToSubmit = {
+                ...formData,
+                age: Number(formData.age) 
+            };
+
+            const result = await userRepository.createUser(dataToSubmit);
             
             if (result) {
-                alert("Error al registrar: " + result);
+                // Usamos un casting rápido (as any) para que te deje leer .message sin errores
+                const errorMessage = (result.error as any).message || "Error desconocido";
+                alert("Error al registrar: " + errorMessage);
                 return;
             }
 
-            alert("Usuario registrado correctamente");
+            alert("¡Registro exitoso! Por favor, verifica tu correo antes de entrar.");
             navigate("/login");
 
         } catch (err) {
-            console.error("Error inesperado", err);
+            console.error("Error capturado:", err);
+            alert("Error de conexión con el servidor.");
         }
     }
 };
@@ -162,6 +200,14 @@ return (
                     Inicia Sesión
                 </Link>
             </span>
+
+            <button 
+                type="button" 
+                onClick={() => navigate("/home")}
+                className="text-gray-400 text-sm hover:text-gray-200 transition-colors mt-2"
+            >
+                Continuar sin registrarse
+            </button>
         </div>
     </form>
 );

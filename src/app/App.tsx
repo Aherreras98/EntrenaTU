@@ -8,11 +8,17 @@ import RegisterPage from "../pages/SignUpPage";
 import LoginPage from "../pages/LogInPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import SignUpPage from "../pages/SignUpPage";
+import { useAuthStore } from "../store/useAuthStore";
 
 function App() {
 /* Constante utilizada para simular el estado de usuario, false para ver pantallas de login, registro y recuperar contraseña 
 true para ver el resto de páginas internas de la app que serían privadas y solo accesibles por los usuarios*/
-const isAuthenticated = true;
+
+const isAuthenticated = true;        
+const session = useAuthStore((state) => state.session);
+
+// Definimos isAuthenticated en base a si existe la sesión (!! la convierte a true/false)
+// const isAuthenticated = !!session;
 
   return (
     <Router>

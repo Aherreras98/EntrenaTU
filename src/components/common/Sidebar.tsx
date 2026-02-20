@@ -5,14 +5,26 @@ import {
     ClipboardDocumentListIcon,
     ClockIcon,
     UserIcon,
-    ArrowLeftOnRectangleIcon
+    ArrowLeftOnRectangleIcon,
+    ArrowRightOnRectangleIcon
 } from "@heroicons/react/24/solid";
+import { useAuthStore } from "../../store/useAuthStore";
+import { supabase } from "../../database/supabase/Client";
 
 export default function Sidebar() {
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        console.log("Cerrando sesión...");
+    const session = useAuthStore((state) => state.session);
+    const clearAuth = useAuthStore((state) => state.clearAuth);
+    const isAuthenticated = !!session;
+    
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+        clearAuth(); // Limpiamos Zustand
+        navigate("/login");
+    };
+
+    const handleLogin = () => {
         navigate("/login");
     };
 
@@ -51,15 +63,27 @@ export default function Sidebar() {
                 </NavLink>
             </nav>
 
-            {/* --- BOTÓN SALIR --- */}
+            {/* --- BOTÓN DINÁMICO (ENTRAR/SALIR) --- */}
             <div className="p-4 border-t border-white/5">
-                <button
-                    onClick={handleLogout}
-                    className="sidebar-link w-full text-red-500 hover:text-red-400 hover:bg-red-500/10 hover:border-red-500"
-                >
-                    <ArrowLeftOnRectangleIcon className="w-6 h-6" />
-                    <span>Salir</span>
-                </button>
+                {isAuthenticated ? (
+                    // Si está logueado, botón de Salir
+                    <button
+                        onClick={handleLogout}
+                        className="sidebar-link w-full text-red-500 hover:text-red-400 hover:bg-red-500/10 hover:border-red-500 transition-all"
+                    >
+                        <ArrowLeftOnRectangleIcon className="w-6 h-6" />
+                        <span>Salir</span>
+                    </button>
+                ) : (
+                    // Si NO está logueado, botón de Iniciar Sesión
+                    <button
+                        onClick={handleLogin}
+                        className="sidebar-link w-full text-primary hover:text-primary/80 hover:bg-primary/10 hover:border-primary transition-all font-bold"
+                    >
+                        <ArrowRightOnRectangleIcon className="w-6 h-6" />
+                        <span>Iniciar Sesión</span>
+                    </button>
+                )}
             </div>
         </aside>
     );
