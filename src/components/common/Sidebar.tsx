@@ -26,7 +26,7 @@ export default function Sidebar() {
     const handleLogout = async () => {
         await supabase.auth.signOut();
         clearAuth(); // Limpiamos Zustand
-        navigate("/login");
+        navigate("/home"); // Va al home
     };
 
     const handleLogin = () => {
