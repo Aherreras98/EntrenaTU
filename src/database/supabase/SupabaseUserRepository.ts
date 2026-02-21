@@ -72,9 +72,9 @@ async createUser(user: SignUpData): Promise<{ error: any; }> {
             data: {
                 user: authData.user,
                 profile: profile,
-                session: null
-            } 
-        };
+         session: authData.session 
+        } 
+    }
     }
 
 

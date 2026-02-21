@@ -9,7 +9,7 @@ import {
     ArrowRightOnRectangleIcon
 } from "@heroicons/react/24/solid";
 import { useAuthStore } from "../../store/useAuthStore";
-import { supabase } from "../../database/supabase/Client";
+import { supabase } from "../../database/supabase/client";
 
 export default function Sidebar() {
     const navigate = useNavigate();
@@ -18,6 +18,11 @@ export default function Sidebar() {
     const clearAuth = useAuthStore((state) => state.clearAuth);
     const isAuthenticated = !!session;
     
+    console.log("INICIO DE LA SESIÓN:", { 
+        sessionActual: session, 
+        estaAutenticado: isAuthenticated 
+    });
+
     const handleLogout = async () => {
         await supabase.auth.signOut();
         clearAuth(); // Limpiamos Zustand
