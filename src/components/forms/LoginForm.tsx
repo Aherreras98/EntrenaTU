@@ -5,6 +5,7 @@ import Button from "../ui/Button";
 import { validateField } from "../../utils/regex";
 import { useAuthStore } from "../../store/useAuthStore";
 import { supabase } from "../../database/supabase/client";
+import { SupabaseUserRepository } from "../../database/supabase/SupabaseUserRepository";
 
 interface LoginData {
     email: "";
@@ -18,6 +19,8 @@ interface LoginErrors {
 
 export default function LoginForm() {
 
+    const [loading, setLoading] = useState(false); // Estado para el botón
+const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState<LoginData>({
@@ -58,9 +61,13 @@ export default function LoginForm() {
     //     }
     // };
 
-    // 1. Añade 'async' a la función
+    
 const handleSubmit = async (e: FormEvent) => {
+   
     e.preventDefault();
+    if (isLoading) return; // Guardia extra
+
+    setIsLoading(true);
 
     const newErrors = {
         email: validateField("email", formData.email),
@@ -68,37 +75,28 @@ const handleSubmit = async (e: FormEvent) => {
     };
     setErrors(newErrors);
 
-    const hasErrors = Object.values(newErrors).some(Boolean);
-    
-    if (!hasErrors) {
-        // Intentamos el inicio de sesión
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email: formData.email,
-            password: formData.password,
-        });
+    if (Object.values(newErrors).some(Boolean)) return;
+
+   try {
+        const repo = new SupabaseUserRepository();
+        const { data, error } = await repo.login(formData.email, formData.password);
 
         if (error) {
-            // Estado de error
-            alert("Error al iniciar sesión: " + error.message);
+            alert("Error: " + error.message);
+            setIsLoading(false);
             return;
         }
 
-        // VERIFICACIÓN
-        // Comprobamos si el usuario ha confirmado su email
-        if (data.user && !data.user.email_confirmed_at) {
-            alert("Por favor, verifica tu correo electrónico antes de entrar.");
-            await supabase.auth.signOut(); // Cerramos la sesión por seguridad
-            return;
+        if (data) {
+            // Guardar en el store de Zustand
+            useAuthStore.getState().setAuth(data.session); 
+            // Redirigir usando navigate (de react-router-dom)
+            navigate("/home");
         }
-
-        // ZUSTAND
-        // Si todo está bien, guardamos la sesión en el store
-        if (data.session) {
-            useAuthStore.getState().setAuth(data.session);
-            // Aquí ya podrías navegar al home: navigate("/home");
-        }
-        
-        console.log("Login correcto y verificado");
+    } catch (err) {
+        console.error("Error inesperado:", err);
+    } finally {
+        setIsLoading(false); // Siempre quitamos el cargando al final
     }
 };
 
@@ -136,8 +134,9 @@ const handleSubmit = async (e: FormEvent) => {
             </div>
 
             <div className="flex flex-col gap-4 mt-2">
-                <Button type="submit" variant="primary">
-                    Iniciar Sesión
+                <Button type="submit" variant="primary"
+                   disabled={isLoading}>
+                    {isLoading ? "Cargando..." : "Iniciar Sesión"}
                 </Button>
 
                 <span className="text-[#FFFCFC] text-center text-sm">
@@ -150,7 +149,6 @@ const handleSubmit = async (e: FormEvent) => {
                     </Link>
                 </span>
 
-                {/* Botón de invitado en gris discreto y sin puntos */}
            <button type="button" 
                 onClick={() => navigate("/home")} 
                 className="text-gray-400 text-sm hover:text-gray-200 transition-colors mt-2"
