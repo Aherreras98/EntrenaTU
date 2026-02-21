@@ -93,6 +93,13 @@ async createUser(user: SignUpData): Promise<{ error: any; }> {
         });
         return { error };
     }
+
+    async updatePassword(newPassword: string): Promise<{ error?: any }> {
+    const { error } = await supabase.auth.updateUser({
+        password: newPassword
+    });
+    return { error };
+}
 }
 
     

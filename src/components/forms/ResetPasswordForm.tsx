@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../../database/supabase/client";
 import { InputText } from "../common/Input";
 import Button from "../ui/Button";
+import { SupabaseUserRepository } from "../../database/supabase/SupabaseUserRepository";
 
 export default function ResetPasswordForm() {
     const [password, setPassword] = useState("");
@@ -12,31 +13,24 @@ export default function ResetPasswordForm() {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        
-        if (password.length < 6) {
-            setError("La contraseña debe tener al menos 6 caracteres");
-            return;
-        }
+    setIsLoading(true);
 
-        setIsLoading(true);
-        try {
-            // Esta función de Supabase detecta automáticamente el token del email
-            const { error: supabaseError } = await supabase.auth.updateUser({
-                password: password
-            });
+    try {
+        const repo = new SupabaseUserRepository();
+        const { error } = await repo.updatePassword(password);
 
-            if (supabaseError) {
-                setError(supabaseError.message);
-            } else {
-                alert("¡Contraseña actualizada con éxito!");
-                navigate("/login");
-            }
-        } catch (err) {
-            setError("Error al conectar con el servidor.");
-        } finally {
-            setIsLoading(false);
+        if (error) {
+            alert("Error al actualizar: " + error.message);
+        } else {
+            alert("¡Contraseña actualizada con éxito!");
+            navigate("/login"); // Lo mandamos al login para que entre con la nueva clave
         }
-    };
+    } catch (err) {
+        console.error(err);
+    } finally {
+        setIsLoading(false);
+    }
+};
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full max-w-sm mx-auto p-4">
