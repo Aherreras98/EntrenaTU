@@ -20,7 +20,7 @@ interface LoginErrors {
 export default function LoginForm() {
 
     const [loading, setLoading] = useState(false); // Estado para el botón
-const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState<LoginData>({
@@ -61,44 +61,44 @@ const [isLoading, setIsLoading] = useState(false);
     //     }
     // };
 
-    
-const handleSubmit = async (e: FormEvent) => {
-   
-    e.preventDefault();
-    if (isLoading) return; // Guardia extra
 
-    setIsLoading(true);
+    const handleSubmit = async (e: FormEvent) => {
 
-    const newErrors = {
-        email: validateField("email", formData.email),
-        password: validateField("password", formData.password),
+        e.preventDefault();
+        if (isLoading) return; // Guardia extra
+
+        setIsLoading(true);
+
+        const newErrors = {
+            email: validateField("email", formData.email),
+            password: validateField("password", formData.password),
+        };
+        setErrors(newErrors);
+
+        if (Object.values(newErrors).some(Boolean)) return;
+
+        try {
+            const repo = new SupabaseUserRepository();
+            const { data, error } = await repo.login(formData.email, formData.password);
+
+            if (error) {
+                alert("Error: " + error.message);
+                setIsLoading(false);
+                return;
+            }
+
+            if (data) {
+                // Guardar en el store de Zustand
+                useAuthStore.getState().setAuth(data.session);
+                // Redirigir usando navigate (de react-router-dom)
+                navigate("/home");
+            }
+        } catch (err) {
+            console.error("Error inesperado:", err);
+        } finally {
+            setIsLoading(false); // Siempre quitamos el cargando al final
+        }
     };
-    setErrors(newErrors);
-
-    if (Object.values(newErrors).some(Boolean)) return;
-
-   try {
-        const repo = new SupabaseUserRepository();
-        const { data, error } = await repo.login(formData.email, formData.password);
-
-        if (error) {
-            alert("Error: " + error.message);
-            setIsLoading(false);
-            return;
-        }
-
-        if (data) {
-            // Guardar en el store de Zustand
-            useAuthStore.getState().setAuth(data.session); 
-            // Redirigir usando navigate (de react-router-dom)
-            navigate("/home");
-        }
-    } catch (err) {
-        console.error("Error inesperado:", err);
-    } finally {
-        setIsLoading(false); // Siempre quitamos el cargando al final
-    }
-};
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full max-w-sm mx-auto p-4">
@@ -123,7 +123,7 @@ const handleSubmit = async (e: FormEvent) => {
                 onBlur={handleBlur}
                 error={errors.password}
             />
-            
+
             <div className="flex justify-end mb-2">
                 <Link
                     to="/forgot-password"
@@ -135,27 +135,19 @@ const handleSubmit = async (e: FormEvent) => {
 
             <div className="flex flex-col gap-4 mt-2">
                 <Button type="submit" variant="primary"
-                   disabled={isLoading}>
+                    disabled={isLoading}>
                     {isLoading ? "Cargando..." : "Iniciar Sesión"}
                 </Button>
 
                 <span className="text-[#FFFCFC] text-center text-sm">
                     ¿No tienes cuenta?{" "}
-                    <Link 
-                        to="/signup" 
+                    <Link
+                        to="/signup"
                         className="text-[#FF8904] font-bold hover:underline hover:text-[#FFB86A] transition-colors"
                     >
                         Regístrate
                     </Link>
                 </span>
-
-           <button type="button" 
-                onClick={() => navigate("/home")} 
-                className="text-gray-400 text-sm hover:text-gray-200 transition-colors mt-2"
-            >
-                Continuar sin registrarse
-            </button>
-
             </div>
         </form>
     );

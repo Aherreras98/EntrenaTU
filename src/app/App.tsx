@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import AppLayout from "../layouts/Applayout";
+import AppLayout from "../layouts/AppLayout";
 import Home from "../pages/Home";
 import Profile from "../pages/Profile";
 import History from "../pages/History";
@@ -11,30 +11,40 @@ import { useAuthStore } from "../store/useAuthStore";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 
 function App() {
-/* Constante utilizada para simular el estado de usuario, false para ver pantallas de login, registro y recuperar contraseña 
-true para ver el resto de páginas internas de la app que serían privadas y solo accesibles por los usuarios*/
+  const session = useAuthStore((state) => state.session);
 
-const isAuthenticated = true;        
-const session = useAuthStore((state) => state.session);
-
-// Definimos isAuthenticated en base a si existe la sesión (!! la convierte a true/false)
-// const isAuthenticated = !!session;
+  const isAuthenticated = !!session;
 
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        {/* RUTAS PÚBLICAS: Solo accesibles si el usuario NO ha iniciado sesión */}
+        <Route 
+          path="/login" 
+          element={!isAuthenticated ? <LoginPage /> : <Navigate to="/home" />} 
+        />
+        <Route 
+          path="/signup" 
+          element={!isAuthenticated ? <SignUpPage /> : <Navigate to="/home" />} 
+        />
+        <Route 
+          path="/forgot-password" 
+          element={!isAuthenticated ? <ForgotPasswordPage /> : <Navigate to="/home" />} 
+        />
+        <Route 
+          path="/reset-password" 
+          element={!isAuthenticated ? <ResetPasswordPage /> : <Navigate to="/home" />} 
+        />
 
+        {/* RUTA RAÍZ: Redirige según el estado de autenticación */}
         <Route 
           path="/" 
           element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />} 
         />
 
+        {/* RUTAS PRIVADAS: Solo accesibles si el usuario SÍ ha iniciado sesión */}
         {/* Todas las rutas dentro de este Route heredarán el Header, Sidebar y Footer */}
-        <Route element={<AppLayout />}>
+        <Route element={isAuthenticated ? <AppLayout /> : <Navigate to="/login" />}>
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/history" element={<History />} />

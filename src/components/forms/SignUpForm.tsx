@@ -159,14 +159,6 @@ export default function SignUpForm() {
                         Inicia Sesión
                     </Link>
                 </span>
-
-                <button
-                    type="button"
-                    onClick={() => navigate("/home")}
-                    className="text-gray-400 text-sm hover:text-gray-200 transition-colors mt-2"
-                >
-                    Continuar sin registrarse
-                </button>
             </div>
         </form>
     );

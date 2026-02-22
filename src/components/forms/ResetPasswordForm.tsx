@@ -23,7 +23,7 @@ export default function ResetPasswordForm() {
             alert("Error al actualizar: " + error.message);
         } else {
             alert("¡Contraseña actualizada con éxito!");
-            navigate("/login"); // Lo mandamos al login para que entre con la nueva clave
+            navigate("/login");
         }
     } catch (err) {
         console.error(err);
