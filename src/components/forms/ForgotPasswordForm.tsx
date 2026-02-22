@@ -3,29 +3,45 @@ import { Link } from "react-router-dom";
 import { InputText } from "../common/Input";
 import Button from "../ui/Button";
 import { validateField } from "../../utils/regex";
+import { SupabaseUserRepository } from "../../database/supabase/SupabaseUserRepository";
 
 export default function ForgotPasswordForm() {
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
         if (error) setError("");
     };
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
         const emailError = validateField("email", email);
-        setError(emailError);
+        if (emailError) {
+            setError(emailError);
+            return;
+        }
 
-        if (!emailError) {
-            // aquí iría la llamada a supabase
-            console.log("Enviando instrucciones a:", email);
+        setIsLoading(true);
 
-            // Simulación de éxito
-            setIsSubmitted(true);
+        try {
+            const repo = new SupabaseUserRepository();
+            const { error: supabaseError } = await repo.recoverPassword(email);
+
+            if (supabaseError) {
+                setError("Hubo un error al intentar enviar el correo. Por favor, verifica tu email.");
+                console.error(supabaseError);
+            } else {
+                setIsSubmitted(true);
+            }
+        } catch (err) {
+            setError("Ocurrió un error inesperado. Inténtalo de nuevo más tarde.");
+            console.error(err);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -69,8 +85,8 @@ export default function ForgotPasswordForm() {
             />
 
             <div className="flex flex-col gap-4 mt-2">
-                <Button type="submit" variant="primary">
-                    Enviar Instrucciones
+                <Button type="submit" variant="primary" disabled={isLoading}>
+                    {isLoading ? "Enviando..." : "Enviar Instrucciones"}
                 </Button>
 
                 <Link to="/login" className="text-center">

@@ -1,36 +1,54 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../../database/supabase/client";
 import { InputText } from "../common/Input";
 import Button from "../ui/Button";
 import { SupabaseUserRepository } from "../../database/supabase/SupabaseUserRepository";
+import { validateField, passwordsMatch } from "../../utils/regex";
 
 export default function ResetPasswordForm() {
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    
     const [error, setError] = useState("");
+    const [confirmError, setConfirmError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-    setIsLoading(true);
 
-    try {
-        const repo = new SupabaseUserRepository();
-        const { error } = await repo.updatePassword(password);
+        setError("");
+        setConfirmError("");
 
-        if (error) {
-            alert("Error al actualizar: " + error.message);
-        } else {
-            alert("¡Contraseña actualizada con éxito!");
-            navigate("/login");
+        const passError = validateField("password", password);
+        const matchError = passwordsMatch(password, confirmPassword);
+
+        if (passError) setError(passError);
+        if (matchError) setConfirmError(matchError);
+
+        if (passError || matchError) {
+            return;
         }
-    } catch (err) {
-        console.error(err);
-    } finally {
-        setIsLoading(false);
-    }
-};
+
+        setIsLoading(true);
+
+        try {
+            const repo = new SupabaseUserRepository();
+            const { error: updateError } = await repo.updatePassword(password);
+
+            if (updateError) {
+                alert("Error al actualizar: " + updateError.message);
+            } else {
+                alert("¡Contraseña actualizada con éxito!");
+                navigate("/login");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Ocurrió un error inesperado al actualizar la contraseña.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full max-w-sm mx-auto p-4">
@@ -47,8 +65,24 @@ export default function ResetPasswordForm() {
                 type="password"
                 placeholder="Mínimo 6 caracteres"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (error) setError("");
+                }}
                 error={error}
+            />
+
+            <InputText
+                label="Confirmar Contraseña"
+                name="confirmPassword"
+                type="password"
+                placeholder="Repite tu nueva contraseña"
+                value={confirmPassword}
+                onChange={(e) => {
+                    setConfirmPassword(e.target.value);
+                    if (confirmError) setConfirmError("");
+                }}
+                error={confirmError}
             />
 
             <Button type="submit" variant="primary" disabled={isLoading}>

@@ -19,27 +19,27 @@ function App() {
     <Router>
       <Routes>
         {/* RUTAS PÚBLICAS: Solo accesibles si el usuario NO ha iniciado sesión */}
-        <Route 
-          path="/login" 
-          element={!isAuthenticated ? <LoginPage /> : <Navigate to="/home" />} 
+        <Route
+          path="/login"
+          element={!isAuthenticated ? <LoginPage /> : <Navigate to="/home" />}
         />
-        <Route 
-          path="/signup" 
-          element={!isAuthenticated ? <SignUpPage /> : <Navigate to="/home" />} 
+        <Route
+          path="/signup"
+          element={!isAuthenticated ? <SignUpPage /> : <Navigate to="/home" />}
         />
-        <Route 
-          path="/forgot-password" 
-          element={!isAuthenticated ? <ForgotPasswordPage /> : <Navigate to="/home" />} 
+        <Route
+          path="/forgot-password"
+          element={!isAuthenticated ? <ForgotPasswordPage /> : <Navigate to="/home" />}
         />
-        <Route 
-          path="/reset-password" 
-          element={!isAuthenticated ? <ResetPasswordPage /> : <Navigate to="/home" />} 
+        <Route
+          path="/reset-password"
+          element={<ResetPasswordPage />}
         />
 
         {/* RUTA RAÍZ: Redirige según el estado de autenticación */}
-        <Route 
-          path="/" 
-          element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />} 
+        <Route
+          path="/"
+          element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />}
         />
 
         {/* RUTAS PRIVADAS: Solo accesibles si el usuario SÍ ha iniciado sesión */}

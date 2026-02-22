@@ -24,15 +24,16 @@ interface ProfileData {
 
 interface EditProfileFormProps {
     onProfileUpdated?: (username: string) => void;
+    initialUsername?: string;
 }
 
 
-export default function EditProfileForm({ onProfileUpdated }: EditProfileFormProps) {
+export default function EditProfileForm({ onProfileUpdated, initialUsername = "" }: EditProfileFormProps) {
 
     const { user } = useAuthStore();
 
     const [formData, setFormData] = useState<ProfileData>({
-        username: "",
+        username: initialUsername,
         email: "",
         weight: "",
         height: "",
@@ -146,15 +147,6 @@ export default function EditProfileForm({ onProfileUpdated }: EditProfileFormPro
                     onBlur={handleBlur}
                     error={errors.email}
                 />
-
-                {/* <InputText
-                    label="Fecha de Nacimiento"
-                    name="birthDate"
-                    type="date"
-                    value={formData.birthDate}
-                    onChange={handleChange}
-                    className="scheme-dark"
-                /> */}
             </div>
 
             <div className="space-y-4">
