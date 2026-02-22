@@ -4,12 +4,11 @@ import { InputText } from "../common/Input";
 import Button from "../ui/Button";
 import { validateField } from "../../utils/regex";
 import { useAuthStore } from "../../store/useAuthStore";
-import { supabase } from "../../database/supabase/client";
 import { SupabaseUserRepository } from "../../database/supabase/SupabaseUserRepository";
 
 interface LoginData {
-    email: "";
-    password: "";
+    email: string;
+    password: string;
 }
 
 interface LoginErrors {
@@ -19,7 +18,6 @@ interface LoginErrors {
 
 export default function LoginForm() {
 
-    const [loading, setLoading] = useState(false); // Estado para el botón
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -65,7 +63,7 @@ export default function LoginForm() {
     const handleSubmit = async (e: FormEvent) => {
 
         e.preventDefault();
-        if (isLoading) return; // Guardia extra
+        if (isLoading) return;
 
         setIsLoading(true);
 
