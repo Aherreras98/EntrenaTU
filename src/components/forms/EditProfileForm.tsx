@@ -3,33 +3,70 @@ import { InputText, InputNumber } from "../common/Input";
 import Select from "../common/Select";
 import Button from "../ui/Button";
 import { validateField } from "../../utils/regex";
+import { SupabaseUserRepository } from "../../database/supabase/SupabaseUserRepository";
+import { useAuthStore } from "../../store/useAuthStore";
+import { supabase } from "../../database/supabase/client"; // ← faltaba este import
 
 const UNIT_OPTIONS = [
     { value: "metric", label: "Métrico (kg / cm)" },
     { value: "imperial", label: "Imperial (lb / inch)" }
 ];
 
+const userRepo = new SupabaseUserRepository();
+
 interface ProfileData {
-    name: string;
+    username: string;
     email: string;
-    birthDate: string;
     weight: string;
     height: string;
     unitSystem: "metric" | "imperial";
 }
 
-export default function EditProfileForm() {
+interface EditProfileFormProps {
+    onProfileUpdated?: (username: string) => void;
+}
+
+
+export default function EditProfileForm({ onProfileUpdated }: EditProfileFormProps) {
+
+    const { user } = useAuthStore();
+
     const [formData, setFormData] = useState<ProfileData>({
-        name: "Usuario Ejemplo",
-        email: "usuario@ejemplo.com",
-        birthDate: "",
+        username: "",
+        email: "",
         weight: "",
         height: "",
         unitSystem: "metric",
     });
 
     const [errors, setErrors] = useState<Record<string, string>>({});
+    const [success, setSuccess] = useState("");
+    const [error, setError] = useState(""); // ← faltaba este estado
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // Cargar datos actuales del perfil al montar
+    useEffect(() => {
+        console.log("user?.id:", user?.id);
+        if (!user?.id) return;
+        supabase
+            .from('Profiles')
+            .select('username, email, height, weight, unit_system')
+            .eq('id', user.id)
+            .single()
+            .then(({ data }) => {
+                console.log("data:", data);
+                console.log("error:", error);
+                if (data) {
+                    setFormData({
+                        username: data.username || "",
+                        email: data.email || "",
+                        height: data.height?.toString() || "",
+                        weight: data.weight?.toString() || "",
+                        unitSystem: data.unit_system || "metric",
+                    });
+                }
+            });
+    }, [user?.id]);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -43,29 +80,39 @@ export default function EditProfileForm() {
     const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
-        if (name === "name" || name === "email") {
+        if (name === "username" || name === "email") { 
             const error = validateField(name, value);
             setErrors(prev => ({ ...prev, [name]: error }));
         }
     };
 
-    const handleSubmit = (e: FormEvent) => {
+
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
+        if (!user?.id) return;
+
+        if (!formData.username.trim()) {
+            setError("El nombre de usuario no puede estar vacío.");
+            return;
+        }
+
         setIsSubmitting(true);
+        setSuccess("");
+        setError("");
 
-        const newErrors = {
-            name: validateField("name", formData.name),
-            email: validateField("email", formData.email),
-        };
+        const { error: updateError } = await userRepo.updateProfile(user.id, {
+            username: formData.username,
+            email: formData.email,
+            height: formData.height ? parseFloat(formData.height) : null,
+            weight: formData.weight ? parseFloat(formData.weight) : null,
+            unit_system: formData.unitSystem,
+        });
 
-        const hasErrors = Object.values(newErrors).some(Boolean);
-
-        setErrors(prev => ({ ...prev, ...newErrors }));
-
-        if (!hasErrors) {
-            console.log("Guardando cambios...", formData);
-
-            alert("Perfil actualizado correctamente");
+        if (updateError) {
+            setError("Error al guardar los cambios. Inténtalo de nuevo.");
+        } else {
+            setSuccess("Perfil actualizado correctamente.");
+            onProfileUpdated?.(formData.username);
         }
 
         setIsSubmitting(false);
@@ -83,11 +130,11 @@ export default function EditProfileForm() {
 
                 <InputText
                     label="Nombre Completo"
-                    name="name"
-                    value={formData.name}
+                    name="username" 
+                    value={formData.username}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={errors.name}
+                    error={errors.username}
                 />
 
                 <InputText
@@ -100,14 +147,14 @@ export default function EditProfileForm() {
                     error={errors.email}
                 />
 
-                <InputText
+                {/* <InputText
                     label="Fecha de Nacimiento"
                     name="birthDate"
                     type="date"
                     value={formData.birthDate}
                     onChange={handleChange}
                     className="scheme-dark"
-                />
+                /> */}
             </div>
 
             <div className="space-y-4">
@@ -122,7 +169,6 @@ export default function EditProfileForm() {
                         value={formData.height}
                         onChange={handleChange}
                     />
-
                     <InputNumber
                         label={weightLabel}
                         name="weight"
@@ -139,6 +185,9 @@ export default function EditProfileForm() {
                     onChange={handleChange}
                 />
             </div>
+
+            {success && <p className="text-green-400 text-sm">{success}</p>}
+            {error && <p className="text-red-400 text-sm">{error}</p>}
 
             <div className="pt-4">
                 <Button type="submit" disabled={isSubmitting} className="w-full">

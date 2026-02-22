@@ -1,11 +1,11 @@
 import { UserRepository } from "../repositories/UserRepository";
 import { SignUpData } from "../../interfaces/SignUpData";
-import { supabase } from "./client"; 
+import { supabase } from "./client";
 import { SessionUser } from "../../interfaces/SessionUser";
 
 export class SupabaseUserRepository implements UserRepository {
-    
-async createUser(user: SignUpData): Promise<{ error: any; }> {
+
+    async createUser(user: SignUpData): Promise<{ error: any; }> {
 
         // Crear el usuario en Autenticación
         const { data, error: authError } = await supabase.auth.signUp({
@@ -24,10 +24,10 @@ async createUser(user: SignUpData): Promise<{ error: any; }> {
         //Guardar los datos en la tabla pública Profiles
         if (data.user) {
             const { error: dbError } = await supabase
-                .from('Profiles') 
+                .from('Profiles')
                 .insert([
                     {
-                        id: data.user.id, 
+                        id: data.user.id,
                         username: user.username,
                         email: user.email,
                         age: user.age
@@ -68,13 +68,13 @@ async createUser(user: SignUpData): Promise<{ error: any; }> {
         }
 
         // Devolvemos el objeto que usará Zustand
-        return { 
+        return {
             data: {
                 user: authData.user,
                 profile: profile,
-         session: authData.session 
-        } 
-    }
+                session: authData.session
+            }
+        }
     }
 
 
@@ -84,7 +84,7 @@ async createUser(user: SignUpData): Promise<{ error: any; }> {
         return { error };
     }
 
-    
+
     // Recuperación de contraseña por Email
     async recoverPassword(email: string): Promise<{ error?: any }> {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
@@ -95,11 +95,27 @@ async createUser(user: SignUpData): Promise<{ error: any; }> {
     }
 
     async updatePassword(newPassword: string): Promise<{ error?: any }> {
-    const { error } = await supabase.auth.updateUser({
-        password: newPassword
-    });
-    return { error };
-}
+        const { error } = await supabase.auth.updateUser({
+            password: newPassword
+        });
+        return { error };
+    }
+
+    // Actualización del perfil
+    async updateProfile(userId: string, data: {
+        username?: string;
+        email?: string;
+        
+        height?: number | null;
+        weight?: number | null;
+        unit_system?: string;
+    }): Promise<{ error?: any }> {
+        const { error } = await supabase
+            .from('Profiles')
+            .update(data)
+            .eq('id', userId);
+        return { error };
+    }
 }
 
-    
+

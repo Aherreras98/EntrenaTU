@@ -15,5 +15,7 @@ export interface UserRepository {
 
   
   recoverPassword(email: string): Promise<{ error?: any }>;
+  
+  updateProfile(userId: string, data: { username?: string; email?: string; height?: number | null; weight?: number | null; unit_system?: string }): Promise<{ error?: any }>;
 
 }
