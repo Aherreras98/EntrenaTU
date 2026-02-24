@@ -18,4 +18,5 @@ export interface UserRepository {
   
   updateProfile(userId: string, data: { username?: string; email?: string; height?: number | null; weight?: number | null; unit_system?: string }): Promise<{ error?: any }>;
 
+  fetchRole(userId: string): Promise<{ data?: string | null, error?: any }>;
 }
