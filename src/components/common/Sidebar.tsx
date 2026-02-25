@@ -14,19 +14,19 @@ import { supabase } from "../../database/supabase/client";
 export default function Sidebar() {
     const navigate = useNavigate();
 
-    const session = useAuthStore((state) => state.session);
-    const clearAuth = useAuthStore((state) => state.clearAuth);
-    const isAuthenticated = !!session;
+    const sessionUser = useAuthStore((state) => state.sessionUser);
+    const clearSession = useAuthStore((state) => state.clearSession);
+    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
     
     console.log("INICIO DE LA SESIÓN:", { 
-        sessionActual: session, 
+        sessionActual: sessionUser, 
         estaAutenticado: isAuthenticated 
     });
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
-        clearAuth(); // Limpiamos Zustand
-        navigate("/home"); // Va al home
+        clearSession();
+        navigate("/home");
     };
 
     const handleLogin = () => {
@@ -38,14 +38,12 @@ export default function Sidebar() {
 
     return (
         <aside className="sidebar">
-            {/* --- LOGO --- */}
             <div className="h-20 flex items-center justify-center border-b border-white/5 mb-2">
                 <h1 className="text-2xl font-bold italic tracking-tighter text-primary">
                     ENTRENA<span className="text-text-main">TU</span>
                 </h1>
             </div>
 
-            {/* --- NAVEGACIÓN --- */}
             <nav className="flex-1 flex flex-col gap-2 py-4">
                 <NavLink to="/home" className={getLinkClass}>
                     <HomeIcon className="w-6 h-6" />
@@ -68,10 +66,8 @@ export default function Sidebar() {
                 </NavLink>
             </nav>
 
-            {/* --- BOTÓN DINÁMICO (ENTRAR/SALIR) --- */}
             <div className="p-4 border-t border-white/5">
                 {isAuthenticated ? (
-                    // Si está logueado, botón de Salir
                     <button
                         onClick={handleLogout}
                         className="sidebar-link w-full text-red-500 hover:text-red-400 hover:bg-red-500/10 hover:border-red-500 transition-all"
@@ -80,7 +76,6 @@ export default function Sidebar() {
                         <span>Salir</span>
                     </button>
                 ) : (
-                    // Si NO está logueado, botón de Iniciar Sesión
                     <button
                         onClick={handleLogin}
                         className="sidebar-link w-full text-primary hover:text-primary/80 hover:bg-primary/10 hover:border-primary transition-all font-bold"

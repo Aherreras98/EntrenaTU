@@ -1,10 +1,10 @@
-import { FormEvent, useState, type ChangeEvent, } from "react";
+import { FormEvent, useState, type ChangeEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { InputText } from "../common/Input";
 import Button from "../ui/Button";
 import { validateField } from "../../utils/regex";
 import { useAuthStore } from "../../store/useAuthStore";
-import { SupabaseUserRepository } from "../../database/supabase/SupabaseUserRepository";
+import { userRepository } from "../../database/repositories"; 
 
 interface LoginData {
     email: string;
@@ -43,23 +43,6 @@ export default function LoginForm() {
         setErrors((prev) => ({ ...prev, [name]: error }));
     };
 
-    // const handleSubmit = (e: FormEvent) => {
-    //     e.preventDefault();
-
-    //     const newErrors = {
-    //         email: validateField("email", formData.email),
-    //         password: validateField("password", formData.password),
-    //     };
-    //     setErrors(newErrors);
-
-    //     const hasErrors = Object.values(newErrors).some(Boolean);
-    //     if (!hasErrors) {
-    //         console.log("Login correcto:", formData);
-    //         // Aquí llamaríamos al repositorio
-    //     }
-    // };
-
-
     const handleSubmit = async (e: FormEvent) => {
 
         e.preventDefault();
@@ -73,11 +56,13 @@ export default function LoginForm() {
         };
         setErrors(newErrors);
 
-        if (Object.values(newErrors).some(Boolean)) return;
+        if (Object.values(newErrors).some(Boolean)) {
+            setIsLoading(false);
+            return;
+        }
 
         try {
-            const repo = new SupabaseUserRepository();
-            const { data, error } = await repo.login(formData.email, formData.password);
+            const { data, error } = await userRepository.login(formData.email, formData.password);
 
             if (error) {
                 alert("Error: " + error.message);
@@ -86,15 +71,13 @@ export default function LoginForm() {
             }
 
             if (data) {
-                // Guardar en el store de Zustand
-                useAuthStore.getState().setAuth(data.session);
-                // Redirigir usando navigate (de react-router-dom)
+                useAuthStore.getState().setSession(data);
                 navigate("/home");
             }
         } catch (err) {
             console.error("Error inesperado:", err);
         } finally {
-            setIsLoading(false); // Siempre quitamos el cargando al final
+            setIsLoading(false);
         }
     };
 
@@ -132,8 +115,7 @@ export default function LoginForm() {
             </div>
 
             <div className="flex flex-col gap-4 mt-2">
-                <Button type="submit" variant="primary"
-                    disabled={isLoading}>
+                <Button type="submit" variant="primary" disabled={isLoading}>
                     {isLoading ? "Cargando..." : "Iniciar Sesión"}
                 </Button>
 

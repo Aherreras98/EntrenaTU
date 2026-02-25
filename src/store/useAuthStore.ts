@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { SessionUser } from '../interfaces/SessionUser'
-import { createUserRepository } from '../database/repositories'
+import { userRepository } from '../database/repositories'
 
 interface AuthState {
   sessionUser: SessionUser | null
@@ -12,8 +12,6 @@ interface AuthState {
   clearSession: () => void
 }
 
-const userRepository = createUserRepository();
-
 export const useAuthStore = create<AuthState>()(
 
   persist((set) => ({
@@ -22,34 +20,34 @@ export const useAuthStore = create<AuthState>()(
     isAdmin: false,
 
     setSession: async (sessionUser) => {
-      let isAdmin = false;
-      
+      set({
+        sessionUser,
+        isAuthenticated: true,
+        isAdmin: false
+      });
+
       if (sessionUser.profile?.id) {
         const { data: role } = await userRepository.fetchRole(sessionUser.profile.id);
-        isAdmin = role === 'admin';
+        if (role === 'admin') {
+          set({ isAdmin: true });
+        }
       }
-
-      set({
-        sessionUser, 
-        isAuthenticated: true,
-        isAdmin
-      });
     },
 
-    clearSession: () => set({ 
-      sessionUser: null, 
+    clearSession: () => set({
+      sessionUser: null,
       isAuthenticated: false,
-      isAdmin: false 
+      isAdmin: false
     }),
   }),
-  {
-    name: 'auth-v1',
-    version: 1,
-    partialize: (state) => ({
-      sessionUser: state.sessionUser,
-      isAuthenticated: state.isAuthenticated,
-      isAdmin: state.isAdmin,
-    }),
-  }
+    {
+      name: 'auth-v1',
+      version: 1,
+      partialize: (state) => ({
+        sessionUser: state.sessionUser,
+        isAuthenticated: state.isAuthenticated,
+        isAdmin: state.isAdmin,
+      }),
+    }
   )
 )
