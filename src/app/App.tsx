@@ -39,17 +39,16 @@ function App() {
           element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />}
         />
 
-
         <Route element={isAuthenticated ? <AppLayout /> : <Navigate to="/login" />}>
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/routines" element={<Routines />} />
           <Route
             path="/history"
             element={isAdmin ? <History /> : <Navigate to="/home" replace />}
           />
         </Route>
-        <Route path="/routines" element={<Routines />} />
-    </Routes>
+      </Routes>
     </Router >
   );
 }
