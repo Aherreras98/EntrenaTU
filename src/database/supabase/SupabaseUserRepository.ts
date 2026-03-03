@@ -89,7 +89,7 @@ export class SupabaseUserRepository implements UserRepository {
     async recoverPassword(email: string): Promise<{ error?: any }> {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
             // Redirige al usuario a la página de actualización tras el email
-            redirectTo: `${window.location.origin}/update-password`,
+            redirectTo: `${window.location.origin}/reset-password`,
         });
         return { error };
     }
