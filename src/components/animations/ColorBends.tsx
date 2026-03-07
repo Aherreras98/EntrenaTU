@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 
 interface ColorBendsProps {
@@ -14,7 +14,7 @@ interface ColorBendsProps {
 }
 
 const ColorBends: React.FC<ColorBendsProps> = ({
-  colors = ['#FF5733', '#FB923C', '#FF5733'],
+  colors = ['#FF5733', '#FB923C', '#000000'],
   speed = 0.2,
   rotation = 45,
   scale = 1.0,
@@ -25,8 +25,9 @@ const ColorBends: React.FC<ColorBendsProps> = ({
   className = ""
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const mouseRef = useRef({ x: 0, y: 0 });
+  const mouseRef = useRef(new THREE.Vector2(0, 0));
 
+  // Shaders definidos fuera para evitar errores de compilación
   const vertexShader = `
     varying vec2 vUv;
     void main() {
@@ -37,8 +38,7 @@ const ColorBends: React.FC<ColorBendsProps> = ({
 
   const fragmentShader = `
     uniform float uTime;
-    uniform vec3 uColors[8];
-    uniform int uColorCount;
+    uniform vec3 uColors[3];
     uniform float uRotation;
     uniform float uScale;
     uniform float uFrequency;
@@ -58,23 +58,17 @@ const ColorBends: React.FC<ColorBendsProps> = ({
     void main() {
       vec2 uv = vUv;
       vec2 mouse = uMouse * 0.1;
-      
       uv -= 0.5;
       uv = rotate2d(uRotation + uTime * 0.05) * uv;
       uv *= uScale;
       uv += 0.5;
-
       float wave = sin(uv.x * uFrequency * 10.0 + uTime + mouse.x) * cos(uv.y * uFrequency * 10.0 + uTime + mouse.y);
-      
       vec2 warp = uv + uWarpStrength * vec2(wave);
-      float colorIndex = (warp.x + warp.y) * 0.5;
-      
-      vec3 color = mix(uColors[0], uColors[1], clamp(colorIndex, 0.0, 1.0));
-      
+      float colorIndex = clamp((warp.x + warp.y) * 0.5, 0.0, 1.0);
+      vec3 color = mix(uColors[0], uColors[1], colorIndex);
       if(uNoise > 0.0) {
         color += (random(uv + uTime) - 0.5) * uNoise;
       }
-
       gl_FragColor = vec4(color, 1.0);
     }
   `;
@@ -82,16 +76,19 @@ const ColorBends: React.FC<ColorBendsProps> = ({
   useEffect(() => {
     if (!containerRef.current) return;
 
+    const container = containerRef.current;
+    const width = container.offsetWidth || window.innerWidth;
+    const height = container.offsetHeight || window.innerHeight;
+
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     
-    const container = containerRef.current;
-    renderer.setSize(container.offsetWidth, container.offsetHeight);
+    renderer.setSize(width, height);
     container.appendChild(renderer.domElement);
 
-    const colorObjects = colors.map(c => new THREE.Color(c));
-    
+    const colorObjects = colors.slice(0, 3).map(c => new THREE.Color(c));
+
     const geometry = new THREE.PlaneGeometry(2, 2);
     const material = new THREE.ShaderMaterial({
       vertexShader,
@@ -104,40 +101,39 @@ const ColorBends: React.FC<ColorBendsProps> = ({
         uFrequency: { value: frequency },
         uWarpStrength: { value: warpStrength },
         uNoise: { value: noise },
-        uMouse: { value: new THREE.Vector2(0, 0) }
+        uMouse: { value: mouseRef.current }
       }
     });
 
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth) * 2 - 1;
-      const y = -(e.clientY / window.innerHeight) * 2 + 1;
-      mouseRef.current = { x, y };
+    const onMouseMove = (e: MouseEvent) => {
+      mouseRef.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseRef.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', onMouseMove);
 
-    let animationFrameId: number;
-    const animate = (time: number) => {
+    let frameId: number;
+    const render = (time: number) => {
       material.uniforms.uTime.value = time * 0.001 * speed;
-      material.uniforms.uMouse.value.lerp(new THREE.Vector2(mouseRef.current.x, mouseRef.current.y), 0.05);
       renderer.render(scene, camera);
-      animationFrameId = requestAnimationFrame(animate);
+      frameId = requestAnimationFrame(render);
     };
+    frameId = requestAnimationFrame(render);
 
-    animate(0);
-
-    const handleResize = () => {
-      renderer.setSize(container.offsetWidth, container.offsetHeight);
+    const onResize = () => {
+      const w = container.offsetWidth;
+      const h = container.offsetHeight;
+      renderer.setSize(w, h);
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', onResize);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('resize', onResize);
+      cancelAnimationFrame(frameId);
       renderer.dispose();
       geometry.dispose();
       material.dispose();
@@ -147,7 +143,7 @@ const ColorBends: React.FC<ColorBendsProps> = ({
     };
   }, [colors, speed, rotation, scale, frequency, warpStrength, noise]);
 
-  return <div ref={containerRef} className={`w-full h-full ${className}`} />;
+  return <div ref={containerRef} className={`w-full h-full min-h-[200px] ${className}`} />;
 };
 
 export default ColorBends;
