@@ -43,10 +43,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/routines" element={<Routines />} />
-          <Route
-            path="/history"
-            element={isAdmin ? <History /> : <Navigate to="/home" replace />}
-          />
+          <Route path="/history" element={<History />} />
         </Route>
       </Routes>
     </Router >
