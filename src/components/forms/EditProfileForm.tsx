@@ -30,7 +30,8 @@ interface EditProfileFormProps {
 
 export default function EditProfileForm({ onProfileUpdated, initialUsername = "" }: EditProfileFormProps) {
 
-    const { user } = useAuthStore();
+    const sessionUser = useAuthStore((state) => state.sessionUser);
+    const user = sessionUser?.user;
 
     const [formData, setFormData] = useState<ProfileData>({
         username: initialUsername,
