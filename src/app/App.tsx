@@ -10,6 +10,8 @@ import SignUpPage from "../pages/SignUpPage";
 import { useAuthStore } from "../store/useAuthStore";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 
+import LandingPage from "../pages/LandingPage";
+
 function App() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const isAdmin = useAuthStore((state) => state.isAdmin);
@@ -17,6 +19,10 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route 
+          path="/" 
+          element={!isAuthenticated ? <LandingPage /> : <Navigate to="/home" />} 
+        />
         <Route
           path="/login"
           element={!isAuthenticated ? <LoginPage /> : <Navigate to="/home" />}
