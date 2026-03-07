@@ -11,7 +11,7 @@ export default function AppLayout() {
 
         <Sidebar />
 
-        <main className="flex-1 bg-neutral-900 text-white p-6">
+        <main className="flex-1 bg-surface text-text-main p-6 overflow-y-auto transition-colors duration-300">
           <Outlet />
         </main>
         

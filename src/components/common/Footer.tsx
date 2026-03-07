@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="w-full py-6 bg-surface text-text-muted text-center mt-auto border-t border-white/10">
+   <footer className="w-full py-6 bg-surface text-text-muted text-center mt-auto border-t border-zinc-200 dark:border-white/10 transition-colors duration-300">
       <div className="container mx-auto px-4">
         <p className="text-sm">
           &copy; {new Date().getFullYear()} <span className="text-primary font-bold">ENTRENATU</span>. Todos los derechos reservados.

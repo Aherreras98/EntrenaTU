@@ -97,69 +97,82 @@ export default function SignUpForm() {
     );
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full max-w-sm mx-auto p-4">
-            <InputText
-                label="Nombre de Usuario"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.username}
-            />
+        <form 
+        onSubmit={handleSubmit} 
+        /* CLASES DE TARJETA: Igual que el Login */
+        className="flex flex-col gap-5 w-full max-w-md mx-auto p-10 
+                   bg-white dark:bg-zinc-900 
+                   rounded-2xl border border-zinc-200 dark:border-white/10 
+                   shadow-xl transition-all duration-300"
+    >
+        <InputText
+            label="Nombre de Usuario"
+            name="username"
+            placeholder="Tu apodo"
+            value={formData.username}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.username}
+        />
 
-            <InputText
-                label="Correo Electrónico"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.email}
-            />
+        <InputText
+            label="Correo Electrónico"
+            name="email"
+            type="email"
+            placeholder="ejemplo@correo.com"
+            value={formData.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.email}
+        />
 
-            <InputNumber
-                label="Edad"
-                name="age"
-                type="number"
-                value={formData.age}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.age}
-            />
+        <InputNumber
+            label="Edad"
+            name="age"
+            type="number"
+            placeholder="0"
+            value={formData.age}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.age}
+        />
 
-            <InputText
-                label="Contraseña"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                value={formData.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.password}
-                endIcon={togglePasswordButton}
-            />
+        <InputText
+            label="Contraseña"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            placeholder="******"
+            value={formData.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.password}
+            endIcon={togglePasswordButton}
+        />
 
-            <InputText
-                label="Confirmar Contraseña"
-                name="confirmPassword"
-                type={showPassword ? "text" : "password"}
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.confirmPassword}
-                endIcon={togglePasswordButton}
-            />
+        <InputText
+            label="Confirmar Contraseña"
+            name="confirmPassword"
+            type={showPassword ? "text" : "password"}
+            placeholder="******"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.confirmPassword}
+            endIcon={togglePasswordButton}
+        />
 
-            <div className="flex flex-col gap-4 mt-4">
-                <Button type="submit" variant="primary">
-                    Crear Cuenta
-                </Button>
-                <span className="text-text-main text-center text-sm">
-                    ¿Ya tienes cuenta?{" "}
-                    <Link to="/login" className="text-primary font-bold hover:underline hover:text-primary-hover transition-colors">
-                        Inicia Sesión
-                    </Link>
-                </span>
-            </div>
-        </form>
-    );
+        <div className="flex flex-col gap-4 mt-4">
+            <Button type="submit" variant="primary" className="py-3">
+                Crear Cuenta
+            </Button>
+
+            <span className="text-zinc-500 dark:text-zinc-400 text-center text-sm">
+                ¿Ya tienes cuenta?{" "}
+                <Link to="/login" className="text-primary font-bold hover:underline hover:text-primary-hover transition-colors">
+                    Inicia Sesión
+                </Link>
+            </span>
+        </div>
+    </form>
+);
 }

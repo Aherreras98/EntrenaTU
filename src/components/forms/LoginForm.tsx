@@ -43,23 +43,7 @@ export default function LoginForm() {
         setErrors((prev) => ({ ...prev, [name]: error }));
     };
 
-    // const handleSubmit = (e: FormEvent) => {
-    //     e.preventDefault();
-
-    //     const newErrors = {
-    //         email: validateField("email", formData.email),
-    //         password: validateField("password", formData.password),
-    //     };
-    //     setErrors(newErrors);
-
-    //     const hasErrors = Object.values(newErrors).some(Boolean);
-    //     if (!hasErrors) {
-    //         console.log("Login correcto:", formData);
-    //         // Aquí llamaríamos al repositorio
-    //     }
-    // };
-
-
+   
     const handleSubmit = async (e: FormEvent) => {
 
         e.preventDefault();
@@ -99,7 +83,10 @@ export default function LoginForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full max-w-sm mx-auto p-4">
+        <form 
+        onSubmit={handleSubmit} className="flex flex-col gap-6 w-full max-w-md mx-auto p-10 bg-white dark:bg-zinc-900 
+                   rounded-2xl border border-zinc-200 dark:border-white/10 shadow-xl transition-all duration-300"
+            >
             <InputText
                 label="Correo Electrónico"
                 name="email"
@@ -137,7 +124,7 @@ export default function LoginForm() {
                     {isLoading ? "Cargando..." : "Iniciar Sesión"}
                 </Button>
 
-                <span className="text-[#FFFCFC] text-center text-sm">
+                <span className="text-zinc-500 dark:text-zinc-400 text-center text-sm">
                     ¿No tienes cuenta?{" "}
                     <Link
                         to="/signup"

@@ -3,6 +3,8 @@ import { SupabaseUserRepository } from "../database/supabase/SupabaseUserReposit
 import { supabase } from "../database/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
+import { InputText } from "../components/common/Input";
+import Button from "../components/ui/Button";
 
 export const LoginView = () => {
     const [email, setEmail] = useState('');
@@ -10,8 +12,6 @@ export const LoginView = () => {
     const [loading, setLoading] = useState(false);
     
     const navigate = useNavigate();
-
-    // 1. Usamos el store real y el repositorio
     const userRepository = new SupabaseUserRepository();
     const setAuth = useAuthStore((state) => state.setAuth);
 
@@ -19,7 +19,7 @@ export const LoginView = () => {
         e.preventDefault();
         setLoading(true);
 
-        // 2. Verificación mediante el repositorio
+        // Verificación mediante el repositorio
         const { data, error } = await userRepository.login(email, password);
 
         if (error) {
@@ -28,7 +28,7 @@ export const LoginView = () => {
             return;
         }
 
-        // 3. Sincronización con Zustand
+        // Sincronización con Zustand
         if (data) {
             const { data: { session } } = await supabase.auth.getSession();
             
@@ -52,40 +52,58 @@ export const LoginView = () => {
     };
 
     return (
-        <div className="login-container flex flex-col items-center justify-center p-4">
-            <h2 className="text-2xl font-bold mb-4">EntrenaTU - Login</h2>
-            <form onSubmit={handleLogin} className="flex flex-col gap-4 w-full max-w-sm">
-                <input 
+    <div className="min-h-screen flex items-center justify-center p-6 bg-zinc-100 dark:bg-zinc-950 animate-in fade-in duration-500">
+        
+        {/* TARJETA */}
+        <div className="w-full max-w-md bg-white dark:bg-zinc-900 p-10 rounded-2xl 
+             border border-zinc-300 dark:border-white/10 
+             shadow-2xl transition-all duration-300">
+            
+            <div className="text-center mb-10">
+                <h1 className="text-3xl font-bold italic tracking-tighter text-orange-500 uppercase">
+                    BIENVENIDO/A
+                </h1>
+                <p className="text-base text-zinc-500 dark:text-zinc-400 mt-2 font-light">
+                    Accede a tu cuenta para entrenar
+                </p>
+            </div>
+
+            <form onSubmit={handleLogin} className="flex flex-col gap-6">
+                <InputText 
+                    label="Correo Electrónico"
                     type="email" 
-                    className="border p-2 rounded"
+                    placeholder="tu@email.com"
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)} 
-                    placeholder="Email"
                     required 
                 />
-                <input 
+
+                <InputText
+                    label="Contraseña"
                     type="password" 
-                    className="border p-2 rounded"
+                    placeholder="••••••"
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)} 
-                    placeholder="Contraseña"
                     required 
                 />
-                <button 
-                    type="submit" 
-                    className="bg-orange-600 text-white p-2 rounded font-bold"
-                    disabled={loading}
-                >
+
+                <Button type="submit" disabled={loading} className="w-full py-4 text-lg bg-orange-500 hover:bg-orange-600">
                     {loading ? 'Verificando...' : 'Iniciar Sesión'}
-                </button>
+                </Button>
             </form>
             
-            <button 
-                onClick={handleRecoverPassword} 
-                className="text-sm text-blue-600 underline mt-4"
-            >
-                ¿Olvidaste tu contraseña?
-            </button>
+            <div className="text-center mt-8 pt-6 border-t border-zinc-200 dark:border-white/5">
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                    ¿No tienes cuenta?{' '}
+                    <button 
+                        onClick={() => navigate("/register")} 
+                        className="text-orange-500 font-bold hover:underline"
+                    >
+                        Regístrate gratis
+                    </button>
+                </p>
+            </div>
         </div>
+    </div>
     );
 };
