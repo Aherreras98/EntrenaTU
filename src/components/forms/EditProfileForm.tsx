@@ -5,7 +5,7 @@ import Button from "../ui/Button";
 import { validateField } from "../../utils/regex";
 import { SupabaseUserRepository } from "../../database/supabase/SupabaseUserRepository";
 import { useAuthStore } from "../../store/useAuthStore";
-import { supabase } from "../../database/supabase/client"; // ← faltaba este import
+import { supabase } from "../../database/supabase/client"; 
 
 const UNIT_OPTIONS = [
     { value: "metric", label: "Métrico (kg / cm)" },
