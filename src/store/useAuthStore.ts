@@ -4,6 +4,7 @@ import type { SessionUser } from '../interfaces/SessionUser'
 import { userRepository } from '../database/repositories'
 
 interface AuthState {
+  [x: string]: any
   sessionUser: SessionUser | null
   isAuthenticated: boolean
   isAdmin: boolean
