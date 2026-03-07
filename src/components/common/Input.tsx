@@ -7,15 +7,20 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export function InputText({ label, error, type = "text", className = "", endIcon, ...props }: InputProps) {
-  return (
-    <div className="flex flex-col gap-1 w-full relative">
-      {label && <label className="text-sm font-bold text-gray-700">{label}</label>}
+return (
+    <div className="flex flex-col gap-1 w-full relative text-left">
+      {/* Label: text-text-main para que cambie según el modo */}
+      {label && <label className="text-sm font-bold text-text-main transition-colors">{label}</label>}
       
       <div className="relative">
         <input
           type={type}
-          className={`w-full p-2 border rounded-md outline-none transition-colors 
-            ${error ? "border-red-500 focus:border-red-500" : "border-gray-300 focus:border-blue-500"} 
+          /* bg-background (claro) | text-text-main (adaptativo) | border dinámico */
+          className={`w-full p-2.5 rounded-xl outline-none transition-all duration-300
+            bg-background text-text-main
+            ${error 
+                ? "border-red-500 focus:border-red-500" 
+                : "border-zinc-300 dark:border-white/10 focus:border-primary focus:ring-2 focus:ring-primary/20"} 
             ${className}`}
           {...props}
         />
@@ -26,22 +31,30 @@ export function InputText({ label, error, type = "text", className = "", endIcon
         )}
       </div>
       
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+      {error && <p className="text-red-500 text-xs mt-1 font-medium">{error}</p>}
     </div>
   );
 }
 
 export function InputNumber({ label, error, className = "", ...props }: InputProps) {
   return (
-    <div className="input-group">
-      {label && <label className="input-label">{label}</label>}
+    <div className="flex flex-col gap-1 w-full text-left">
+      {/* Label adaptativo para Altura y Peso */}
+      {label && <label className="text-sm font-bold text-text-main transition-colors">{label}</label>}
+      
       <input
         type="number"
         inputMode="numeric"
-        className={`input-field text-center appearance-none ${error ? "error" : ""} ${className}`}
+        /* bg-background para que resalte sobre el modal blanco */
+        className={`w-full p-2.5 rounded-xl outline-none transition-all duration-300 text-center
+          bg-background text-text-main appearance-none
+          ${error 
+            ? "border-red-500 focus:border-red-500" 
+            : "border-zinc-300 dark:border-white/10 focus:border-primary focus:ring-2 focus:ring-primary/20"} 
+          ${className}`}
         {...props}
       />
-      {error && <p className="input-error-msg">{error}</p>}
+      {error && <p className="text-red-500 text-xs mt-1 font-medium">{error}</p>}
     </div>
   );
 }
