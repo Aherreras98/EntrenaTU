@@ -123,9 +123,13 @@ export default function EditProfileForm({ onProfileUpdated, initialUsername = ""
     const heightLabel = formData.unitSystem === "metric" ? "Altura (cm)" : "Altura (in)";
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full max-w-lg mx-auto bg-[#1E1E1E]/50 p-6 rounded-2xl border border-gray-800">
+        <form 
+            onSubmit={handleSubmit} 
+            className="flex flex-col gap-6 w-full max-w-lg mx-auto bg-transparent p-2 transition-colors duration-300"
+        >
             <div className="space-y-4">
-                <h3 className="text-[#FF8904] font-bold text-sm uppercase tracking-wider border-b border-gray-700 pb-2">
+                
+                <h3 className="text-primary font-bold text-sm uppercase tracking-wider border-b border-zinc-200 dark:border-zinc-700 pb-2">
                     Datos Personales
                 </h3>
 
@@ -150,7 +154,7 @@ export default function EditProfileForm({ onProfileUpdated, initialUsername = ""
             </div>
 
             <div className="space-y-4">
-                <h3 className="text-[#FF8904] font-bold text-sm uppercase tracking-wider border-b border-gray-700 pb-2">
+                <h3 className="text-primary font-bold text-sm uppercase tracking-wider border-b border-zinc-200 dark:border-zinc-700 pb-2">
                     Físico y Preferencias
                 </h3>
 
@@ -178,8 +182,8 @@ export default function EditProfileForm({ onProfileUpdated, initialUsername = ""
                 />
             </div>
 
-            {success && <p className="text-green-400 text-sm">{success}</p>}
-            {error && <p className="text-red-400 text-sm">{error}</p>}
+            {success && <p className="text-green-600 dark:text-green-400 text-sm font-medium">{success}</p>}
+            {error && <p className="text-red-600 dark:text-red-400 text-sm font-medium">{error}</p>}
 
             <div className="pt-4">
                 <Button type="submit" disabled={isSubmitting} className="w-full">

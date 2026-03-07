@@ -96,11 +96,18 @@ export default function ActivityForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5 p-6 bg-surface rounded-2xl shadow-lg border border-slate-800/50">
-
-            <div className="border-b border-slate-700 pb-4 mb-2">
-                <h2 className="text-xl font-bold text-text-main">Registrar Actividad</h2>
-                <p className="text-sm text-gray-400">Añade un nuevo ejercicio o sesión deportiva</p>
+        <form 
+            onSubmit={handleSubmit} 
+            className="flex flex-col gap-5 p-8 bg-surface rounded-2xl shadow-sm border border-zinc-200 dark:border-zinc-800 transition-all duration-300"
+        >
+            {/* Cabecera del formulario */}
+            <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4 mb-2">
+                <h2 className="text-xl font-bold text-text-main uppercase tracking-tight">
+                    Registrar Actividad
+                </h2>
+                <p className="text-sm text-text-muted mt-1">
+                    Añade un nuevo ejercicio o sesión deportiva
+                </p>
             </div>
 
             <Select
@@ -122,7 +129,8 @@ export default function ActivityForm() {
             />
 
             {formData.type === "gym" && (
-                <div className="flex flex-col gap-4 animate-fadeIn">
+                /* Animación suave */
+                <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
                     <Select
                         label="Grupo Muscular"
                         name="grupoMuscular"
@@ -152,7 +160,7 @@ export default function ActivityForm() {
             )}
 
             {formData.type === "sport" && (
-                <div className="flex flex-col gap-4 animate-fadeIn">
+                <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
                     <div className="grid grid-cols-2 gap-4">
                         <InputNumber
                             label="Duración (min)"
@@ -173,9 +181,11 @@ export default function ActivityForm() {
                 </div>
             )}
 
-            <Button type="submit" variant="primary" className="mt-4">
+            <div className="flex justify-end mt-4">
+            <Button type="submit">
                 {formData.type === "gym" ? "Guardar Ejercicio" : "Guardar Sesión"}
             </Button>
+        </div>
         </form>
     );
 }

@@ -11,28 +11,27 @@ export default function Home() {
                 </p>
             </div>
 
-            {/* Tarjetas de Resumen (Ejemplo de Dashboard) */}
+           {/* Tarjetas de Resumen */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Tarjeta 1 */}
-                <div className="bg-surface p-6 rounded-xl border border-white/5 hover:border-primary/50 transition-colors">
+                
+                <div className="bg-surface p-6 rounded-xl border border-zinc-200 shadow-sm dark:border-white/5 hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
                     <h3 className="text-lg font-bold text-text-main mb-2">Entrenamientos</h3>
                     <p className="text-3xl font-bold text-primary">12</p>
                     <p className="text-xs text-text-muted mt-1">Este mes</p>
                 </div>
 
-                {/* Tarjeta 2 */}
-                <div className="bg-surface p-6 rounded-xl border border-white/5 hover:border-primary/50 transition-colors">
+                <div className="bg-surface p-6 rounded-xl border border-zinc-200 shadow-sm dark:border-white/5 hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
                     <h3 className="text-lg font-bold text-text-main mb-2">Tiempo Total</h3>
                     <p className="text-3xl font-bold text-primary">8h 45m</p>
                     <p className="text-xs text-text-muted mt-1">Acumulado</p>
                 </div>
 
-                {/* Tarjeta 3 */}
-                <div className="bg-surface p-6 rounded-xl border border-white/5 hover:border-primary/50 transition-colors">
+                <div className="bg-surface p-6 rounded-xl border border-zinc-200 shadow-sm dark:border-white/5 hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
                     <h3 className="text-lg font-bold text-text-main mb-2">Racha Actual</h3>
                     <p className="text-3xl font-bold text-primary">3 Días</p>
                     <p className="text-xs text-text-muted mt-1">¡Sigue así!</p>
                 </div>
+
             </div>
         </div>
     );
