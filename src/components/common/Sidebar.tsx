@@ -1,4 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/useAuthStore";
+import { supabase } from "../../database/supabase/client";
+import { ThemeToggle } from "../ThemeToggle";
 
 import {
     HomeIcon,
@@ -8,26 +11,24 @@ import {
     ArrowLeftOnRectangleIcon,
     ArrowRightOnRectangleIcon
 } from "@heroicons/react/24/solid";
-import { useAuthStore } from "../../store/useAuthStore";
-import { supabase } from "../../database/supabase/client";
-import { ThemeToggle } from "../ThemeToggle";
+
 
 export default function Sidebar() {
     const navigate = useNavigate();
 
-    const session = useAuthStore((state) => state.session);
-    const clearAuth = useAuthStore((state) => state.clearAuth);
-    const isAuthenticated = !!session;
-   
+    const sessionUser = useAuthStore((state) => state.sessionUser);
+    const clearSession = useAuthStore((state) => state.clearSession);
+    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+    
     console.log("INICIO DE LA SESIÓN:", { 
-        sessionActual: session, 
+        sessionActual: sessionUser, 
         estaAutenticado: isAuthenticated 
     });
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
-        clearAuth(); // Limpiamos Zustand
-        navigate("/home"); // Va al home
+        clearSession();
+        navigate("/home");
     };
 
     const handleLogin = () => {
@@ -37,11 +38,12 @@ export default function Sidebar() {
     const getLinkClass = ({ isActive }: { isActive: boolean }) =>
         isActive ? "sidebar-link active" : "sidebar-link";
 
-   return (
+ return (
         <aside className="sidebar flex flex-col h-screen sticky top-0 border-r border-zinc-200 dark:border-white/5 transition-colors duration-300">
-            {/* LOGO */}
+            
+            {/* LOGO - Estilo idéntico al Login/Registro */}
             <div className="h-20 flex items-center justify-center border-b border-zinc-200 dark:border-white/5 mb-2 shrink-0">
-                <h1 className="text-2xl font-bold italic tracking-tighter text-primary">
+                <h1 className="text-2xl font-bold italic tracking-tighter text-primary uppercase">
                     ENTRENA<span className="text-text-main">TU</span>
                 </h1>
             </div>

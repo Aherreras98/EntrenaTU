@@ -89,7 +89,7 @@ export class SupabaseUserRepository implements UserRepository {
     async recoverPassword(email: string): Promise<{ error?: any }> {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
             // Redirige al usuario a la página de actualización tras el email
-            redirectTo: `${window.location.origin}/update-password`,
+            redirectTo: `${window.location.origin}/reset-password`,
         });
         return { error };
     }
@@ -105,7 +105,7 @@ export class SupabaseUserRepository implements UserRepository {
     async updateProfile(userId: string, data: {
         username?: string;
         email?: string;
-        
+
         height?: number | null;
         weight?: number | null;
         unit_system?: string;
@@ -115,6 +115,20 @@ export class SupabaseUserRepository implements UserRepository {
             .update(data)
             .eq('id', userId);
         return { error };
+    }
+
+    async fetchRole(userId: string): Promise<{ data?: string | null, error?: any }> {
+        const { data: dataRole, error: fetchRoleError } = await supabase
+            .from('user_roles')
+            .select('role')
+            .eq('user_id', userId)
+            .single();
+
+        if (fetchRoleError) {
+            return { data: null, error: fetchRoleError };
+        }
+
+        return { data: dataRole?.role || null, error: null };
     }
 }
 

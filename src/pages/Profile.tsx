@@ -5,26 +5,22 @@ import { supabase } from "../database/supabase/client";
 import Button from "../components/ui/Button";
 
 export default function Profile() {
-    const { user } = useAuthStore();
-    const [profileData, setProfileData] = useState({ username: "Usuario" });
+    const sessionUser = useAuthStore((state) => state.sessionUser);
+    const user = sessionUser?.user;
+    const profile = sessionUser?.profile;
+
+    const [profileData, setProfileData] = useState({ 
+        username: profile?.username || "Usuario" 
+    });
+    
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [resetEmailSent, setResetEmailSent] = useState(false);
 
     useEffect(() => {
-        if (!user?.id) return;
-        supabase
-            .from('Profiles')
-            .select('username')
-            .eq('id', user.id)
-            .single()
-            .then(({ data }) => {
-                if (data) {
-                    setProfileData({
-                        username: data.username || "Usuario",
-                    });
-                }
-            });
-    }, [user?.id]);
+        if (profile?.username) {
+            setProfileData({ username: profile.username });
+        }
+    }, [profile]);
 
     const fechaRegistro = user?.created_at
         ? new Date(user.created_at).toLocaleDateString('es-ES', {
@@ -42,7 +38,6 @@ export default function Profile() {
     const handlePasswordReset = async () => {
         if (!user?.email) return;
         
-        // Función de Supabase para enviar correo de recuperación
         const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
             redirectTo: `${window.location.origin}/reset-password`,
         });

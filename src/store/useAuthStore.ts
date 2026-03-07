@@ -1,25 +1,53 @@
-import { create } from 'zustand';
-import { Session, User } from '@supabase/supabase-js';
-import { persist } from 'zustand/middleware';
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+import type { SessionUser } from '../interfaces/SessionUser'
+import { userRepository } from '../database/repositories'
 
 interface AuthState {
-  user: User | null;
-  session: Session | null;
-  setAuth: (session: Session | null) => void;
-  clearAuth: () => void;
+  sessionUser: SessionUser | null
+  isAuthenticated: boolean
+  isAdmin: boolean
+
+  setSession: (sessionUser: SessionUser) => void
+  clearSession: () => void
 }
 
 export const useAuthStore = create<AuthState>()(
-  persist(
-    (set) => ({
-      user: null,
-      session: null,
-      setAuth: (session) => set({ 
-        session, 
-        user: session?.user ?? null 
-      }),
-      clearAuth: () => set({ user: null, session: null }),
+
+  persist((set) => ({
+    sessionUser: null,
+    isAuthenticated: false,
+    isAdmin: false,
+
+    setSession: async (sessionUser) => {
+      set({
+        sessionUser,
+        isAuthenticated: true,
+        isAdmin: false
+      });
+
+      if (sessionUser.profile?.id) {
+        const { data: role } = await userRepository.fetchRole(sessionUser.profile.id);
+        if (role === 'admin') {
+          set({ isAdmin: true });
+        }
+      }
+    },
+
+    clearSession: () => set({
+      sessionUser: null,
+      isAuthenticated: false,
+      isAdmin: false
     }),
-    { name: 'auth-storage' }
+  }),
+    {
+      name: 'auth-v1',
+      version: 1,
+      partialize: (state) => ({
+        sessionUser: state.sessionUser,
+        isAuthenticated: state.isAuthenticated,
+        isAdmin: state.isAdmin,
+      }),
+    }
   )
-);
+)

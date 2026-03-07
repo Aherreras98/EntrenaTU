@@ -11,14 +11,12 @@ import { useAuthStore } from "../store/useAuthStore";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 
 function App() {
-  const session = useAuthStore((state) => state.session);
-
-  const isAuthenticated = !!session;
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const isAdmin = useAuthStore((state) => state.isAdmin);
 
   return (
     <Router>
       <Routes>
-        {/* RUTAS PÚBLICAS: Solo accesibles si el usuario NO ha iniciado sesión */}
         <Route
           path="/login"
           element={!isAuthenticated ? <LoginPage /> : <Navigate to="/home" />}
@@ -36,22 +34,22 @@ function App() {
           element={<ResetPasswordPage />}
         />
 
-        {/* RUTA RAÍZ: Redirige según el estado de autenticación */}
         <Route
           path="/"
           element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />}
         />
 
-        {/* RUTAS PRIVADAS: Solo accesibles si el usuario SÍ ha iniciado sesión */}
-        {/* Todas las rutas dentro de este Route heredarán el Header, Sidebar y Footer */}
         <Route element={isAuthenticated ? <AppLayout /> : <Navigate to="/login" />}>
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/history" element={<History />} />
           <Route path="/routines" element={<Routines />} />
+          <Route
+            path="/history"
+            element={isAdmin ? <History /> : <Navigate to="/home" replace />}
+          />
         </Route>
       </Routes>
-    </Router>
+    </Router >
   );
 }
 
