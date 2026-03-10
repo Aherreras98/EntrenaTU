@@ -1,43 +1,36 @@
+// src/components/forms/ActivityForm.tsx
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import { InputText, InputNumber } from "../common/Input";
+import { InputText } from "../common/Input";
 import Select from "../common/Select";
 import Button from "../ui/Button";
-
+import { supabase } from "../../database/supabase/client";
 
 type ActivityType = "gym" | "sport";
 
 interface ActivityFormData {
     type: ActivityType;
     nombre: string;
+    descripcion: string;
     grupoMuscular: string;
-    series: string;
-    repeticiones: string;
-    duracion: string;
-    intensidad: string;
 }
 
 interface FormErrors {
     nombre?: string;
-    duracion?: string;
-    series?: string;
 }
 
 export default function ActivityForm() {
     const [formData, setFormData] = useState<ActivityFormData>({
         type: "gym",
         nombre: "",
+        descripcion: "",
         grupoMuscular: "pecho",
-        series: "",
-        repeticiones: "",
-        duracion: "",
-        intensidad: "media",
     });
 
     const [errors, setErrors] = useState<FormErrors>({});
-
+    const [isLoading, setIsLoading] = useState(false);
 
     const typeOptions = [
-        { value: "gym", label: "Entrenamiento de Fuerza / Gimnasio" },
+        { value: "gym", label: "Gimnasio / Fuerza" },
         { value: "sport", label: "Deporte / Cardio" },
     ];
 
@@ -50,142 +43,82 @@ export default function ActivityForm() {
         { value: "core", label: "Abdominales / Core" },
     ];
 
-    const intensityOptions = [
-        { value: "baja", label: "Baja" },
-        { value: "media", label: "Media" },
-        { value: "alta", label: "Alta" },
-    ];
-
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-
+        setFormData((prev) => ({ ...prev, [name]: value }));
         if (errors[name as keyof FormErrors]) {
             setErrors((prev) => ({ ...prev, [name]: "" }));
         }
     };
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-
-        const newErrors: FormErrors = {};
-
+        
         if (!formData.nombre.trim()) {
-            newErrors.nombre = "El nombre es obligatorio";
-        }
-
-        if (formData.type === "sport" && !formData.duracion) {
-            newErrors.duracion = "Indica la duración de la sesión";
-        }
-
-        if (formData.type === "gym" && (!formData.series || !formData.repeticiones)) {
-            newErrors.series = "Completa series y repeticiones";
-        }
-
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
+            setErrors({ nombre: "El nombre es obligatorio" });
             return;
         }
 
-        console.log("Datos a guardar:", formData);
-        // Aquí iría la llamada supabase
+        setIsLoading(true);
+
+        try {
+            // 1. Obtenemos el usuario autenticado
+            const { data: { user } } = await supabase.auth.getUser();
+            
+            if (!user) {
+                throw new Error("Debes iniciar sesión para crear un ejercicio.");
+            }
+
+            // 2. Insertamos el ejercicio añadiendo el user_id
+            const { error } = await supabase
+                .from('ejercicios')
+                .insert([
+                    {
+                        nombre: formData.nombre,
+                        descripcion: formData.descripcion,
+                        tipo: formData.type,
+                        grupo_muscular: formData.type === "gym" ? formData.grupoMuscular : null,
+                        user_id: user.id // <-- VINCULAMOS EL EJERCICIO AL USUARIO
+                    }
+                ]);
+
+            if (error) throw error;
+
+            alert("¡Ejercicio guardado en tu catálogo privado con éxito!");
+            setFormData({ type: "gym", nombre: "", descripcion: "", grupoMuscular: "pecho" });
+
+        } catch (error: any) {
+            console.error("Error guardando el ejercicio:", error);
+            alert(error.message || "Hubo un error al guardar el ejercicio.");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
-        <form 
-            onSubmit={handleSubmit} 
-            className="flex flex-col gap-5 p-8 bg-surface rounded-2xl shadow-sm border border-zinc-200 dark:border-zinc-800 transition-all duration-300"
-        >
-            {/* Cabecera del formulario */}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5 p-8 bg-surface rounded-2xl shadow-sm border border-zinc-200 dark:border-zinc-800 transition-all duration-300">
             <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4 mb-2">
-                <h2 className="text-xl font-bold text-text-main uppercase tracking-tight">
-                    Registrar Actividad
-                </h2>
-                <p className="text-sm text-text-muted mt-1">
-                    Añade un nuevo ejercicio o sesión deportiva
-                </p>
+                <h2 className="text-xl font-bold text-text-main uppercase tracking-tight">Nuevo Ejercicio Base</h2>
+                <p className="text-sm text-text-muted mt-1">Añade un ejercicio a tu catálogo personal</p>
             </div>
 
-            <Select
-                label="¿Qué tipo de actividad fue?"
-                name="type"
-                options={typeOptions}
-                value={formData.type}
-                onChange={handleChange}
-                className="mb-2"
-            />
-
-            <InputText
-                label={formData.type === "gym" ? "Nombre del Ejercicio" : "Nombre del Deporte"}
-                name="nombre"
-                placeholder={formData.type === "gym" ? "Ej: Press Banca" : "Ej: Fútbol, Running..."}
-                value={formData.nombre}
-                onChange={handleChange}
-                error={errors.nombre}
-            />
+            <Select label="Tipo de actividad" name="type" options={typeOptions} value={formData.type} onChange={handleChange} className="mb-2" />
+            
+            <InputText label="Nombre del Ejercicio" name="nombre" placeholder="Ej: Press Banca" value={formData.nombre} onChange={handleChange} error={errors.nombre} />
+            
+            <InputText label="Descripción (Opcional)" name="descripcion" placeholder="Ej: Con barra olímpica" value={formData.descripcion} onChange={handleChange} />
 
             {formData.type === "gym" && (
-                /* Animación suave */
-                <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
-                    <Select
-                        label="Grupo Muscular"
-                        name="grupoMuscular"
-                        options={muscleGroups}
-                        value={formData.grupoMuscular}
-                        onChange={handleChange}
-                    />
-
-                    <div className="grid grid-cols-2 gap-4">
-                        <InputNumber
-                            label="Series"
-                            name="series"
-                            placeholder="4"
-                            value={formData.series}
-                            onChange={handleChange}
-                            error={errors.series}
-                        />
-                        <InputNumber
-                            label="Repeticiones"
-                            name="repeticiones"
-                            placeholder="12"
-                            value={formData.repeticiones}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-            )}
-
-            {formData.type === "sport" && (
-                <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
-                    <div className="grid grid-cols-2 gap-4">
-                        <InputNumber
-                            label="Duración (min)"
-                            name="duracion"
-                            placeholder="60"
-                            value={formData.duracion}
-                            onChange={handleChange}
-                            error={errors.duracion}
-                        />
-                        <Select
-                            label="Intensidad"
-                            name="intensidad"
-                            options={intensityOptions}
-                            value={formData.intensidad}
-                            onChange={handleChange}
-                        />
-                    </div>
+                <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+                    <Select label="Grupo Muscular" name="grupoMuscular" options={muscleGroups} value={formData.grupoMuscular} onChange={handleChange} />
                 </div>
             )}
 
             <div className="flex justify-end mt-4">
-            <Button type="submit">
-                {formData.type === "gym" ? "Guardar Ejercicio" : "Guardar Sesión"}
-            </Button>
-        </div>
+                <Button type="submit" disabled={isLoading}>
+                    {isLoading ? "Guardando..." : "Guardar Ejercicio Personal"}
+                </Button>
+            </div>
         </form>
     );
 }
