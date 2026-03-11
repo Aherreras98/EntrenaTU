@@ -12,41 +12,66 @@
         "logout": "Log Out",
         "login": "Log In"
     },
-        "hero": {
-            "title1": "Reach your",
-            "title2": "Highest Level",
-            "description": "EntrenaTu is the ultimate platform to manage your routines, monitor your progress, and push your limits every day.",
-            "startNow": "Start Now",
-            "alreadyHaveAccount": "I already have an account"
+    "hero": {
+        "title1": "Reach your",
+        "title2": "Highest Level",
+        "description": "EntrenaTu is the ultimate platform to manage your routines, monitor your progress, and push your limits every day.",
+        "startNow": "Start Now",
+        "alreadyHaveAccount": "I already have an account"
+    },
+    "features": {
+        "badge": "What we offer",
+        "title": "Everything you need to evolve",
+        "routines": {
+            "title": "Custom Routines",
+            "desc": "Create and manage your own workout plans or choose from our predefined templates."
         },
-        "features": {
-            "badge": "What we offer",
-            "title": "Everything you need to evolve",
-            "routines": {
-                "title": "Custom Routines",
-                "desc": "Create and manage your own workout plans or choose from our predefined templates."
-            },
-            "tracking": {
-                "title": "Detailed Tracking",
-                "desc": "Visualize your progress with intuitive charts for weight, reps, and total volume."
-            },
-            "history": {
-                "title": "Complete History",
-                "desc": "Access every past session to analyze your performance and beat your personal records."
-            }
+        "tracking": {
+            "title": "Detailed Tracking",
+            "desc": "Visualize your progress with intuitive charts for weight, reps, and total volume."
         },
-        "home": {
-            "title": "Your Dashboard",
-            "subtitle": "Select one of your routines and start training.",
-            "loading": "Loading your routines...",
-            "empty": "You haven't created any routines yet.",
-            "emptyHint": "Go to the \"Routines\" section to build your first workout plan.",
-            "level": "Level",
-            "noLevel": "Not defined",
-            "executing": "Registering...",
-            "completeBtn": "Complete Routine",
-            "alertSuccess": "Great job! You have completed the routine: {{name}} 💪",
-            "alertError": "There was an error logging the workout.",
-            "alertLogin": "You must be logged in to log a workout."
+        "history": {
+            "title": "Complete History",
+            "desc": "Access every past session to analyze your performance and beat your personal records."
         }
+    },
+    "home": {
+        "title": "Your Dashboard",
+        "subtitle": "Select one of your routines and start training.",
+        "loading": "Loading your routines...",
+        "empty": "You haven't created any routines yet.",
+        "emptyHint": "Go to the \"Routines\" section to build your first workout plan.",
+        "level": "Level",
+        "noLevel": "Not defined",
+        "executing": "Registering...",
+        "completeBtn": "Complete Routine",
+        "alertSuccess": "Great job! You have completed the routine: {{name}} 💪",
+        "alertError": "There was an error logging the workout.",
+        "alertLogin": "You must be logged in to log a workout."
+    },
+    "routines": {
+        "title": "Planning",
+        "subtitle": "Create base exercises and link them to form your routines.",
+        "tabCreate": "Create Routine",
+        "tabAdd": "Add Exercise to Catalog"
+    },
+    "history": {
+        "title": "History",
+        "subtitle": "Check your past workouts and analyze your performance."
+    },
+    "profile": {
+        "title": "My Profile",
+        "subtitle": "Manage your account and personalize your experience.",
+        "uploading": "Uploading...",
+        "changeAvatar": "Change Avatar",
+        "addAvatar": "Add Avatar",
+        "hello": "Hello,",
+        "memberSince": "Community member since",
+        "editName": "Edit Name",
+        "changePassword": "Change Password",
+        "emailSuccess": "✓ Recovery email sent successfully.",
+        "emailError": "Error sending recovery email.",
+        "fileTooLarge": "The file is too large. The limit is {{size}}MB.",
+        "avatarError": "Error uploading avatar: "
     }
+}

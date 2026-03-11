@@ -2,16 +2,18 @@ import { Link } from "react-router-dom";
 import Button from "../ui/Button";
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 const logoPath = new URL('../../img/logo.png', import.meta.url).href;
 
 export default function Header() {
-  // Inicializamos el estado basado en si la clase 'dark' ya existe o no
+  const { t } = useTranslation();
+
   const [isDark, setIsDark] = useState(() => 
     document.documentElement.classList.contains("dark")
   );
 
-  // Cada vez que cambie isDark, actualizamos el HTML y el localStorage
   useEffect(() => {
     if (isDark) {
       document.documentElement.classList.add("dark");
@@ -39,6 +41,9 @@ export default function Header() {
       {/* BOTONES DE ACCIÓN */}
       <div className="flex items-center gap-2 sm:gap-4">
         
+        {/* SELECTOR DE IDIOMAS */}
+        <LanguageSwitcher />
+
         {/* BOTÓN SOL/LUNA */}
         <button
           onClick={() => setIsDark(!isDark)}
@@ -56,7 +61,7 @@ export default function Header() {
               variant="secondary" 
               className="px-3 py-1.5 sm:px-5 sm:py-2 text-[10px] sm:text-xs uppercase font-bold border-zinc-200 dark:border-zinc-800"
             >
-              Entrar
+              {t('header.login')}
             </Button>
         </Link>
         
@@ -65,7 +70,7 @@ export default function Header() {
             <Button 
               className="px-3 py-1.5 sm:px-5 sm:py-2 text-[10px] sm:text-xs uppercase font-bold bg-primary hover:bg-orange-600 shadow-lg shadow-primary/20"
             >
-              Empezar
+              {t('header.start')}
             </Button>
         </Link>
       </div>

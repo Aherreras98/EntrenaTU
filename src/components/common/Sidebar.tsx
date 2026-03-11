@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/useAuthStore";
 import { supabase } from "../../database/supabase/client";
 import { ThemeToggle } from "../ThemeToggle";
+import { useTranslation } from "react-i18next";
 
 import {
     HomeIcon,
@@ -14,18 +15,13 @@ import {
 } from "@heroicons/react/24/solid";
 
 export default function Sidebar() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const sessionUser = useAuthStore((state) => state.sessionUser);
     const clearSession = useAuthStore((state) => state.clearSession);
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
     const isAdmin = useAuthStore((state) => state.isAdmin);
-    
-    console.log("INICIO DE LA SESIÓN:", { 
-        sessionActual: sessionUser, 
-        estaAutenticado: isAuthenticated,
-        esAdmin: isAdmin
-    });
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
@@ -42,41 +38,36 @@ export default function Sidebar() {
 
     return (
         <aside className="sidebar flex flex-col h-screen sticky top-0 border-r border-zinc-200 dark:border-white/5 transition-colors duration-300">
-            
-            {/* LOGO */}
             <div className="h-20 flex items-center justify-center border-b border-zinc-200 dark:border-white/5 mb-2 shrink-0">
                 <h1 className="text-2xl font-bold italic tracking-tighter text-primary uppercase">
                     ENTRENA<span className="text-text-main">TU</span>
                 </h1>
             </div>
 
-            {/* NAVEGACIÓN */}
             <nav className="flex-1 flex flex-col gap-2 py-4 overflow-y-auto">
                 <NavLink to="/home" className={getLinkClass}>
                     <HomeIcon className="w-6 h-6" />
-                    <span>Inicio</span>
+                    <span>{t('sidebar.home')}</span>
                 </NavLink>
 
                 <NavLink to="/routines" className={getLinkClass}>
                     <ClipboardDocumentListIcon className="w-6 h-6" />
-                    <span>Rutinas</span>
+                    <span>{t('sidebar.routines')}</span>
                 </NavLink>
 
                 <NavLink to="/history" className={getLinkClass}>
                     <ClockIcon className="w-6 h-6" />
-                    <span>Historial</span>
+                    <span>{t('sidebar.history')}</span>
                 </NavLink>
 
-                {/* BOTÓN RESTRINGIDO SÓLO PARA ADMINISTRADORES */}
                 {isAdmin && (
                     <NavLink to="/dashboard" className={getLinkClass}>
                         <ChartBarIcon className="w-6 h-6" />
-                        <span>Dashboard</span>
+                        <span>{t('sidebar.dashboard')}</span>
                     </NavLink>
                 )}
 
                 <NavLink to="/profile" className={getLinkClass}>
-                    {/* AVATAR */}
                     {sessionUser?.profile?.avatar_url ? (
                         <img 
                             src={sessionUser.profile.avatar_url} 
@@ -86,11 +77,10 @@ export default function Sidebar() {
                     ) : (
                         <UserIcon className="w-6 h-6" />
                     )}
-                    <span>Perfil</span>
+                    <span>{t('sidebar.profile')}</span>
                 </NavLink>
             </nav>
 
-            {/* BLOQUE INFERIOR */}
             <div className="mt-auto shrink-0 flex flex-col gap-4">
                 <div className="flex justify-center">
                     <ThemeToggle />
@@ -103,7 +93,7 @@ export default function Sidebar() {
                             className="sidebar-link w-full text-red-500 hover:text-red-400 hover:bg-red-500/10 hover:border-red-500 transition-all"
                         >
                             <ArrowLeftOnRectangleIcon className="w-6 h-6" />
-                            <span>Salir</span>
+                            <span>{t('sidebar.logout')}</span>
                         </button>
                     ) : (
                         <button
@@ -111,7 +101,7 @@ export default function Sidebar() {
                             className="sidebar-link w-full text-primary hover:text-primary/80 hover:bg-primary/10 hover:border-primary transition-all font-bold"
                         >
                             <ArrowRightOnRectangleIcon className="w-6 h-6" />
-                            <span>Iniciar Sesión</span>
+                            <span>{t('sidebar.login')}</span>
                         </button>
                     )}
                 </div>

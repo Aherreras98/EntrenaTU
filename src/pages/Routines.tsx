@@ -1,8 +1,10 @@
 import { useState } from "react";
 import ActivityForm from "../components/forms/ActivityForm";
 import RoutineForm from "../components/forms/RoutineForm";
+import { useTranslation } from "react-i18next";
 
 export default function Routines() {
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState<"rutina" | "ejercicio">("rutina");
 
     return (
@@ -10,15 +12,14 @@ export default function Routines() {
             <div className="flex justify-between items-end border-b border-white/10 pb-4">
                 <div>
                     <h1 className="text-3xl font-bold text-primary uppercase tracking-wider">
-                        Planificación
+                        {t('routines.title')}
                     </h1>
                     <p className="text-text-muted mt-1 font-open-sans">
-                        Crea ejercicios base y únelos para formar tus rutinas.
+                        {t('routines.subtitle')}
                     </p>
                 </div>
             </div>
 
-            {/* Selector de Pestañas */}
             <div className="flex gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-2">
                 <button 
                     onClick={() => setActiveTab("rutina")}
@@ -28,7 +29,7 @@ export default function Routines() {
                             : "border-transparent text-text-muted hover:text-text-main"
                     }`}
                 >
-                    Crear Rutina
+                    {t('routines.tabCreate')}
                 </button>
                 <button 
                     onClick={() => setActiveTab("ejercicio")}
@@ -38,7 +39,7 @@ export default function Routines() {
                             : "border-transparent text-text-muted hover:text-text-main"
                     }`}
                 >
-                    Añadir Ejercicio al Catálogo
+                    {t('routines.tabAdd')}
                 </button>
             </div>
 

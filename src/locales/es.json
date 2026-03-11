@@ -12,41 +12,66 @@
         "logout": "Salir",
         "login": "Iniciar Sesión"
     },
-        "hero": {
-            "title1": "Alcanza tu",
-            "title2": "Máximo Nivel",
-            "description": "EntrenaTu es la plataforma definitiva para gestionar tus rutinas, monitorear tu progreso y superar tus límites cada día.",
-            "startNow": "Comenzar Ahora",
-            "alreadyHaveAccount": "Ya tengo cuenta"
+    "hero": {
+        "title1": "Alcanza tu",
+        "title2": "Máximo Nivel",
+        "description": "EntrenaTu es la plataforma definitiva para gestionar tus rutinas, monitorear tu progreso y superar tus límites cada día.",
+        "startNow": "Comenzar Ahora",
+        "alreadyHaveAccount": "Ya tengo cuenta"
+    },
+    "features": {
+        "badge": "Lo que ofrecemos",
+        "title": "Todo lo que necesitas para evolucionar",
+        "routines": {
+            "title": "Rutinas Personalizadas",
+            "desc": "Crea y gestiona tus propios planes de entrenamiento o elige entre nuestras plantillas predefinidas."
         },
-        "features": {
-            "badge": "Lo que ofrecemos",
-            "title": "Todo lo que necesitas para evolucionar",
-            "routines": {
-                "title": "Rutinas Personalizadas",
-                "desc": "Crea y gestiona tus propios planes de entrenamiento o elige entre nuestras plantillas predefinidas."
-            },
-            "tracking": {
-                "title": "Seguimiento Detallado",
-                "desc": "Visualiza tu progreso con gráficas intuitivas de peso, repeticiones y volumen total."
-            },
-            "history": {
-                "title": "Historial Completo",
-                "desc": "Accede a cada sesión pasada para analizar tu rendimiento y superar tus marcas personales."
-            }
+        "tracking": {
+            "title": "Seguimiento Detallado",
+            "desc": "Visualiza tu progreso con gráficas intuitivas de peso, repeticiones y volumen total."
         },
-        "home": {
-            "title": "Tu Panel",
-            "subtitle": "Selecciona una de tus rutinas y empieza a entrenar.",
-            "loading": "Cargando tus rutinas...",
-            "empty": "Aún no has creado ninguna rutina.",
-            "emptyHint": "Ve a la sección \"Rutinas\" para armar tu primer plan de entrenamiento.",
-            "level": "Nivel",
-            "noLevel": "No definido",
-            "executing": "Registrando...",
-            "completeBtn": "Completar Rutina",
-            "alertSuccess": "¡Excelente trabajo! Has completado la rutina: {{name}} 💪",
-            "alertError": "Hubo un error al registrar el entrenamiento.",
-            "alertLogin": "Debes iniciar sesión para registrar un entrenamiento."
+        "history": {
+            "title": "Historial Completo",
+            "desc": "Accede a cada sesión pasada para analizar tu rendimiento y superar tus marcas personales."
         }
+    },
+    "home": {
+        "title": "Tu Panel",
+        "subtitle": "Selecciona una de tus rutinas y empieza a entrenar.",
+        "loading": "Cargando tus rutinas...",
+        "empty": "Aún no has creado ninguna rutina.",
+        "emptyHint": "Ve a la sección \"Rutinas\" para armar tu primer plan de entrenamiento.",
+        "level": "Nivel",
+        "noLevel": "No definido",
+        "executing": "Registrando...",
+        "completeBtn": "Completar Rutina",
+        "alertSuccess": "¡Excelente trabajo! Has completado la rutina: {{name}} 💪",
+        "alertError": "Hubo un error al registrar el entrenamiento.",
+        "alertLogin": "Debes iniciar sesión para registrar un entrenamiento."
+    },
+    "routines": {
+        "title": "Planificación",
+        "subtitle": "Crea ejercicios base y únelos para formar tus rutinas.",
+        "tabCreate": "Crear Rutina",
+        "tabAdd": "Añadir Ejercicio al Catálogo"
+    },
+    "history": {
+        "title": "Historial",
+        "subtitle": "Consulta tus entrenamientos pasados y analiza tu rendimiento."
+    },
+    "profile": {
+        "title": "Mi Perfil",
+        "subtitle": "Gestiona tu cuenta y personaliza tu experiencia.",
+        "uploading": "Subiendo...",
+        "changeAvatar": "Cambiar Avatar",
+        "addAvatar": "Añadir Avatar",
+        "hello": "¡Hola,",
+        "memberSince": "Miembro de la comunidad desde el",
+        "editName": "Editar Nombre",
+        "changePassword": "Cambiar Contraseña",
+        "emailSuccess": "✓ Correo de recuperación enviado correctamente.",
+        "emailError": "Error al enviar el correo de recuperación.",
+        "fileTooLarge": "El archivo es demasiado grande. El límite es {{size}}MB.",
+        "avatarError": "Error al subir el avatar: "
     }
+}
