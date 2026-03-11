@@ -11,7 +11,11 @@ const LANGUAGES = [
     { code: 'de', label: 'Deutsch' }
 ];
 
-export default function LanguageSwitcher() {
+interface LanguageSwitcherProps {
+    placement?: 'top' | 'bottom';
+}
+
+export default function LanguageSwitcher({ placement = 'bottom' }: LanguageSwitcherProps) {
     const { i18n } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -19,7 +23,13 @@ export default function LanguageSwitcher() {
         i18n.changeLanguage(lng);
         setIsOpen(false);
     };
+
     const currentLang = i18n.language ? i18n.language.substring(0, 2) : 'es';
+
+    // Clases dinámicas dependiendo de si queremos que abra hacia arriba o hacia abajo
+    const placementClasses = placement === 'top'
+        ? 'bottom-full mb-2 left-1/2 -translate-x-1/2 origin-bottom'
+        : 'top-full mt-2 right-0 origin-top-right';
 
     return (
         <div className="relative">
@@ -34,7 +44,7 @@ export default function LanguageSwitcher() {
 
             {/* MENÚ DESPLEGABLE */}
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-36 bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-800 py-1 z-50 overflow-hidden">
+                <div className={`absolute w-36 bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-800 py-1 z-50 overflow-hidden ${placementClasses}`}>
                     {LANGUAGES.map((lang) => (
                         <button
                             key={lang.code}
