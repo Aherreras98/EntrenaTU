@@ -1,0 +1,160 @@
+{
+    "header": {
+        "login": "Accedi",
+        "start": "Inizia"
+    },
+    "sidebar": {
+        "home": "Home",
+        "routines": "Schede",
+        "history": "Cronologia",
+        "dashboard": "Dashboard",
+        "profile": "Profilo",
+        "logout": "Esci",
+        "login": "Accedi"
+    },
+    "hero": {
+        "title1": "Raggiungi il tuo",
+        "title2": "Massimo Livello",
+        "description": "EntrenaTu è la piattaforma definitiva per gestire le tue schede, monitorare i tuoi progressi e superare i tuoi limiti ogni giorno.",
+        "startNow": "Inizia Ora",
+        "alreadyHaveAccount": "Ho già un account"
+    },
+    "features": {
+        "badge": "Cosa offriamo",
+        "title": "Tutto ciò di cui hai bisogno per evolvere",
+        "routines": {
+            "title": "Schede Personalizzate",
+            "desc": "Crea e gestisci i tuoi piani di allenamento o scegli tra i nostri modelli predefiniti."
+        },
+        "tracking": {
+            "title": "Monitoraggio Dettagliato",
+            "desc": "Visualizza i tuoi progressi con grafici intuitivi per peso, ripetizioni e volume totale."
+        },
+        "history": {
+            "title": "Cronologia Completa",
+            "desc": "Accedi a ogni sessione passata per analizzare le tue prestazioni e superare i tuoi record personali."
+        }
+    },
+    "home": {
+        "title": "La tua Dashboard",
+        "subtitle": "Seleziona una delle tue schede e inizia ad allenarti.",
+        "loading": "Caricamento delle tue schede...",
+        "empty": "Non hai ancora creato nessuna scheda.",
+        "emptyHint": "Vai alla sezione \"Schede\" per creare il tuo primo piano di allenamento.",
+        "level": "Livello",
+        "noLevel": "Non definito",
+        "executing": "Registrazione...",
+        "completeBtn": "Completa Scheda",
+        "alertSuccess": "Ottimo lavoro! Hai completato la scheda: {{name}} 💪",
+        "alertError": "Si è verificato un errore durante la registrazione dell'allenamento.",
+        "alertLogin": "Devi effettuare l'accesso per registrare un allenamento."
+    },
+    "routines": {
+        "title": "Pianificazione",
+        "subtitle": "Crea esercizi base e uniscili per formare le tue schede.",
+        "tabCreate": "Crea Scheda",
+        "tabAdd": "Aggiungi Esercizio al Catalogo"
+    },
+    "history": {
+        "title": "Cronologia",
+        "subtitle": "Consulta i tuoi allenamenti passati e analizza le tue prestazioni."
+    },
+    "profile": {
+        "title": "Il mio Profilo",
+        "subtitle": "Gestisci il tuo account e personalizza la tua esperienza.",
+        "uploading": "Caricamento...",
+        "changeAvatar": "Cambia Avatar",
+        "addAvatar": "Aggiungi Avatar",
+        "hello": "Ciao,",
+        "memberSince": "Membro della community dal",
+        "editName": "Modifica Nome",
+        "changePassword": "Cambia Password",
+        "emailSuccess": "✓ Email di recupero inviata con successo.",
+        "emailError": "Errore durante l'invio dell'email di recupero.",
+        "fileTooLarge": "Il file è troppo grande. Il limite è {{size}}MB.",
+        "avatarError": "Errore durante il caricamento dell'avatar: "
+    },
+    "auth": {
+        "emailLabel": "Indirizzo Email",
+        "emailPlaceholder": "esempio@email.com",
+        "passwordLabel": "Password",
+        "forgotPassword": "Hai dimenticato la password?",
+        "loading": "Caricamento...",
+        "loginButton": "Accedi",
+        "noAccount": "Non hai un account?",
+        "registerLink": "Registrati",
+        "usernameLabel": "Nome Utente",
+        "usernamePlaceholder": "Il tuo nickname",
+        "ageLabel": "Età",
+        "confirmPasswordLabel": "Conferma Password",
+        "createAccountButton": "Crea Account",
+        "hasAccount": "Hai già un account?",
+        "loginLink": "Accedi",
+        "loginError": "Errore: ",
+        "registerError": "Errore durante la registrazione: ",
+        "registerSuccess": "Registrazione completata con successo!",
+        "unknownError": "Errore sconosciuto",
+        "serverError": "Errore di connessione al server."
+    },
+    "activityForm": {
+        "title": "Nuovo Esercizio Base",
+        "subtitle": "Aggiungi un esercizio al tuo catalogo personale",
+        "typeLabel": "Tipo di attività",
+        "typeGym": "Palestra / Forza",
+        "typeSport": "Sport / Cardio",
+        "nameLabel": "Nome dell'Esercizio",
+        "namePlaceholder": "Es: Panca Piana",
+        "descLabel": "Descrizione (Opzionale)",
+        "descPlaceholder": "Es: Con bilanciere olimpico",
+        "muscleGroupLabel": "Gruppo Muscolare",
+        "mgChest": "Petto",
+        "mgBack": "Dorso",
+        "mgLegs": "Gambe",
+        "mgShoulders": "Spalle",
+        "mgArms": "Braccia",
+        "mgCore": "Addominali / Core",
+        "saving": "Salvataggio...",
+        "saveButton": "Salva Esercizio Personale",
+        "errorNameRequired": "Il nome è obbligatorio",
+        "errorAuth": "Devi accedere per creare un esercizio.",
+        "success": "Esercizio salvato nel tuo catalogo privato con successo!",
+        "errorSave": "Si è verificato un errore durante il salvataggio."
+    },
+    "routineForm": {
+        "title": "Crea Nuova Scheda",
+        "subtitle": "Progetta il tuo piano raggruppando esercizi dal catalogo",
+        "nameLabel": "Nome della Scheda",
+        "namePlaceholder": "Es: Push Day Supremo",
+        "levelLabel": "Livello",
+        "levelBeginner": "Principiante",
+        "levelIntermediate": "Intermedio",
+        "levelAdvanced": "Avanzato",
+        "selectExercise": "Seleziona Esercizio dal Catalogo",
+        "addButton": "Aggiungi alla Scheda",
+        "series": "Serie",
+        "reps": "Rip",
+        "minutes": "Minuti",
+        "intensity": "Intensità",
+        "intLow": "Bassa",
+        "intMedium": "Media",
+        "intHigh": "Alta",
+        "remove": "Rimuovi",
+        "saving": "Salvataggio...",
+        "saveButton": "Salva Scheda Completa",
+        "errorNoName": "Manca il nome della scheda",
+        "errorNoExercises": "Aggiungi almeno un esercizio",
+        "errorAuth": "Devi accedere per creare schede",
+        "success": "Scheda creata con successo!",
+        "errorSave": "Errore sconosciuto durante il salvataggio"
+    },
+    "historyTable": {
+        "loading": "Caricamento cronologia...",
+        "empty": "Non hai ancora completato nessun allenamento.",
+        "emptyHint": "Vai alla Home, seleziona una scheda e clicca su \"Completa Scheda\".",
+        "colRoutine": "Scheda Completata",
+        "colDate": "Data e Ora",
+        "colAction": "Azione",
+        "viewDetails": "Vedi dettagli",
+        "comingSoon": "Prossimamente: vedi i dettagli dell'allenamento"
+    }
+}

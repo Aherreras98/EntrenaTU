@@ -5,8 +5,10 @@ import Button from "../ui/Button";
 import { validateField, passwordsMatch } from "../../utils/regex";
 import { SignUpData } from "../../interfaces/SignUpData";
 import { userRepository } from "../../database/repositories";
+import { useTranslation } from "react-i18next";
 
 export default function SignUpForm() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
 
@@ -61,17 +63,17 @@ export default function SignUpForm() {
                 const result = await userRepository.createUser(dataToSubmit);
 
                 if (result.error) {
-                    const errorMessage = result.error.message || "Error desconocido";
-                    alert("Error al registrar: " + errorMessage);
+                    const errorMessage = result.error.message || t('auth.unknownError');
+                    alert(t('auth.registerError') + errorMessage);
                     return;
                 }
 
-                alert("¡Registro exitoso!");
+                alert(t('auth.registerSuccess'));
                 navigate("/login");
 
             } catch (err) {
                 console.error("Error capturado:", err);
-                alert("Error de conexión con el servidor.");
+                alert(t('auth.serverError'));
             }
         }
     };
@@ -98,81 +100,77 @@ export default function SignUpForm() {
 
     return (
         <form 
-        onSubmit={handleSubmit} 
-        /* CLASES DE TARJETA: Igual que el Login */
-        className="flex flex-col gap-5 w-full max-w-md mx-auto p-10 
-                   bg-white dark:bg-zinc-900 
-                   rounded-2xl border border-zinc-200 dark:border-white/10 
-                   shadow-xl transition-all duration-300"
-    >
-        <InputText
-            label="Nombre de Usuario"
-            name="username"
-            placeholder="Tu apodo"
-            value={formData.username}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={errors.username}
-        />
+            onSubmit={handleSubmit} 
+            className="flex flex-col gap-5 w-full max-w-md mx-auto p-10 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-white/10 shadow-xl transition-all duration-300"
+        >
+            <InputText
+                label={t('auth.usernameLabel')}
+                name="username"
+                placeholder={t('auth.usernamePlaceholder')}
+                value={formData.username}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.username}
+            />
 
-        <InputText
-            label="Correo Electrónico"
-            name="email"
-            type="email"
-            placeholder="ejemplo@correo.com"
-            value={formData.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={errors.email}
-        />
+            <InputText
+                label={t('auth.emailLabel')}
+                name="email"
+                type="email"
+                placeholder={t('auth.emailPlaceholder')}
+                value={formData.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.email}
+            />
 
-        <InputNumber
-            label="Edad"
-            name="age"
-            type="number"
-            placeholder="0"
-            value={formData.age}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={errors.age}
-        />
+            <InputNumber
+                label={t('auth.ageLabel')}
+                name="age"
+                type="number"
+                placeholder="0"
+                value={formData.age}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.age}
+            />
 
-        <InputText
-            label="Contraseña"
-            name="password"
-            type={showPassword ? "text" : "password"}
-            placeholder="******"
-            value={formData.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={errors.password}
-            endIcon={togglePasswordButton}
-        />
+            <InputText
+                label={t('auth.passwordLabel')}
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="******"
+                value={formData.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.password}
+                endIcon={togglePasswordButton}
+            />
 
-        <InputText
-            label="Confirmar Contraseña"
-            name="confirmPassword"
-            type={showPassword ? "text" : "password"}
-            placeholder="******"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={errors.confirmPassword}
-            endIcon={togglePasswordButton}
-        />
+            <InputText
+                label={t('auth.confirmPasswordLabel')}
+                name="confirmPassword"
+                type={showPassword ? "text" : "password"}
+                placeholder="******"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.confirmPassword}
+                endIcon={togglePasswordButton}
+            />
 
-        <div className="flex flex-col gap-4 mt-4">
-            <Button type="submit" variant="primary" className="py-3">
-                Crear Cuenta
-            </Button>
+            <div className="flex flex-col gap-4 mt-4">
+                <Button type="submit" variant="primary" className="py-3">
+                    {t('auth.createAccountButton')}
+                </Button>
 
-            <span className="text-zinc-500 dark:text-zinc-400 text-center text-sm">
-                ¿Ya tienes cuenta?{" "}
-                <Link to="/login" className="text-primary font-bold hover:underline hover:text-primary-hover transition-colors">
-                    Inicia Sesión
-                </Link>
-            </span>
-        </div>
-    </form>
-);
+                <span className="text-zinc-500 dark:text-zinc-400 text-center text-sm">
+                    {t('auth.hasAccount')}{" "}
+                    <Link to="/login" className="text-primary font-bold hover:underline hover:text-primary-hover transition-colors">
+                        {t('auth.loginLink')}
+                    </Link>
+                </span>
+            </div>
+        </form>
+    );
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Button from "../ui/Button";
 import { supabase } from "../../database/supabase/client";
+import { useTranslation } from "react-i18next";
 
 interface HistoryEntry {
     id: string;
@@ -10,6 +11,7 @@ interface HistoryEntry {
 }
 
 export default function HistoryTable() {
+    const { t } = useTranslation();
     const [historyData, setHistoryData] = useState<HistoryEntry[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -44,14 +46,14 @@ export default function HistoryTable() {
     };
 
     if (isLoading) {
-        return <div className="p-8 text-center text-text-muted">Cargando historial...</div>;
+        return <div className="p-8 text-center text-text-muted">{t('historyTable.loading')}</div>;
     }
 
     if (historyData.length === 0) {
         return (
             <div className="p-8 text-center bg-surface border border-zinc-200 dark:border-zinc-800 rounded-2xl">
-                <p className="text-text-muted">Aún no has completado ningún entrenamiento.</p>
-                <p className="text-sm mt-2">Ve al Inicio, selecciona una rutina y dale a "Completar Rutina".</p>
+                <p className="text-text-muted">{t('historyTable.empty')}</p>
+                <p className="text-sm mt-2">{t('historyTable.emptyHint')}</p>
             </div>
         );
     }
@@ -62,9 +64,9 @@ export default function HistoryTable() {
                 <table className="w-full text-left border-separate border-spacing-0">
                     <thead>
                         <tr className="bg-zinc-50 dark:bg-zinc-800/40 text-text-muted">
-                            <th className="px-8 py-5 text-xs font-bold uppercase tracking-widest border-b border-zinc-200 dark:border-zinc-800">Rutina Realizada</th>
-                            <th className="px-8 py-5 text-xs font-bold uppercase tracking-widest border-b border-zinc-200 dark:border-zinc-800">Fecha y Hora</th>
-                            <th className="px-8 py-5 text-xs font-bold uppercase tracking-widest border-b border-zinc-200 dark:border-zinc-800 text-right">Acción</th>
+                            <th className="px-8 py-5 text-xs font-bold uppercase tracking-widest border-b border-zinc-200 dark:border-zinc-800">{t('historyTable.colRoutine')}</th>
+                            <th className="px-8 py-5 text-xs font-bold uppercase tracking-widest border-b border-zinc-200 dark:border-zinc-800">{t('historyTable.colDate')}</th>
+                            <th className="px-8 py-5 text-xs font-bold uppercase tracking-widest border-b border-zinc-200 dark:border-zinc-800 text-right">{t('historyTable.colAction')}</th>
                         </tr>
                     </thead>
                     
@@ -90,9 +92,9 @@ export default function HistoryTable() {
                                     <Button 
                                         variant="secondary" 
                                         className="text-[10px] py-2 px-4 uppercase font-bold hover:bg-primary hover:text-white transition-all border border-zinc-200 dark:border-transparent"
-                                        onClick={() => alert("Próximamente: ver detalles del entrenamiento")}
+                                        onClick={() => alert(t('historyTable.comingSoon'))}
                                     >
-                                        Ver detalles
+                                        {t('historyTable.viewDetails')}
                                     </Button>
                                 </td>
                             </tr>

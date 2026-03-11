@@ -5,6 +5,7 @@ import Button from "../ui/Button";
 import { validateField } from "../../utils/regex";
 import { useAuthStore } from "../../store/useAuthStore";
 import { userRepository } from "../../database/repositories"; 
+import { useTranslation } from "react-i18next";
 
 interface LoginData {
     email: string;
@@ -17,7 +18,7 @@ interface LoginErrors {
 }
 
 export default function LoginForm() {
-
+    const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -44,7 +45,6 @@ export default function LoginForm() {
     };
 
     const handleSubmit = async (e: FormEvent) => {
-
         e.preventDefault();
         if (isLoading) return;
 
@@ -65,7 +65,7 @@ export default function LoginForm() {
             const { data, error } = await userRepository.login(formData.email, formData.password);
 
             if (error) {
-                alert("Error: " + error.message);
+                alert(t('auth.loginError') + error.message);
                 setIsLoading(false);
                 return;
             }
@@ -83,14 +83,14 @@ export default function LoginForm() {
 
     return (
         <form 
-        onSubmit={handleSubmit} className="flex flex-col gap-6 w-full max-w-md mx-auto p-10 bg-white dark:bg-zinc-900 
-                   rounded-2xl border border-zinc-200 dark:border-white/10 shadow-xl transition-all duration-300"
-            >
+            onSubmit={handleSubmit} 
+            className="flex flex-col gap-6 w-full max-w-md mx-auto p-10 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-white/10 shadow-xl transition-all duration-300"
+        >
             <InputText
-                label="Correo Electrónico"
+                label={t('auth.emailLabel')}
                 name="email"
                 type="email"
-                placeholder="ejemplo@correo.com"
+                placeholder={t('auth.emailPlaceholder')}
                 value={formData.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -98,7 +98,7 @@ export default function LoginForm() {
             />
 
             <InputText
-                label="Contraseña"
+                label={t('auth.passwordLabel')}
                 name="password"
                 type="password"
                 placeholder="******"
@@ -113,22 +113,22 @@ export default function LoginForm() {
                     to="/forgot-password"
                     className="text-xs text-[#FF8904] hover:text-[#FFB86A] transition-colors font-semibold"
                 >
-                    ¿Olvidaste tu contraseña?
+                    {t('auth.forgotPassword')}
                 </Link>
             </div>
 
             <div className="flex flex-col gap-4 mt-2">
                 <Button type="submit" variant="primary" disabled={isLoading}>
-                    {isLoading ? "Cargando..." : "Iniciar Sesión"}
+                    {isLoading ? t('auth.loading') : t('auth.loginButton')}
                 </Button>
 
                 <span className="text-zinc-500 dark:text-zinc-400 text-center text-sm">
-                    ¿No tienes cuenta?{" "}
+                    {t('auth.noAccount')}{" "}
                     <Link
                         to="/signup"
                         className="text-[#FF8904] font-bold hover:underline hover:text-[#FFB86A] transition-colors"
                     >
-                        Regístrate
+                        {t('auth.registerLink')}
                     </Link>
                 </span>
             </div>

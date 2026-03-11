@@ -3,6 +3,7 @@ import { InputText, InputNumber } from "../common/Input";
 import Select from "../common/Select";
 import Button from "../ui/Button";
 import { supabase } from "../../database/supabase/client";
+import { useTranslation } from "react-i18next";
 
 interface EjercicioDB {
     id: string;
@@ -21,6 +22,7 @@ interface RoutineExercise {
 }
 
 export default function RoutineForm() {
+    const { t } = useTranslation();
     const [nombreRutina, setNombreRutina] = useState("");
     const [nivelDificultad, setNivelDificultad] = useState("intermedio");
     
@@ -31,9 +33,9 @@ export default function RoutineForm() {
     const [isLoading, setIsLoading] = useState(false);
 
     const niveles = [
-        { value: "principiante", label: "Principiante" },
-        { value: "intermedio", label: "Intermedio" },
-        { value: "avanzado", label: "Avanzado" },
+        { value: "principiante", label: t('routineForm.levelBeginner') },
+        { value: "intermedio", label: t('routineForm.levelIntermediate') },
+        { value: "avanzado", label: t('routineForm.levelAdvanced') },
     ];
 
     useEffect(() => {
@@ -80,14 +82,14 @@ export default function RoutineForm() {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        if (!nombreRutina.trim()) return alert("Falta el nombre de la rutina");
-        if (ejerciciosRutina.length === 0) return alert("Añade al menos un ejercicio");
+        if (!nombreRutina.trim()) return alert(t('routineForm.errorNoName'));
+        if (ejerciciosRutina.length === 0) return alert(t('routineForm.errorNoExercises'));
 
         setIsLoading(true);
 
         try {
             const { data: { user } } = await supabase.auth.getUser();
-            if (!user) throw new Error("Debes iniciar sesión para crear rutinas");
+            if (!user) throw new Error(t('routineForm.errorAuth'));
 
             const { data: rutinaData, error: rutinaError } = await supabase
                 .from('rutinas')
@@ -117,13 +119,13 @@ export default function RoutineForm() {
 
             if (relError) throw relError;
 
-            alert("¡Rutina creada con éxito!");
+            alert(t('routineForm.success'));
             setNombreRutina("");
             setEjerciciosRutina([]);
 
         } catch (error: any) {
             console.error("Error al guardar la rutina:", error);
-            alert(error.message || "Error desconocido al guardar");
+            alert(error.message || t('routineForm.errorSave'));
         } finally {
             setIsLoading(false);
         }
@@ -132,19 +134,19 @@ export default function RoutineForm() {
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-8 bg-surface rounded-2xl shadow-sm border border-zinc-200 dark:border-zinc-800">
             <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4 mb-2">
-                <h2 className="text-xl font-bold text-text-main uppercase tracking-tight">Crear Nueva Rutina</h2>
-                <p className="text-sm text-text-muted mt-1">Diseña tu plan agrupando ejercicios del catálogo</p>
+                <h2 className="text-xl font-bold text-text-main uppercase tracking-tight">{t('routineForm.title')}</h2>
+                <p className="text-sm text-text-muted mt-1">{t('routineForm.subtitle')}</p>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-                <InputText label="Nombre de la Rutina" name="nombreRutina" placeholder="Ej: Push Day Supremo" value={nombreRutina} onChange={e => setNombreRutina(e.target.value)} />
-                <Select label="Nivel" name="nivelDificultad" options={niveles} value={nivelDificultad} onChange={e => setNivelDificultad(e.target.value)} />
+                <InputText label={t('routineForm.nameLabel')} name="nombreRutina" placeholder={t('routineForm.namePlaceholder')} value={nombreRutina} onChange={e => setNombreRutina(e.target.value)} />
+                <Select label={t('routineForm.levelLabel')} name="nivelDificultad" options={niveles} value={nivelDificultad} onChange={e => setNivelDificultad(e.target.value)} />
             </div>
 
             <div className="flex items-end gap-4 p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
                 <div className="flex-1">
                     <Select 
-                        label="Seleccionar Ejercicio del Catálogo" 
+                        label={t('routineForm.selectExercise')} 
                         name="ejercicio" 
                         options={ejerciciosDisponibles.map(e => ({ value: e.id, label: e.nombre }))} 
                         value={ejercicioSeleccionado} 
@@ -153,7 +155,7 @@ export default function RoutineForm() {
                     />
                 </div>
                 <Button type="button" onClick={agregarEjercicio} variant="secondary" disabled={ejerciciosDisponibles.length === 0}>
-                    Añadir a Rutina
+                    {t('routineForm.addButton')}
                 </Button>
             </div>
 
@@ -165,19 +167,19 @@ export default function RoutineForm() {
                         <div className="flex-1 flex gap-2">
                             {ej.tipo === "gym" ? (
                                 <>
-                                    <InputNumber label="Series" name="series" value={ej.series} onChange={e => actualizarDetalleEjercicio(index, "series", e.target.value)} />
-                                    <InputText label="Reps" name="repeticiones" value={ej.repeticiones} onChange={e => actualizarDetalleEjercicio(index, "repeticiones", e.target.value)} />
+                                    <InputNumber label={t('routineForm.series')} name="series" value={ej.series} onChange={e => actualizarDetalleEjercicio(index, "series", e.target.value)} />
+                                    <InputText label={t('routineForm.reps')} name="repeticiones" value={ej.repeticiones} onChange={e => actualizarDetalleEjercicio(index, "repeticiones", e.target.value)} />
                                 </>
                             ) : (
                                 <>
-                                    <InputNumber label="Minutos" name="duracion" value={ej.duracion_minutos} onChange={e => actualizarDetalleEjercicio(index, "duracion_minutos", e.target.value)} />
-                                    <Select label="Intensidad" name="intensidad" options={[{value: "baja", label: "Baja"}, {value: "media", label: "Media"}, {value: "alta", label: "Alta"}]} value={ej.intensidad} onChange={e => actualizarDetalleEjercicio(index, "intensidad", e.target.value)} />
+                                    <InputNumber label={t('routineForm.minutes')} name="duracion" value={ej.duracion_minutos} onChange={e => actualizarDetalleEjercicio(index, "duracion_minutos", e.target.value)} />
+                                    <Select label={t('routineForm.intensity')} name="intensidad" options={[{value: "baja", label: t('routineForm.intLow')}, {value: "media", label: t('routineForm.intMedium')}, {value: "alta", label: t('routineForm.intHigh')}]} value={ej.intensidad} onChange={e => actualizarDetalleEjercicio(index, "intensidad", e.target.value)} />
                                 </>
                             )}
                         </div>
                         
                         <button type="button" onClick={() => setEjerciciosRutina(ejerciciosRutina.filter((_, i) => i !== index))} className="text-red-500 hover:text-red-700 text-sm font-bold ml-2">
-                            Quitar
+                            {t('routineForm.remove')}
                         </button>
                     </div>
                 ))}
@@ -185,7 +187,7 @@ export default function RoutineForm() {
 
             <div className="flex justify-end mt-4">
                 <Button type="submit" disabled={isLoading}>
-                    {isLoading ? "Guardando..." : "Guardar Rutina Completa"}
+                    {isLoading ? t('routineForm.saving') : t('routineForm.saveButton')}
                 </Button>
             </div>
         </form>
