@@ -6,10 +6,10 @@ import { ChartBarIcon, ClipboardDocumentListIcon, TrophyIcon } from "@heroicons/
 
 const iconVariants = {
   initial: { scale: 1, rotate: 0 },
-  hover: { 
-    scale: 1.3, 
-    rotate: [0, -15, 15, -15, 0], 
-    transition: { duration: 0.5 } 
+  hover: {
+    scale: 1.3,
+    rotate: [0, -15, 15, -15, 0],
+    transition: { duration: 0.5 }
   }
 };
 
@@ -43,7 +43,7 @@ export default function Features() {
               { id: 2, Icon: ChartBarIcon, title: "Seguimiento Detallado", desc: "Visualiza tu progreso con gráficas intuitivas de peso, repeticiones y volumen total." },
               { id: 3, Icon: TrophyIcon, title: "Historial Completo", desc: "Accede a cada sesión pasada para analizar tu rendimiento y superar tus marcas personales." }
             ].map((item) => (
-              <motion.div 
+              <motion.div
                 key={item.id}
                 className="flex gap-4 group cursor-pointer"
                 whileHover="hover"

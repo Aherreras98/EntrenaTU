@@ -21,18 +21,18 @@ export const useAuthStore = create<AuthState>()(
     isAdmin: false,
 
     setSession: async (sessionUser) => {
+      let isAdmin = false;
+      
+      if (sessionUser.profile?.id) {
+        const { data: role } = await userRepository.fetchRole(sessionUser.profile.id);
+        isAdmin = role === 'admin';
+      }
+
       set({
         sessionUser,
         isAuthenticated: true,
-        isAdmin: false
+        isAdmin
       });
-
-      if (sessionUser.profile?.id) {
-        const { data: role } = await userRepository.fetchRole(sessionUser.profile.id);
-        if (role === 'admin') {
-          set({ isAdmin: true });
-        }
-      }
     },
 
     clearSession: () => set({

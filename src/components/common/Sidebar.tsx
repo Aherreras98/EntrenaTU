@@ -9,7 +9,8 @@ import {
     ClockIcon,
     UserIcon,
     ArrowLeftOnRectangleIcon,
-    ArrowRightOnRectangleIcon
+    ArrowRightOnRectangleIcon,
+    ChartBarIcon
 } from "@heroicons/react/24/solid";
 
 export default function Sidebar() {
@@ -18,10 +19,12 @@ export default function Sidebar() {
     const sessionUser = useAuthStore((state) => state.sessionUser);
     const clearSession = useAuthStore((state) => state.clearSession);
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+    const isAdmin = useAuthStore((state) => state.isAdmin);
     
     console.log("INICIO DE LA SESIÓN:", { 
         sessionActual: sessionUser, 
-        estaAutenticado: isAuthenticated 
+        estaAutenticado: isAuthenticated,
+        esAdmin: isAdmin
     });
 
     const handleLogout = async () => {
@@ -63,6 +66,14 @@ export default function Sidebar() {
                     <ClockIcon className="w-6 h-6" />
                     <span>Historial</span>
                 </NavLink>
+
+                {/* BOTÓN RESTRINGIDO SÓLO PARA ADMINISTRADORES */}
+                {isAdmin && (
+                    <NavLink to="/dashboard" className={getLinkClass}>
+                        <ChartBarIcon className="w-6 h-6" />
+                        <span>Dashboard</span>
+                    </NavLink>
+                )}
 
                 <NavLink to="/profile" className={getLinkClass}>
                     {/* AVATAR */}
