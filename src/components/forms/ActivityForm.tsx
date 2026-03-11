@@ -4,6 +4,7 @@ import Select from "../common/Select";
 import Button from "../ui/Button";
 import { supabase } from "../../database/supabase/client";
 import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
 type ActivityType = "gym" | "sport";
 
@@ -83,12 +84,12 @@ export default function ActivityForm() {
 
             if (error) throw error;
 
-            alert(t('activityForm.success'));
+            toast.success(t('activityForm.success'));
             setFormData({ type: "gym", nombre: "", descripcion: "", grupoMuscular: "pecho" });
 
         } catch (error: any) {
             console.error("Error guardando el ejercicio:", error);
-            alert(error.message || t('activityForm.errorSave'));
+            toast.error(error.message || t('activityForm.errorSave'));
         } finally {
             setIsLoading(false);
         }

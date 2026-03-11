@@ -4,6 +4,7 @@ import { InputText } from "../common/Input";
 import Button from "../ui/Button";
 import { SupabaseUserRepository } from "../../database/supabase/SupabaseUserRepository";
 import { validateField, passwordsMatch } from "../../utils/regex";
+import toast from "react-hot-toast";
 
 export default function ResetPasswordForm() {
     const [password, setPassword] = useState("");
@@ -37,14 +38,14 @@ export default function ResetPasswordForm() {
             const { error: updateError } = await repo.updatePassword(password);
 
             if (updateError) {
-                alert("Error al actualizar: " + updateError.message);
+                toast.error("Error al actualizar: " + updateError.message);
             } else {
-                alert("¡Contraseña actualizada con éxito!");
+                toast.success("¡Contraseña actualizada con éxito!");
                 navigate("/login");
             }
         } catch (err) {
             console.error(err);
-            alert("Ocurrió un error inesperado al actualizar la contraseña.");
+            toast.error("Ocurrió un error inesperado al actualizar la contraseña.");
         } finally {
             setIsLoading(false);
         }

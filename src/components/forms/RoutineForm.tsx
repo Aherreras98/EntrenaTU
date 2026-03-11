@@ -4,6 +4,7 @@ import Select from "../common/Select";
 import Button from "../ui/Button";
 import { supabase } from "../../database/supabase/client";
 import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
 interface EjercicioDB {
     id: string;
@@ -82,8 +83,8 @@ export default function RoutineForm() {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        if (!nombreRutina.trim()) return alert(t('routineForm.errorNoName'));
-        if (ejerciciosRutina.length === 0) return alert(t('routineForm.errorNoExercises'));
+        if (!nombreRutina.trim()) return toast.error(t('routineForm.errorNoName'));
+        if (ejerciciosRutina.length === 0) return toast.error(t('routineForm.errorNoExercises'));
 
         setIsLoading(true);
 
@@ -119,13 +120,13 @@ export default function RoutineForm() {
 
             if (relError) throw relError;
 
-            alert(t('routineForm.success'));
+            toast.success(t('routineForm.success'));
             setNombreRutina("");
             setEjerciciosRutina([]);
 
         } catch (error: any) {
             console.error("Error al guardar la rutina:", error);
-            alert(error.message || t('routineForm.errorSave'));
+            toast.error(error.message || t('routineForm.errorSave'));
         } finally {
             setIsLoading(false);
         }

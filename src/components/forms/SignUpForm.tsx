@@ -6,6 +6,7 @@ import { validateField, passwordsMatch } from "../../utils/regex";
 import { SignUpData } from "../../interfaces/SignUpData";
 import { userRepository } from "../../database/repositories";
 import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
 export default function SignUpForm() {
     const { t } = useTranslation();
@@ -64,16 +65,16 @@ export default function SignUpForm() {
 
                 if (result.error) {
                     const errorMessage = result.error.message || t('auth.unknownError');
-                    alert(t('auth.registerError') + errorMessage);
+                    toast.error(t('auth.registerError') + errorMessage);
                     return;
                 }
 
-                alert(t('auth.registerSuccess'));
+                toast.success(t('auth.registerSuccess'));
                 navigate("/login");
 
             } catch (err) {
                 console.error("Error capturado:", err);
-                alert(t('auth.serverError'));
+                toast.error(t('auth.serverError'));
             }
         }
     };

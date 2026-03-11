@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Button from "../components/ui/Button";
 import { supabase } from "../database/supabase/client";
 import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
 interface Routine {
     id: string;
@@ -51,10 +52,10 @@ export default function Home() {
 
             if (error) throw error;
 
-            alert(t('home.alertSuccess', { name: routine.nombre }));
+            toast.success(t('home.alertSuccess', { name: routine.nombre }));
         } catch (error: any) {
             console.error("Error al guardar en el historial:", error);
-            alert(error.message === t('home.alertLogin') ? error.message : t('home.alertError'));
+            toast.error(error.message === t('home.alertLogin') ? error.message : t('home.alertError'));
         } finally {
             setExecutingId(null);
         }

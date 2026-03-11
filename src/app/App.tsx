@@ -9,7 +9,7 @@ import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import SignUpPage from "../pages/SignUpPage";
 import { useAuthStore } from "../store/useAuthStore";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
-
+import { Toaster } from "react-hot-toast";
 import LandingPage from "../pages/LandingPage";
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
 
   return (
     <Router>
+      <Toaster />
       <Routes>
         <Route 
           path="/" 
