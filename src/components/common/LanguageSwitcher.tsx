@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Languages, Check } from 'lucide-react';
+import { Languages, Check, X } from 'lucide-react';
 
 const LANGUAGES = [
     { code: 'es', label: 'Español' },
@@ -11,11 +11,7 @@ const LANGUAGES = [
     { code: 'de', label: 'Deutsch' }
 ];
 
-interface LanguageSwitcherProps {
-    placement?: 'top' | 'bottom';
-}
-
-export default function LanguageSwitcher({ placement = 'bottom' }: LanguageSwitcherProps) {
+export default function LanguageSwitcher() {
     const { i18n } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -26,47 +22,58 @@ export default function LanguageSwitcher({ placement = 'bottom' }: LanguageSwitc
 
     const currentLang = i18n.language ? i18n.language.substring(0, 2) : 'es';
 
-    // Clases dinámicas dependiendo de si queremos que abra hacia arriba o hacia abajo
-    const placementClasses = placement === 'top'
-        ? 'bottom-full mb-2 left-1/2 -translate-x-1/2 origin-bottom'
-        : 'top-full mt-2 right-0 origin-top-right';
-
     return (
-        <div className="relative">
+        <>
             {/* BOTÓN PRINCIPAL */}
             <button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => setIsOpen(true)}
                 className="p-1.5 sm:p-2 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 hover:bg-primary/10 hover:text-primary transition-all border border-transparent dark:border-zinc-800 flex items-center justify-center"
                 aria-label="Cambiar idioma"
             >
                 <Languages size={18} />
             </button>
 
-            {/* MENÚ DESPLEGABLE */}
+            {/* MODAL DE SELECCIÓN DE IDIOMA */}
             {isOpen && (
-                <div className={`absolute w-36 bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-800 py-1 z-50 overflow-hidden ${placementClasses}`}>
-                    {LANGUAGES.map((lang) => (
-                        <button
-                            key={lang.code}
-                            onClick={() => changeLanguage(lang.code)}
-                            className={`w-full text-left px-4 py-2.5 text-sm flex items-center justify-between hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors
-                                ${currentLang === lang.code ? 'text-primary font-bold' : 'text-zinc-700 dark:text-zinc-300'}
-                            `}
-                        >
-                            <span>{lang.label}</span>
-                            {currentLang === lang.code && <Check size={16} />}
-                        </button>
-                    ))}
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
+                    {/* Contenedor del Modal */}
+                    <div className="bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-zinc-200 dark:border-zinc-800 w-full max-w-md relative shadow-2xl animate-in zoom-in-95 duration-200">
+                        
+                        {/* CABECERA DEL MODAL */}
+                        <div className="flex justify-between items-center mb-6 pb-4 border-b border-zinc-100 dark:border-zinc-800">
+                            <h3 className="text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
+                                <Languages size={22} className="text-primary" />
+                                Idioma / Language
+                            </h3>
+                            <button 
+                                onClick={() => setIsOpen(false)} 
+                                className="p-2 -mr-2 text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                            >
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        {/* CUADRÍCULA DE IDIOMAS */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {LANGUAGES.map((lang) => (
+                                <button
+                                    key={lang.code}
+                                    onClick={() => changeLanguage(lang.code)}
+                                    className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-all border border-zinc-200 dark:border-zinc-800 shadow-sm hover:scale-[1.02]
+                                        ${currentLang === lang.code 
+                                            ? 'border-primary dark:border-primary bg-primary/10 text-primary' 
+                                            : 'text-zinc-600 dark:text-zinc-300 hover:border-primary/50 hover:text-primary bg-white dark:bg-zinc-900'
+                                        }
+                                    `}
+                                >
+                                    <span>{lang.label}</span>
+                                    {currentLang === lang.code && <Check size={18} strokeWidth={3} />}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             )}
-
-            {/* Fondo transparente para cerrar al hacer clic fuera */}
-            {isOpen && (
-                <div
-                    className="fixed inset-0 z-40"
-                    onClick={() => setIsOpen(false)}
-                />
-            )}
-        </div>
+        </>
     );
 }
