@@ -12,7 +12,6 @@ import {
     ArrowRightOnRectangleIcon
 } from "@heroicons/react/24/solid";
 
-
 export default function Sidebar() {
     const navigate = useNavigate();
 
@@ -38,10 +37,10 @@ export default function Sidebar() {
     const getLinkClass = ({ isActive }: { isActive: boolean }) =>
         isActive ? "sidebar-link active" : "sidebar-link";
 
- return (
+    return (
         <aside className="sidebar flex flex-col h-screen sticky top-0 border-r border-zinc-200 dark:border-white/5 transition-colors duration-300">
             
-            {/* LOGO - Estilo idéntico al Login/Registro */}
+            {/* LOGO */}
             <div className="h-20 flex items-center justify-center border-b border-zinc-200 dark:border-white/5 mb-2 shrink-0">
                 <h1 className="text-2xl font-bold italic tracking-tighter text-primary uppercase">
                     ENTRENA<span className="text-text-main">TU</span>
@@ -66,7 +65,16 @@ export default function Sidebar() {
                 </NavLink>
 
                 <NavLink to="/profile" className={getLinkClass}>
-                    <UserIcon className="w-6 h-6" />
+                    {/* AVATAR */}
+                    {sessionUser?.profile?.avatar_url ? (
+                        <img 
+                            src={sessionUser.profile.avatar_url} 
+                            alt="Tu perfil" 
+                            className="w-6 h-6 rounded-full object-cover ring-1 ring-zinc-300 dark:ring-zinc-700"
+                        />
+                    ) : (
+                        <UserIcon className="w-6 h-6" />
+                    )}
                     <span>Perfil</span>
                 </NavLink>
             </nav>
