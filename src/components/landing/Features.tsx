@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import FeatureImage from "../../img/seguimiento.png";
 import { ChartBarIcon, ClipboardDocumentListIcon, TrophyIcon } from "@heroicons/react/24/solid";
+import { useTranslation } from "react-i18next";
 
 const iconVariants = {
   initial: { scale: 1, rotate: 0 },
@@ -14,15 +15,17 @@ const iconVariants = {
 };
 
 export default function Features() {
+  const { t } = useTranslation();
+
   return (
     <section className="py-24 bg-white dark:bg-black relative transition-colors duration-300">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-primary text-sm font-bold tracking-widest uppercase mb-2">
-            Lo que ofrecemos
+            {t('features.badge')}
           </h2>
           <h3 className="text-4xl font-black text-zinc-900 dark:text-orange-50 transition-colors uppercase italic">
-            Todo lo que necesitas para evolucionar
+            {t('features.title')}
           </h3>
         </div>
 
@@ -31,17 +34,15 @@ export default function Features() {
             <img
               src={FeatureImage}
               alt="Seguimiento de progreso"
-              className="relative rounded-2xl shadow-2xl border border-zinc-200 dark:border-primary/20 max-w-sm mx-auto 
-                         transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] 
-                         hover:scale-110 hover:rotate-2"
+              className="relative rounded-2xl shadow-2xl border border-zinc-200 dark:border-primary/20 max-w-sm mx-auto transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-110 hover:rotate-2"
             />
           </div>
 
           <div className="order-1 lg:order-2 space-y-8">
             {[
-              { id: 1, Icon: ClipboardDocumentListIcon, title: "Rutinas Personalizadas", desc: "Crea y gestiona tus propios planes de entrenamiento o elige entre nuestras plantillas predefinidas." },
-              { id: 2, Icon: ChartBarIcon, title: "Seguimiento Detallado", desc: "Visualiza tu progreso con gráficas intuitivas de peso, repeticiones y volumen total." },
-              { id: 3, Icon: TrophyIcon, title: "Historial Completo", desc: "Accede a cada sesión pasada para analizar tu rendimiento y superar tus marcas personales." }
+              { id: 1, Icon: ClipboardDocumentListIcon, title: t('features.routines.title'), desc: t('features.routines.desc') },
+              { id: 2, Icon: ChartBarIcon, title: t('features.tracking.title'), desc: t('features.tracking.desc') },
+              { id: 3, Icon: TrophyIcon, title: t('features.history.title'), desc: t('features.history.desc') }
             ].map((item) => (
               <motion.div
                 key={item.id}

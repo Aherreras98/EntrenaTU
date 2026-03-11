@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Button from "../components/ui/Button";
 import { supabase } from "../database/supabase/client";
+import { useTranslation } from "react-i18next";
 
 interface Routine {
     id: string;
@@ -9,11 +10,11 @@ interface Routine {
 }
 
 export default function Home() {
+    const { t } = useTranslation();
     const [routines, setRoutines] = useState<Routine[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [executingId, setExecutingId] = useState<string | null>(null);
 
-    // Cargar las rutinas al entrar a la página
     useEffect(() => {
         const fetchRoutines = async () => {
             setIsLoading(true);
@@ -33,12 +34,11 @@ export default function Home() {
         fetchRoutines();
     }, []);
 
-    // Función para registrar que se ha completado una rutina
     const handleExecuteRoutine = async (routine: Routine) => {
         setExecutingId(routine.id);
         try {
             const { data: { user } } = await supabase.auth.getUser();
-            if (!user) throw new Error("Debes iniciar sesión para registrar un entrenamiento.");
+            if (!user) throw new Error(t('home.alertLogin'));
 
             const { error } = await supabase
                 .from("historial_rutinas")
@@ -51,10 +51,10 @@ export default function Home() {
 
             if (error) throw error;
 
-            alert(`¡Excelente trabajo! Has completado la rutina: ${routine.nombre} 💪`);
+            alert(t('home.alertSuccess', { name: routine.nombre }));
         } catch (error: any) {
             console.error("Error al guardar en el historial:", error);
-            alert(error.message || "Hubo un error al registrar el entrenamiento.");
+            alert(error.message === t('home.alertLogin') ? error.message : t('home.alertError'));
         } finally {
             setExecutingId(null);
         }
@@ -65,21 +65,21 @@ export default function Home() {
             <div className="flex justify-between items-end border-b border-white/10 pb-4">
                 <div>
                     <h1 className="text-3xl font-bold text-primary uppercase tracking-wider">
-                        Tu Panel
+                        {t('home.title')}
                     </h1>
                     <p className="text-text-muted mt-1 font-open-sans">
-                        Selecciona una de tus rutinas y empieza a entrenar.
+                        {t('home.subtitle')}
                     </p>
                 </div>
             </div>
 
             <section className="animate-in fade-in slide-in-from-bottom-4 duration-700">
                 {isLoading ? (
-                    <p className="text-text-muted">Cargando tus rutinas...</p>
+                    <p className="text-text-muted">{t('home.loading')}</p>
                 ) : routines.length === 0 ? (
                     <div className="p-8 text-center bg-surface border border-zinc-200 dark:border-zinc-800 rounded-2xl">
-                        <p className="text-text-muted">Aún no has creado ninguna rutina.</p>
-                        <p className="text-sm mt-2">Ve a la sección "Rutinas" para armar tu primer plan de entrenamiento.</p>
+                        <p className="text-text-muted">{t('home.empty')}</p>
+                        <p className="text-sm mt-2">{t('home.emptyHint')}</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -88,7 +88,7 @@ export default function Home() {
                                 <div>
                                     <h3 className="text-xl font-bold text-text-main mb-2">{routine.nombre}</h3>
                                     <span className="inline-block px-3 py-1 bg-zinc-100 dark:bg-zinc-800 text-xs font-bold uppercase tracking-wider rounded-full text-text-muted mb-6">
-                                        Nivel: {routine.nivel_dificultad || 'No definido'}
+                                        {t('home.level')}: {routine.nivel_dificultad || t('home.noLevel')}
                                     </span>
                                 </div>
                                 
@@ -97,7 +97,7 @@ export default function Home() {
                                     disabled={executingId === routine.id}
                                     className="w-full justify-center"
                                 >
-                                    {executingId === routine.id ? "Registrando..." : "Completar Rutina"}
+                                    {executingId === routine.id ? t('home.executing') : t('home.completeBtn')}
                                 </Button>
                             </div>
                         ))}
