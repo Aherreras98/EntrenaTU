@@ -7,21 +7,20 @@ export default function Hero() {
  return (
     <section className="relative pt-20 pb-32 overflow-hidden bg-zinc-950 min-h-[90vh] flex items-center transition-colors duration-300">
       
-      {/* --- CAPA DE LA ANIMACIÓN (ColorBends) --- */}
+      {/*  ANIMACIÓN (ColorBends) */}
       <div className="absolute inset-0 z-0">
         <ColorBends 
           colors={["#FF5733", "#FB923C", "#000000"]} 
-          speed={1.0}             // Velocidad base muy alta
-          warpStrength={3.0}      // Distorsión extrema (crea más movimiento visual)
-          frequency={1.0}         // Más ondas en pantalla = sensación de más rapidez
-          scale={1.2}             // Menos zoom para ver más "caos" de ondas
-          mouseInfluence={2.0}    // El ratón agita la animación violentamente
+          speed={1.0}             // Velocidad
+          warpStrength={3.0}      
+          frequency={1.0}         
+          scale={1.2}            
+          mouseInfluence={2.0}    
         />
        
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-zinc-950" />
       </div>
 
-      {/* --- CONTENIDO --- */}
       <div className="container mx-auto px-4 max-w-7xl flex flex-col lg:flex-row items-center gap-12 relative z-10">
         
         {/* TEXTO Y ACCIONES */}
@@ -36,24 +35,32 @@ export default function Hero() {
             monitorear tu progreso y superar tus límites cada día.
           </p>
 
+          {/* Botones*/}
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <Link to="/signup">
-              <Button className="text-lg px-8 py-4 w-full sm:w-auto shadow-lg shadow-primary/20">
-                Comenzar Ahora
+            <Link to="/signup" className="w-full sm:w-auto">
+              <Button 
+                className="group relative text-lg px-8 py-4 w-full sm:w-auto 
+                          transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]
+                          hover:scale-110 hover:-translate-y-2 
+                          hover:shadow-[0_0_30px_rgba(255,87,51,0.6)]
+                          active:scale-95 overflow-hidden animate-shine"
+              >
+                <span className="relative z-10">Comenzar Ahora</span>
               </Button>
             </Link>
-            
-            <Link to="/login">
-            <Button 
-              variant="secondary" 
-              className="text-lg px-8 py-4 w-full sm:w-auto 
-                        border-zinc-800 text-zinc-500 
-                        hover:border-zinc-600 hover:bg-zinc-900/40 hover:text-zinc-300
-                        transition-all duration-300"
-            >
-              Ya tengo cuenta
-            </Button>
-          </Link>
+
+            <Link to="/login" className="w-full sm:w-auto">
+              <Button 
+                variant="secondary" 
+                className="text-lg px-8 py-4 w-full sm:w-auto 
+                          border-zinc-800 text-zinc-500 font-medium
+                          transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]
+                          hover:scale-110 hover:text-zinc-200 hover:border-zinc-600
+                          active:scale-95"
+              >
+                Ya tengo cuenta
+              </Button>
+            </Link>
           </div>
         </div>
 
