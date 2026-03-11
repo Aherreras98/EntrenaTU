@@ -59,7 +59,9 @@
 
 .responsive-button {
     @apply rounded-xl font-bold flex justify-center items-center text-center 
-           transition-all duration-300 active:scale-95 shadow-lg;
+           transition-all duration-300 active:scale-95 shadow-lg
+           py-2 sm:py-4 
+           text-xs sm:text-lg;
 }
 
 
