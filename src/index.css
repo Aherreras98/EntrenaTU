@@ -12,15 +12,15 @@
 @layer base {
   :root {
     /* --- MODO CLARO  --- */
-    --theme-background: #f4f4f5;    /* Fondo casi blanco */
-    --theme-surface: var(--color-white);           /* Tarjetas blancas */
-    --theme-surface-hover: var(--color-zinc-100);  /* Hover sutil */
-    --theme-text-main: var(--color-zinc-900);      /* Texto casi negro */
-    --theme-text-muted: var(--color-zinc-500);     /* Texto secundario gris */
+    --theme-background: #f4f4f5;
+    --theme-surface: var(--color-white); 
+    --theme-surface-hover: var(--color-zinc-100);
+    --theme-text-main: var(--color-zinc-900); 
+    --theme-text-muted: var(--color-zinc-500); 
   }
 
   .dark {
-    /* --- MODO OSCURO (colores originales) --- */
+    /* MODO OSCURO (colores originales)*/
     --theme-background: var(--color-zinc-950);
     --theme-surface: var(--color-zinc-900);
     --theme-surface-hover: var(--color-zinc-800);
@@ -28,66 +28,73 @@
     --theme-text-muted: var(--color-zinc-400);
   }
   
-  /* Aplicamos el fondo y texto base a toda la página */
-  body {
-    @apply bg-background text-text-main transition-colors duration-300;
-  }
-}
-
-/* --- SCROLLBAR--- */
-@layer base {
-  html {
+ html {
     color-scheme: light dark;
   }
+}
 
-  ::-webkit-scrollbar {
-    width: 10px; /* Ancho de la barra */
+/* RESPONSIVE */
+@layer components {
+  
+  .section-container {
+    @apply py-10 md:py-24 px-4 sm:px-8 max-w-7xl mx-auto w-full;
   }
 
-  ::-webkit-scrollbar-track {
-    background: var(--theme-background); /* Color del fondo de la barra */
+  .responsive-title {
+    @apply text-3xl sm:text-5xl lg:text-7xl font-black leading-tight uppercase italic tracking-tighter;
   }
 
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-zinc-300); /* Color del "palito" en modo claro */
-    border-radius: 10px;
-    border: 2px solid var(--theme-background);
+  .responsive-button {
+    @apply w-full sm:w-auto px-6 py-3.5 sm:px-8 sm:py-4 
+           text-base sm:text-lg font-bold rounded-xl
+           flex justify-center items-center text-center
+           transition-all duration-300 active:scale-95;
   }
 
-  .dark ::-webkit-scrollbar-thumb {
-    background: var(--color-zinc-700); /* Color del "palito" en modo oscuro */
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-zinc-400);
+  .responsive-grid {
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center;
   }
 }
 
 
+.responsive-button {
+    @apply rounded-xl font-bold flex justify-center items-center text-center 
+           transition-all duration-300 active:scale-95 shadow-lg;
+}
+
+
+/* TEMA Y VARIABLES TAILWIND */
 @theme {
-  /* --- TIPOGRAFÍA --- */
   --font-open-sans: "Open Sans", sans-serif;
 
-  /* --- PALETA DE COLORES FIJOS (Estos no cambian con el sol/luna) --- */
-  --color-primary: var(--color-orange-500);       
+  --color-primary: var(--color-orange-500);       
   --color-primary-hover: var(--color-orange-400); 
   --color-primary-active: var(--color-orange-700);
   --color-text-inverted: var(--color-zinc-950);
   --color-danger: var(--color-red-500);
   --color-success: var(--color-green-500);
   
-  /* --- PALETA DE COLORES DINÁMICOS  --- */
+  /* Colores Dinámicos */
   --color-background: var(--theme-background); 
   --color-surface: var(--theme-surface); 
   --color-surface-hover: var(--theme-surface-hover); 
-  
-  /* Text: Jerarquía visual dinámica */
   --color-text-main: var(--theme-text-main); 
   --color-text-muted: var(--theme-text-muted); 
 }
 
+/* SCROLLBAR */
+@layer base {
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--theme-background); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-zinc-300);
+    border-radius: 10px;
+    border: 2px solid var(--theme-background);
+  }
+  .dark ::-webkit-scrollbar-thumb { background: var(--color-zinc-700); }
+}
 
-/* Botones Efectos */
+/* ANIMACIONES */
 @keyframes shine {
   from { left: -100%; }
   to { left: 100%; }

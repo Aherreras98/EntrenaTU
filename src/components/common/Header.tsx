@@ -36,33 +36,35 @@ export default function Header() {
         </Link>
       </div>
 
-      {/* NAVEGACIÓN DE ANCLA */}
-      <nav className="hidden md:flex gap-8 items-center text-sm font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
-        <a href="#features" className="hover:text-primary dark:hover:text-primary transition-colors">Características</a>
-        <a href="#about" className="hover:text-primary dark:hover:text-primary transition-colors">Comunidad</a>
-      </nav>
-      
       {/* BOTONES DE ACCIÓN */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 sm:gap-4">
+        
         {/* BOTÓN SOL/LUNA */}
         <button
           onClick={() => setIsDark(!isDark)}
-          className="p-2 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 hover:bg-primary/10 hover:text-primary transition-all duration-300 border border-transparent dark:border-zinc-800"
+          className="p-1.5 sm:p-2 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 hover:bg-primary/10 transition-all border border-transparent dark:border-zinc-800"
           aria-label="Cambiar tema"
         >
-          {isDark ? <Sun size={20} /> : <Moon size={20} />}
+          {isDark ? <Sun size={18} /> : <Moon size={18} />}
         </button>
 
-        <div className="h-6 w-[1px] bg-zinc-200 dark:bg-zinc-800 hidden sm:block mx-2" />
+        <div className="h-6 w-[1px] bg-zinc-200 dark:bg-zinc-800 hidden md:block mx-1" />
 
-        <Link to="/login" className="hidden sm:block">
-            <Button variant="secondary" className="px-5 py-2 text-xs uppercase font-bold border-zinc-200 dark:border-zinc-800">
+        {/* BOTÓN ENTRAR */}
+        <Link to="/login" className="block">
+            <Button 
+              variant="secondary" 
+              className="px-3 py-1.5 sm:px-5 sm:py-2 text-[10px] sm:text-xs uppercase font-bold border-zinc-200 dark:border-zinc-800"
+            >
               Entrar
             </Button>
         </Link>
         
+        {/* BOTÓN EMPEZAR */}
         <Link to="/signup">
-            <Button className="px-5 py-2 text-xs uppercase font-bold bg-primary hover:bg-orange-600 shadow-lg shadow-primary/20">
+            <Button 
+              className="px-3 py-1.5 sm:px-5 sm:py-2 text-[10px] sm:text-xs uppercase font-bold bg-primary hover:bg-orange-600 shadow-lg shadow-primary/20"
+            >
               Empezar
             </Button>
         </Link>
