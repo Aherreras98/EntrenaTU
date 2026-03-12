@@ -91,10 +91,12 @@
         "hasAccount": "Já tem conta?",
         "loginLink": "Iniciar Sessão",
         "loginError": "Erro: ",
+        "loginSuccess": "Sessão iniciada com sucesso!",
         "registerError": "Erro ao registar: ",
         "registerSuccess": "Registo concluído com sucesso!",
         "unknownError": "Erro desconhecido",
-        "serverError": "Erro de ligação ao servidor."
+        "serverError": "Erro de ligação ao servidor.",
+        "emailTaken": "Este e-mail está em uso."
     },
     "activityForm": {
         "title": "Novo Exercício Base",

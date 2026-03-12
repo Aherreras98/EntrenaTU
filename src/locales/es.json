@@ -91,10 +91,12 @@
         "hasAccount": "¿Ya tienes cuenta?",
         "loginLink": "Inicia Sesión",
         "loginError": "Error: ",
+        "loginSuccess": "Inicio de sesión exitoso!",
         "registerError": "Error al registrar: ",
         "registerSuccess": "¡Registro exitoso!",
         "unknownError": "Error desconocido",
-        "serverError": "Error de conexión con el servidor."
+        "serverError": "Error de conexión con el servidor.",
+        "emailTaken": "Este correo electrónico ya esta en uso."
     },
     "activityForm": {
         "title": "Nuevo Ejercicio Base",

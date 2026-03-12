@@ -73,10 +73,12 @@ export default function LoginForm() {
 
             if (data) {
                 useAuthStore.getState().setSession(data);
+                toast.success(t('auth.loginSuccess'));
                 navigate("/home");
             }
         } catch (err) {
             console.error("Error inesperado:", err);
+            toast.error(t('auth.unknownError'));
         } finally {
             setIsLoading(false);
         }

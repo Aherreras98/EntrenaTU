@@ -91,10 +91,12 @@
         "hasAccount": "Vous avez déjà un compte ?",
         "loginLink": "Se connecter",
         "loginError": "Erreur : ",
+        "loginSuccess": "Connexion réussie !",
         "registerError": "Erreur lors de l'inscription : ",
         "registerSuccess": "Inscription réussie !",
         "unknownError": "Erreur inconnue",
-        "serverError": "Erreur de connexion au serveur."
+        "serverError": "Erreur de connexion au serveur.",
+        "emailTaken": "Cette adresse e-mail est deja en cours d'utilisation."
     },
     "activityForm": {
         "title": "Nouvel Exercice de Base",

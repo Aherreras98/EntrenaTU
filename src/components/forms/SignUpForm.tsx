@@ -7,6 +7,7 @@ import { SignUpData } from "../../interfaces/SignUpData";
 import { userRepository } from "../../database/repositories";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
+import { isEmailTaken } from "../../database/supabase/RCPs/isEmailTaken";
 
 export default function SignUpForm() {
     const { t } = useTranslation();
@@ -29,7 +30,7 @@ export default function SignUpForm() {
         setErrors((prev) => ({ ...prev, [name]: "" }));
     };
 
-    const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleBlur = async(e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
         if (name === "confirmPassword") {
@@ -38,6 +39,15 @@ export default function SignUpForm() {
         } else {
             const error = validateField(name, value);
             setErrors((prev) => ({ ...prev, [name]: error }));
+
+            // Comprobación en Supabase si es el email y no hay errores de formato
+
+            if (name === "email" && !error) {
+                const emailTaken = await isEmailTaken(value);
+                if (emailTaken) {
+                    setErrors((prev) => ({ ...prev, email: t('auth.emailTaken') }));
+                }
+            }
         }
     };
 
