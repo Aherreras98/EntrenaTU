@@ -4,7 +4,7 @@ import Home from "../pages/Home";
 import Profile from "../pages/Profile";
 import History from "../pages/History";
 import Routines from "../pages/Routines";
-import LoginPage from "../pages/LogInPage";
+import LoginPage from "../pages/LoginPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import SignUpPage from "../pages/SignUpPage";
 import { useAuthStore } from "../store/useAuthStore";
