@@ -18,6 +18,7 @@ interface RoutineExercise {
     tipo: string;
     series: string;
     repeticiones: string;
+    kilos: string;
     duracion_minutos: string;
     intensidad: string;
 }
@@ -70,12 +71,20 @@ export default function RoutineForm() {
             tipo: ejBase.tipo,
             series: "3",
             repeticiones: "10",
+            kilos: "1",
             duracion_minutos: "30",
             intensidad: "media"
         }]);
     };
 
     const actualizarDetalleEjercicio = (index: number, campo: keyof RoutineExercise, valor: string) => {
+        if (campo === "series" || campo === "kilos" || campo === "duracion_minutos") {
+            
+            if (valor !== "" && (valor.includes("-") || Number(valor) < 1)) {
+                return; 
+            }
+        }
+
         const nuevos = [...ejerciciosRutina];
         nuevos[index] = { ...nuevos[index], [campo]: valor };
         setEjerciciosRutina(nuevos);
@@ -83,8 +92,31 @@ export default function RoutineForm() {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
+        
+        
         if (!nombreRutina.trim()) return toast.error(t('routineForm.errorNoName'));
         if (ejerciciosRutina.length === 0) return toast.error(t('routineForm.errorNoExercises'));
+
+        
+        for (let i = 0; i < ejerciciosRutina.length; i++) {
+            const ej = ejerciciosRutina[i];
+            
+            if (ej.tipo === "gym") {
+                if (ej.series === "" || Number(ej.series) < 1) {
+                    return toast.error(`Completa las series del ejercicio ${i + 1} (Mínimo 1)`);
+                }
+                if (ej.repeticiones.trim() === "") {
+                    return toast.error(`Completa las repeticiones del ejercicio ${i + 1}`);
+                }
+                if (ej.kilos === "" || Number(ej.kilos) < 1) {
+                    return toast.error(`Completa los kilos del ejercicio ${i + 1} (Mínimo 1kg)`);
+                }
+            } else {
+                if (ej.duracion_minutos === "" || Number(ej.duracion_minutos) < 1) {
+                    return toast.error(`Completa los minutos del ejercicio ${i + 1} (Mínimo 1 min)`);
+                }
+            }
+        }
 
         setIsLoading(true);
 
@@ -110,6 +142,7 @@ export default function RoutineForm() {
                 orden: index + 1,
                 series: ej.tipo === "gym" ? parseInt(ej.series) : null,
                 repeticiones: ej.tipo === "gym" ? ej.repeticiones : null,
+                kilos: ej.tipo === "gym" ? parseFloat(ej.kilos) : null, 
                 duracion_minutos: ej.tipo === "sport" ? parseInt(ej.duracion_minutos) : null,
                 intensidad: ej.tipo === "sport" ? ej.intensidad : null,
             }));
@@ -168,12 +201,13 @@ export default function RoutineForm() {
                         <div className="flex-1 flex gap-2">
                             {ej.tipo === "gym" ? (
                                 <>
-                                    <InputNumber label={t('routineForm.series')} name="series" value={ej.series} onChange={e => actualizarDetalleEjercicio(index, "series", e.target.value)} />
+                                    <InputNumber label={t('routineForm.series')} name="series" value={ej.series} min="1" onChange={e => actualizarDetalleEjercicio(index, "series", e.target.value)} />
                                     <InputText label={t('routineForm.reps')} name="repeticiones" value={ej.repeticiones} onChange={e => actualizarDetalleEjercicio(index, "repeticiones", e.target.value)} />
+                                    <InputNumber label="Kilos (kg)" name="kilos" value={ej.kilos} min="1" step="0.5" onChange={e => actualizarDetalleEjercicio(index, "kilos", e.target.value)} />
                                 </>
                             ) : (
                                 <>
-                                    <InputNumber label={t('routineForm.minutes')} name="duracion" value={ej.duracion_minutos} onChange={e => actualizarDetalleEjercicio(index, "duracion_minutos", e.target.value)} />
+                                    <InputNumber label={t('routineForm.minutes')} name="duracion" value={ej.duracion_minutos} min="1" onChange={e => actualizarDetalleEjercicio(index, "duracion_minutos", e.target.value)} />
                                     <Select label={t('routineForm.intensity')} name="intensidad" options={[{value: "baja", label: t('routineForm.intLow')}, {value: "media", label: t('routineForm.intMedium')}, {value: "alta", label: t('routineForm.intHigh')}]} value={ej.intensidad} onChange={e => actualizarDetalleEjercicio(index, "intensidad", e.target.value)} />
                                 </>
                             )}
