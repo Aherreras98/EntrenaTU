@@ -12,12 +12,18 @@ import {
     UserIcon,
     ArrowLeftOnRectangleIcon,
     ArrowRightOnRectangleIcon,
-    ChartBarIcon
+    ChartBarIcon,
+    Bars3Icon, // <-- Icono de hamburguesa
+    XMarkIcon  // <-- Icono para cerrar (la X)
 } from "@heroicons/react/24/solid";
+import { useState } from "react";
 
 export default function Sidebar() {
     const { t } = useTranslation();
     const navigate = useNavigate();
+
+    // ESTADO PARA CONTROLAR SI EL MENÚ ESTÁ ABIERTO EN MÓVIL
+    const [isOpen, setIsOpen] = useState(false);
 
     const sessionUser = useAuthStore((state) => state.sessionUser);
     const clearSession = useAuthStore((state) => state.clearSession);
@@ -28,87 +34,98 @@ export default function Sidebar() {
         await supabase.auth.signOut();
         clearSession();
         navigate("/home");
+        setIsOpen(false); 
     };
 
     const handleLogin = () => {
         navigate("/login");
+        setIsOpen(false); 
     };
 
     const getLinkClass = ({ isActive }: { isActive: boolean }) =>
         isActive ? "sidebar-link active" : "sidebar-link";
 
+    const closeMenu = () => setIsOpen(false);
+
     return (
-        <aside className="sidebar flex flex-col h-screen sticky top-0 border-r border-zinc-200 dark:border-white/5 transition-colors duration-300">
-            <div className="h-20 flex items-center justify-center border-b border-zinc-200 dark:border-white/5 mb-2 shrink-0">
-                <h1 className="text-2xl font-bold italic tracking-tighter text-primary uppercase">
-                    ENTRENA<span className="text-text-main">TU</span>
+        <>
+            <div className="md:hidden h-16 w-full flex items-center justify-between px-4 bg-theme-background border-b border-zinc-200 dark:border-white/5 z-40">
+                <h1 className="text-xl font-bold italic tracking-tighter text-primary uppercase">
+                    ENTRENA<span className="text-theme-text-main">TU</span>
                 </h1>
+                <button 
+                    onClick={() => setIsOpen(true)} 
+                    className="text-theme-text-main p-1"
+                >
+                    <Bars3Icon className="w-8 h-8" />
+                </button>
             </div>
 
-            <nav className="flex-1 flex flex-col gap-2 py-4 overflow-y-auto">
-                <NavLink to="/home" className={getLinkClass}>
-                    <HomeIcon className="w-6 h-6" />
-                    <span>{t('sidebar.home')}</span>
-                </NavLink>
+            {isOpen && (
+                <div 
+                    className="fixed inset-0 bg-black/60 z-50 md:hidden backdrop-blur-sm"
+                    onClick={closeMenu}
+                />
+            )}
 
-                <NavLink to="/routines" className={getLinkClass}>
-                    <ClipboardDocumentListIcon className="w-6 h-6" />
-                    <span>{t('sidebar.routines')}</span>
-                </NavLink>
+            {/* MENÚ LATERAL (Hamburguesa) */}
+            <aside className={`
+                fixed md:sticky top-0 left-0 z-[60] h-screen w-64 flex flex-col
+                bg-theme-background border-r border-zinc-200 dark:border-white/5 
+                transition-transform duration-300 ease-in-out
+                ${isOpen ? "translate-x-0" : "-translate-x-full"} 
+                md:translate-x-0
+            `}>
+                
+                <div className="h-20 flex items-center justify-between px-4 border-b border-zinc-200 dark:border-white/5 mb-2 shrink-0 md:justify-center">
+                    <h1 className="text-2xl font-bold italic tracking-tighter text-primary uppercase">
+                        ENTRENA<span className="text-theme-text-main">TU</span>
+                    </h1>
+                    <button onClick={closeMenu} className="md:hidden p-1">
+                        <XMarkIcon className="w-8 h-8" />
+                    </button>
+                </div>
 
-                <NavLink to="/history" className={getLinkClass}>
-                    <ClockIcon className="w-6 h-6" />
-                    <span>{t('sidebar.history')}</span>
-                </NavLink>
-
-                {isAdmin && (
-                    <NavLink to="/dashboard" className={getLinkClass}>
-                        <ChartBarIcon className="w-6 h-6" />
-                        <span>{t('sidebar.dashboard')}</span>
+                <nav className="flex-1 flex flex-col gap-2 py-4 overflow-y-auto px-4">
+                    <NavLink to="/home" className={getLinkClass} onClick={closeMenu}>
+                        <HomeIcon className="w-6 h-6" />
+                        <span>{t('sidebar.home')}</span>
                     </NavLink>
-                )}
-
-                <NavLink to="/profile" className={getLinkClass}>
-                    {sessionUser?.profile?.avatar_url ? (
-                        <img 
-                            src={sessionUser.profile.avatar_url} 
-                            alt="Tu perfil" 
-                            className="w-6 h-6 rounded-full object-cover ring-1 ring-zinc-300 dark:ring-zinc-700"
-                        />
-                    ) : (
-                        <UserIcon className="w-6 h-6" />
+                    <NavLink to="/routines" className={getLinkClass} onClick={closeMenu}>
+                        <ClipboardDocumentListIcon className="w-6 h-6" />
+                        <span>{t('sidebar.routines')}</span>
+                    </NavLink>
+                    <NavLink to="/history" className={getLinkClass} onClick={closeMenu}>
+                        <ClockIcon className="w-6 h-6" />
+                        <span>{t('sidebar.history')}</span>
+                    </NavLink>
+                    {isAdmin && (
+                        <NavLink to="/dashboard" className={getLinkClass} onClick={closeMenu}>
+                            <ChartBarIcon className="w-6 h-6" />
+                            <span>{t('sidebar.dashboard')}</span>
+                        </NavLink>
                     )}
-                    <span>{t('sidebar.profile')}</span>
-                </NavLink>
-            </nav>
+                    <NavLink to="/profile" className={getLinkClass} onClick={closeMenu}>
+                        {sessionUser?.profile?.avatar_url ? (
+                            <img src={sessionUser.profile.avatar_url} className="w-6 h-6 rounded-full object-cover" alt="" />
+                        ) : (
+                            <UserIcon className="w-6 h-6" />
+                        )}
+                        <span>{t('sidebar.profile')}</span>
+                    </NavLink>
+                </nav>
 
-            <div className="mt-auto shrink-0 flex flex-col gap-4">
-                {/* AÑADIMOS EL SELECTOR DE IDIOMA JUNTO AL TEMA */}
-                <div className="flex justify-center items-center gap-4">
-                    <LanguageSwitcher />
-                    <ThemeToggle />
+                <div className="mt-auto p-4 border-t border-zinc-200 dark:border-white/5">
+                    <div className="flex justify-center gap-4 mb-4">
+                        <LanguageSwitcher />
+                        <ThemeToggle />
+                    </div>
+                    <button onClick={isAuthenticated ? handleLogout : handleLogin} className="sidebar-link w-full">
+                        {isAuthenticated ? <ArrowLeftOnRectangleIcon className="w-6 h-6" /> : <ArrowRightOnRectangleIcon className="w-6 h-6" />}
+                        <span>{isAuthenticated ? t('sidebar.logout') : t('sidebar.login')}</span>
+                    </button>
                 </div>
-
-                <div className="p-4 border-t border-zinc-200 dark:border-white/5 bg-sidebar-bg">
-                    {isAuthenticated ? (
-                        <button
-                            onClick={handleLogout}
-                            className="sidebar-link w-full text-red-500 hover:text-red-400 hover:bg-red-500/10 hover:border-red-500 transition-all"
-                        >
-                            <ArrowLeftOnRectangleIcon className="w-6 h-6" />
-                            <span>{t('sidebar.logout')}</span>
-                        </button>
-                    ) : (
-                        <button
-                            onClick={handleLogin}
-                            className="sidebar-link w-full text-primary hover:text-primary/80 hover:bg-primary/10 hover:border-primary transition-all font-bold"
-                        >
-                            <ArrowRightOnRectangleIcon className="w-6 h-6" />
-                            <span>{t('sidebar.login')}</span>
-                        </button>
-                    )}
-                </div>
-            </div>
-        </aside>
+            </aside>
+        </>
     );
 }

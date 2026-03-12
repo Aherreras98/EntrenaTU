@@ -11,8 +11,8 @@
 /* CREAMOS LOS DOS MODOS */
 @layer base {
   :root {
-    /* --- MODO CLARO  --- */
-    --theme-background: #f4f4f5;
+    /*  MODO CLARO */
+    --theme-background: #FDFCFB;
     --theme-surface: var(--color-white); 
     --theme-surface-hover: var(--color-zinc-100);
     --theme-text-main: var(--color-zinc-900); 
@@ -45,10 +45,10 @@
   }
 
   .responsive-button {
-    @apply w-full sm:w-auto px-6 py-3.5 sm:px-8 sm:py-4 
+    @apply w-full sm:w-auto px-6 py-3 sm:px-8 sm:py-4 
            text-base sm:text-lg font-bold rounded-xl
            flex justify-center items-center text-center
-           transition-all duration-300 active:scale-95;
+           transition-all duration-300 active:scale-95 shadow-lg;
   }
 
   .responsive-grid {
@@ -56,13 +56,6 @@
   }
 }
 
-
-.responsive-button {
-    @apply rounded-xl font-bold flex justify-center items-center text-center 
-           transition-all duration-300 active:scale-95 shadow-lg
-           py-2 sm:py-4 
-           text-xs sm:text-lg;
-}
 
 
 /* TEMA Y VARIABLES TAILWIND */
