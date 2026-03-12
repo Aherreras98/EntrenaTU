@@ -6,6 +6,7 @@ import { validateField } from "../../utils/regex";
 import { useAuthStore } from "../../store/useAuthStore";
 import { userRepository } from "../../database/repositories"; 
 import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
 interface LoginData {
     email: string;
@@ -65,7 +66,7 @@ export default function LoginForm() {
             const { data, error } = await userRepository.login(formData.email, formData.password);
 
             if (error) {
-                alert(t('auth.loginError') + error.message);
+                toast.error(t('auth.loginError') + error.message);
                 setIsLoading(false);
                 return;
             }

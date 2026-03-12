@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { InputText } from "../components/common/Input";
 import Button from "../components/ui/Button";
+import toast from "react-hot-toast";
 
 export const LoginView = () => {
     const [email, setEmail] = useState('');
@@ -23,7 +24,7 @@ export const LoginView = () => {
         const { data, error } = await userRepository.login(email, password);
 
         if (error) {
-            alert("Error de acceso: " + (error.message || "Credenciales incorrectas"));
+            toast.error("Error de acceso: " + (error.message || "Credenciales incorrectas"));
             setLoading(false);
             return;
         }
@@ -35,7 +36,7 @@ export const LoginView = () => {
             if (session) {
                 // Esto actualiza el estado global de la sesión
                 setAuth(session);
-                alert("¡Bienvenido, " + data.profile.username + "!");
+                toast.success("¡Bienvenido, " + data.profile.username + "!");
                 
                 // Redirigir al usuario al Home o Dashboard
                 navigate("/home"); 
@@ -45,10 +46,18 @@ export const LoginView = () => {
     };
 
     const handleRecoverPassword = async () => {
-        if (!email) return alert("Introduce tu email para recuperar la contraseña");
+        if (!email) { 
+            return toast.error("Introduce tu email para recuperar la contraseña");
+        }
+
         const { error } = await userRepository.recoverPassword(email);
-        if (error) alert(error.message);
-        else alert("Correo de recuperación enviado. Revisa tu bandeja de entrada.");
+
+        if (error) { 
+            toast.error(error.message);
+        }
+        else { 
+            toast.success("Correo de recuperación enviado. Revisa tu bandeja de entrada.");
+        }
     };
 
     return (

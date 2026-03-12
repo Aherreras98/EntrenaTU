@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Button from "../ui/Button";
 import { supabase } from "../../database/supabase/client";
 import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
 interface HistoryEntry {
     id: string;
@@ -92,7 +93,7 @@ export default function HistoryTable() {
                                     <Button 
                                         variant="secondary" 
                                         className="text-[10px] py-2 px-4 uppercase font-bold hover:bg-primary hover:text-white transition-all border border-zinc-200 dark:border-transparent"
-                                        onClick={() => alert(t('historyTable.comingSoon'))}
+                                        onClick={() => toast(t('historyTable.comingSoon'))}
                                     >
                                         {t('historyTable.viewDetails')}
                                     </Button>

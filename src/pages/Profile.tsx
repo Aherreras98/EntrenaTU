@@ -5,6 +5,7 @@ import { supabase } from "../database/supabase/client";
 import Button from "../components/ui/Button";
 import { SupabaseUserRepository } from "../database/supabase/SupabaseUserRepository";
 import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
 export default function Profile() {
     const { t } = useTranslation();
@@ -51,8 +52,13 @@ export default function Profile() {
             redirectTo: `${window.location.origin}/reset-password`,
         });
 
-        if (!error) setResetEmailSent(true);
-        else alert(t('profile.emailError'));
+        if (!error) { 
+            setResetEmailSent(true);
+            toast.success(t('profile.emailSuccess') || "Correo de recuperación enviado");
+        }
+        else { 
+            toast.error(t('profile.emailError'));
+        }
     };
 
     const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +69,7 @@ export default function Profile() {
 
         const MAX_SIZE_MB = 100;
         if (file.size > MAX_SIZE_MB * 1024 * 1024) {
-            alert(t('profile.fileTooLarge', { size: MAX_SIZE_MB }));
+            toast.error(t('profile.fileTooLarge', { size: MAX_SIZE_MB }));
             event.target.value = "";
             return;
         }
@@ -92,7 +98,7 @@ export default function Profile() {
                 }
             }
         } catch (error: any) {
-            alert(t('profile.avatarError') + (error.message || "Inténtalo de nuevo."));
+            toast.error(t('profile.avatarError') + (error.message || "Inténtalo de nuevo."));
         } finally {
             setUploading(false);
             if (event.target) event.target.value = '';
