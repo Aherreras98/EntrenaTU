@@ -29,7 +29,6 @@ export default function RoutineForm() {
     const [nombreRutina, setNombreRutina] = useState("");
     const [nivelDificultad, setNivelDificultad] = useState("intermedio");
     
-    
     const [ejerciciosDisponibles, setEjerciciosDisponibles] = useState<EjercicioDB[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [filterTipo, setFilterTipo] = useState("all");
@@ -63,16 +62,12 @@ export default function RoutineForm() {
         fetchEjercicios();
     }, []);
 
-    
     const ejerciciosFiltrados = ejerciciosDisponibles.filter(ej => {
-        
         const matchesName = ej.nombre.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesType = filterTipo === "all" || ej.tipo === filterTipo;
-        
         return matchesName && matchesType;
     });
 
-    
     const agregarEjercicioDirecto = (ejBase: EjercicioDB) => {
         setEjerciciosRutina([...ejerciciosRutina, {
             ejercicio_id: ejBase.id,
@@ -88,7 +83,8 @@ export default function RoutineForm() {
     };
 
     const actualizarDetalleEjercicio = (index: number, campo: keyof RoutineExercise, valor: string) => {
-        if (campo === "series" || campo === "kilos" || campo === "duracion_minutos") {
+        
+        if (campo === "series" || campo === "repeticiones" || campo === "kilos" || campo === "duracion_minutos") {
             if (valor !== "" && (valor.includes("-") || Number(valor) < 1)) {
                 return; 
             }
@@ -109,7 +105,8 @@ export default function RoutineForm() {
             
             if (ej.tipo === "gym") {
                 if (ej.series === "" || Number(ej.series) < 1) return toast.error(`Completa las series del ejercicio ${i + 1} (Mínimo 1)`);
-                if (ej.repeticiones.trim() === "") return toast.error(`Completa las repeticiones del ejercicio ${i + 1}`);
+                
+                if (ej.repeticiones === "" || Number(ej.repeticiones) < 1) return toast.error(`Completa las repeticiones del ejercicio ${i + 1} (Mínimo 1)`);
                 if (ej.kilos === "" || Number(ej.kilos) < 1) return toast.error(`Completa los kilos del ejercicio ${i + 1} (Mínimo 1kg)`);
             } else {
                 if (ej.duracion_minutos === "" || Number(ej.duracion_minutos) < 1) return toast.error(`Completa los minutos del ejercicio ${i + 1} (Mínimo 1 min)`);
@@ -135,7 +132,7 @@ export default function RoutineForm() {
                 ejercicio_id: ej.ejercicio_id,
                 orden: index + 1,
                 series: ej.tipo === "gym" ? parseInt(ej.series) : null,
-                repeticiones: ej.tipo === "gym" ? ej.repeticiones : null,
+                repeticiones: ej.tipo === "gym" ? ej.repeticiones : null, 
                 kilos: ej.tipo === "gym" ? parseFloat(ej.kilos) : null, 
                 duracion_minutos: ej.tipo === "sport" ? parseInt(ej.duracion_minutos) : null,
                 intensidad: ej.tipo === "sport" ? ej.intensidad : null,
@@ -171,7 +168,7 @@ export default function RoutineForm() {
                 <Select label={t('routineForm.levelLabel')} name="nivelDificultad" options={niveles} value={nivelDificultad} onChange={e => setNivelDificultad(e.target.value)} />
             </div>
 
-            {/*  BUSQUEDA */}
+            {/* BUSQUEDA */}
             <div className="flex flex-col gap-4 p-6 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700">
                 <div className="flex flex-col mb-1">
                     <h3 className="text-lg font-bold text-text-main uppercase tracking-tight">Catálogo de Ejercicios</h3>
@@ -247,13 +244,11 @@ export default function RoutineForm() {
                     </table>
                 </div>
             </div>
-            {}
 
             <div className="flex flex-col gap-4 mt-2">
                 {ejerciciosRutina.map((ej, index) => (
                     <div key={index} className="p-4 border border-zinc-200 dark:border-zinc-700 rounded-lg animate-in fade-in flex items-center gap-4 bg-white dark:bg-zinc-900 shadow-sm relative overflow-hidden">
                         
-                        {}
                         <div className={`absolute left-0 top-0 bottom-0 w-1 ${ej.tipo === 'gym' ? 'bg-blue-500' : 'bg-green-500'}`}></div>
                         
                         <div className="w-1/3 font-bold text-primary pl-2">{index + 1}. {ej.nombre}</div>
@@ -262,7 +257,8 @@ export default function RoutineForm() {
                             {ej.tipo === "gym" ? (
                                 <>
                                     <InputNumber label={t('routineForm.series')} name="series" value={ej.series} min="1" onChange={e => actualizarDetalleEjercicio(index, "series", e.target.value)} />
-                                    <InputText label={t('routineForm.reps')} name="repeticiones" value={ej.repeticiones} onChange={e => actualizarDetalleEjercicio(index, "repeticiones", e.target.value)} />
+                                    {}
+                                    <InputNumber label={t('routineForm.reps')} name="repeticiones" value={ej.repeticiones} min="1" onChange={e => actualizarDetalleEjercicio(index, "repeticiones", e.target.value)} />
                                     <InputNumber label="Kilos (kg)" name="kilos" value={ej.kilos} min="1" step="0.5" onChange={e => actualizarDetalleEjercicio(index, "kilos", e.target.value)} />
                                 </>
                             ) : (
