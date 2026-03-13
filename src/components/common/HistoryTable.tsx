@@ -167,7 +167,7 @@ export default function HistoryTable() {
                 </table>
             </div>
 
-            {/* MODAL DE DETALLES */}
+            {/* MODAL  */}
             <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
@@ -187,8 +187,8 @@ export default function HistoryTable() {
                             <div key={detalle.id} className="flex items-center gap-4 bg-zinc-800/30 border border-zinc-700/50 p-4 rounded-xl">
                                 
                                 <div className="w-16 h-16 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center overflow-hidden shrink-0">
-                                    {detalle.ejercicios.image_url ? (
-                                        <img src={detalle.ejercicios.image_url} alt={detalle.ejercicios.nombre} className="w-full h-full object-cover" />
+                                    {detalle.ejercicios?.image_url ? (
+                                        <img src={detalle.ejercicios.image_url} alt={detalle.ejercicios.nombre || 'Ejercicio'} className="w-full h-full object-cover" />
                                     ) : (
                                         <svg className="w-6 h-6 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -199,11 +199,11 @@ export default function HistoryTable() {
                                 <div className="flex-1">
                                     <h4 className="text-zinc-100 font-bold text-lg mb-1">
                                         <span className="text-primary mr-2">{detalle.orden}.</span>
-                                        {detalle.ejercicios.nombre}
+                                        {detalle.ejercicios?.nombre || 'Ejercicio con imagen / Eliminado'}
                                     </h4>
                                     
                                     <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-zinc-400">
-                                        {detalle.ejercicios.tipo === "gym" ? (
+                                        {detalle.ejercicios?.tipo === "gym" || (!detalle.ejercicios && detalle.series !== null) ? (
                                             <>
                                                 <span className="flex items-center gap-1">
                                                     <strong className="text-zinc-300">Series:</strong> {detalle.series}
@@ -219,12 +219,16 @@ export default function HistoryTable() {
                                             </>
                                         ) : (
                                             <>
-                                                <span className="flex items-center gap-1">
-                                                    <strong className="text-zinc-300">Tiempo:</strong> {detalle.duracion_minutos} min
-                                                </span>
-                                                <span className="flex items-center gap-1">
-                                                    <strong className="text-zinc-300">Intensidad:</strong> <span className="capitalize">{detalle.intensidad}</span>
-                                                </span>
+                                                {detalle.duracion_minutos && (
+                                                    <span className="flex items-center gap-1">
+                                                        <strong className="text-zinc-300">Tiempo:</strong> {detalle.duracion_minutos} min
+                                                    </span>
+                                                )}
+                                                {detalle.intensidad && (
+                                                    <span className="flex items-center gap-1">
+                                                        <strong className="text-zinc-300">Intensidad:</strong> <span className="capitalize">{detalle.intensidad}</span>
+                                                    </span>
+                                                )}
                                             </>
                                         )}
                                     </div>
