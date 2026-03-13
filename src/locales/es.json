@@ -67,7 +67,7 @@
         "addAvatar": "Añadir Avatar",
         "hello": "¡Hola,",
         "memberSince": "Miembro de la comunidad desde el",
-        "editName": "Editar Nombre",
+        "editName": "Editar perfil",
         "changePassword": "Cambiar Contraseña",
         "emailSuccess": "✓ Correo de recuperación enviado correctamente.",
         "emailError": "Error al enviar el correo de recuperación.",
@@ -146,7 +146,7 @@
         "errorNoName": "Falta el nombre de la rutina",
         "errorNoExercises": "Añade al menos un ejercicio",
         "errorAuth": "Debes iniciar sesión para crear rutinas",
-        "success": "¡Rutina creada con éxito!",
+        "success": "¡Rutina creada con éxito, ve a INICIO para completarla!",
         "errorSave": "Error desconocido al guardar"
     },
     "historyTable": {

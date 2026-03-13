@@ -67,7 +67,7 @@
         "addAvatar": "Aggiungi Avatar",
         "hello": "Ciao,",
         "memberSince": "Membro della community dal",
-        "editName": "Modifica Nome",
+        "editName": "Modifica profilo",
         "changePassword": "Cambia Password",
         "emailSuccess": "✓ Email di recupero inviata con successo.",
         "emailError": "Errore durante l'invio dell'email di recupero.",
@@ -146,7 +146,7 @@
         "errorNoName": "Manca il nome della scheda",
         "errorNoExercises": "Aggiungi almeno un esercizio",
         "errorAuth": "Devi accedere per creare schede",
-        "success": "Scheda creata con successo!",
+        "success": "Routine créée avec succès, cliquez sur DÉMARRER pour la terminer.!",
         "errorSave": "Errore sconosciuto durante il salvataggio"
     },
     "historyTable": {
