@@ -9,8 +9,8 @@ interface Routine {
     id: string;
     nombre: string;
     nivel_dificultad: string;
+    user_id: string | null; 
 }
-
 
 interface ExerciseDetail {
     id: number;
@@ -44,7 +44,7 @@ export default function Home() {
             setIsLoading(true);
             const { data, error } = await supabase
                 .from("rutinas")
-                .select("id, nombre, nivel_dificultad")
+                .select("id, nombre, nivel_dificultad, user_id")
                 .order("created_at", { ascending: false });
 
             if (error) {
@@ -84,42 +84,52 @@ export default function Home() {
         }
     };
 
-    
     const handleViewDetails = async (routine: Routine) => {
         setSelectedRoutine(routine);
         setIsModalOpen(true);
         setIsLoadingDetails(true);
 
         try {
-            
             const { data, error } = await supabase
                 .from("rutina_ejercicios")
                 .select(`
-                    id,
-                    orden,
-                    series,
-                    repeticiones,
-                    kilos,
-                    duracion_minutos,
-                    intensidad,
-                    ejercicios (
-                        nombre,
-                        tipo,
-                        image_url
-                    )
+                    id, orden, series, repeticiones, kilos, duracion_minutos, intensidad,
+                    ejercicios (nombre, tipo, image_url)
                 `)
                 .eq("rutina_id", routine.id)
                 .order("orden", { ascending: true });
 
             if (error) throw error;
-            
-            
             setRoutineDetails(data as unknown as ExerciseDetail[]);
         } catch (error) {
             console.error("Error al cargar los detalles:", error);
             toast.error("No se pudieron cargar los detalles de la rutina.");
         } finally {
             setIsLoadingDetails(false);
+        }
+    };
+
+    
+    const handleDeleteRoutine = async () => {
+        if (!selectedRoutine) return;
+
+        
+        try {
+            const { error } = await supabase
+                .from("rutinas")
+                .delete()
+                .eq("id", selectedRoutine.id);
+            
+            if (error) throw error;
+
+            
+            toast.success("Rutina eliminada");
+            setIsModalOpen(false);
+            setRoutines(routines.filter(r => r.id !== selectedRoutine.id));
+            
+        } catch (error: any) {
+            console.error("Error al eliminar la rutina:", error);
+            toast.error("Hubo un error al eliminar la rutina.");
         }
     };
 
@@ -156,19 +166,11 @@ export default function Home() {
                                 </div>
                                 
                                 <div className="flex gap-2 mt-auto">
-                                    <Button 
-                                        onClick={() => handleViewDetails(routine)}
-                                        variant="secondary"
-                                        className="w-1/2 justify-center text-xs px-2"
-                                    >
+                                    <Button onClick={() => handleViewDetails(routine)} variant="secondary" className="w-1/2 justify-center text-xs px-2">
                                         Ver detalles
                                     </Button>
 
-                                    <Button 
-                                        onClick={() => handleExecuteRoutine(routine)}
-                                        disabled={executingId === routine.id}
-                                        className="w-1/2 justify-center text-xs px-2"
-                                    >
+                                    <Button onClick={() => handleExecuteRoutine(routine)} disabled={executingId === routine.id} className="w-1/2 justify-center text-xs px-2">
                                         {executingId === routine.id ? t('home.executing') : "Completar"}
                                     </Button>
                                 </div>
@@ -184,6 +186,19 @@ export default function Home() {
                 onClose={() => setIsModalOpen(false)}
                 title={`Detalles: ${selectedRoutine?.nombre || ''}`}
             >
+                {/* BOTON ELIMINAR SI LA RUTINA TIENE ID*/}
+                {!isLoadingDetails && selectedRoutine?.user_id !== null && (
+                    <div className="flex justify-end mb-4">
+                        <Button 
+                            onClick={handleDeleteRoutine} 
+                            variant="secondary" 
+                            className="text-red-500 border-red-500 hover:bg-red-500/10 hover:border-red-600 hover:text-red-600 text-xs py-1.5 px-3"
+                        >
+                            Eliminar mi Rutina
+                        </Button>
+                    </div>
+                )}
+
                 {isLoadingDetails ? (
                     <div className="flex justify-center p-8">
                         <p className="text-zinc-400 animate-pulse">Cargando ejercicios...</p>
@@ -197,7 +212,6 @@ export default function Home() {
                         {routineDetails.map((detalle) => (
                             <div key={detalle.id} className="flex items-center gap-4 bg-zinc-800/30 border border-zinc-700/50 p-4 rounded-xl">
                                 
-                                {}
                                 <div className="w-16 h-16 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center overflow-hidden shrink-0">
                                     {detalle.ejercicios.image_url ? (
                                         <img src={detalle.ejercicios.image_url} alt={detalle.ejercicios.nombre} className="w-full h-full object-cover" />
@@ -208,7 +222,6 @@ export default function Home() {
                                     )}
                                 </div>
 
-                                {}
                                 <div className="flex-1">
                                     <h4 className="text-zinc-100 font-bold text-lg mb-1">
                                         <span className="text-primary mr-2">{detalle.orden}.</span>
