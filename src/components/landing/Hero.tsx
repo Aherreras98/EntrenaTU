@@ -58,6 +58,9 @@ export default function Hero() {
           <img
             src={HeroImage}
             alt="Aplicación EntrenaTU en móvil"
+            width="600"
+            height="800"
+            fetchPriority="high"
             className="relative z-10 w-full animate-in fade-in slide-in-from-bottom-10 duration-1000 transition-all duration-500 ease-out hover:scale-105 hover:-translate-y-4 cursor-pointer drop-shadow-[0_20px_50px_rgba(255,87,51,0.3)]"
           />
         </div>

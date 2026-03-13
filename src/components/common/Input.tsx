@@ -4,18 +4,21 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   endIcon?: React.ReactNode;
+  id?: string;
 }
 
-export function InputText({ label, error, type = "text", className = "", endIcon, ...props }: InputProps) {
-return (
+export function InputText({ label, error, type = "text", className = "", endIcon, id, ...props }: InputProps) {
+  const inputId = id || `input-${Math.random().toString(36).substring(7)}`; 
+
+  return (
     <div className="flex flex-col gap-1 w-full relative text-left">
-      {/* Label: text-text-main para que cambie según el modo */}
-      {label && <label className="text-sm font-bold text-text-main transition-colors">{label}</label>}
+      {/* Label: Vinculado al input mediante htmlFor */}
+      {label && <label htmlFor={inputId} className="text-sm font-bold text-text-main transition-colors">{label}</label>}
       
       <div className="relative">
         <input
+          id={inputId}
           type={type}
-          /* bg-background (claro) | text-text-main (adaptativo) | border dinámico */
           className={`w-full p-2.5 rounded-xl outline-none transition-all duration-300
             bg-background text-text-main
             ${error 
@@ -36,16 +39,18 @@ return (
   );
 }
 
-export function InputNumber({ label, error, className = "", ...props }: InputProps) {
+export function InputNumber({ label, error, className = "", id, ...props }: InputProps) {
+  const inputId = id || `input-num-${Math.random().toString(36).substring(7)}`;
+
   return (
     <div className="flex flex-col gap-1 w-full text-left">
-      {/* Label adaptativo para Altura y Peso */}
-      {label && <label className="text-sm font-bold text-text-main transition-colors">{label}</label>}
+      {/* Label adaptativo vinculado al input numérico */}
+      {label && <label htmlFor={inputId} className="text-sm font-bold text-text-main transition-colors">{label}</label>}
       
       <input
+        id={inputId}
         type="number"
         inputMode="numeric"
-        /* bg-background para que resalte sobre el modal blanco */
         className={`w-full p-2.5 rounded-xl outline-none transition-all duration-300 text-center
           bg-background text-text-main appearance-none
           ${error 
