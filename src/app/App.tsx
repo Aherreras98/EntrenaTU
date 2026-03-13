@@ -11,6 +11,7 @@ import { useAuthStore } from "../store/useAuthStore";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import { Toaster } from "react-hot-toast";
 import LandingPage from "../pages/LandingPage";
+import Dashboard from "../pages/Dashboard";
 
 function App() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -20,9 +21,9 @@ function App() {
     <Router>
       <Toaster />
       <Routes>
-        <Route 
-          path="/" 
-          element={!isAuthenticated ? <LandingPage /> : <Navigate to="/home" />} 
+        <Route
+          path="/"
+          element={!isAuthenticated ? <LandingPage /> : <Navigate to="/home" />}
         />
         <Route
           path="/login"
@@ -51,6 +52,10 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/routines" element={<Routines />} />
           <Route path="/history" element={<History />} />
+          <Route
+            path="/dashboard"
+            element={isAdmin ? <Dashboard /> : <Navigate to="/home" />}
+          />
         </Route>
       </Routes>
     </Router >
