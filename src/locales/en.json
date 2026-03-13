@@ -1,0 +1,163 @@
+{
+    "header": {
+        "login": "Log In",
+        "start": "Get Started"
+    },
+    "sidebar": {
+        "home": "Home",
+        "routines": "Routines",
+        "history": "History",
+        "dashboard": "Dashboard",
+        "profile": "Profile",
+        "logout": "Log Out",
+        "login": "Log In"
+    },
+    "hero": {
+        "title1": "Reach your",
+        "title2": "Highest Level",
+        "description": "EntrenaTu is the ultimate platform to manage your routines, monitor your progress, and push your limits every day.",
+        "startNow": "Start Now",
+        "alreadyHaveAccount": "I already have an account"
+    },
+    "features": {
+        "badge": "What we offer",
+        "title": "Everything you need to evolve",
+        "routines": {
+            "title": "Custom Routines",
+            "desc": "Create and manage your own workout plans or choose from our predefined templates."
+        },
+        "tracking": {
+            "title": "Detailed Tracking",
+            "desc": "Visualize your progress with intuitive charts for weight, reps, and total volume."
+        },
+        "history": {
+            "title": "Complete History",
+            "desc": "Access every past session to analyze your performance and beat your personal records."
+        }
+    },
+    "home": {
+        "title": "Your Dashboard",
+        "subtitle": "Select one of your routines and start training.",
+        "loading": "Loading your routines...",
+        "empty": "You haven't created any routines yet.",
+        "emptyHint": "Go to the \"Routines\" section to build your first workout plan.",
+        "level": "Level",
+        "noLevel": "Not defined",
+        "executing": "Registering...",
+        "completeBtn": "Complete Routine",
+        "alertSuccess": "Great job! You have completed the routine: {{name}} 💪",
+        "alertError": "There was an error logging the workout.",
+        "alertLogin": "You must be logged in to log a workout."
+    },
+    "routines": {
+        "title": "Planning",
+        "subtitle": "Create base exercises and link them to form your routines.",
+        "tabCreate": "Create Routine",
+        "tabAdd": "Add Exercise to Catalog"
+    },
+    "history": {
+        "title": "History",
+        "subtitle": "Check your past workouts and analyze your performance."
+    },
+    "profile": {
+        "title": "My Profile",
+        "subtitle": "Manage your account and personalize your experience.",
+        "uploading": "Uploading...",
+        "changeAvatar": "Change Avatar",
+        "addAvatar": "Add Avatar",
+        "hello": "Hello,",
+        "memberSince": "Community member since",
+        "editName": "Edit Name",
+        "changePassword": "Change Password",
+        "emailSuccess": "✓ Recovery email sent successfully.",
+        "emailError": "Error sending recovery email.",
+        "fileTooLarge": "The file is too large. The limit is {{size}}MB.",
+        "avatarError": "Error uploading avatar: "
+    },
+    "auth": {
+        "emailLabel": "Email Address",
+        "emailPlaceholder": "example@mail.com",
+        "passwordLabel": "Password",
+        "forgotPassword": "Forgot your password?",
+        "loading": "Loading...",
+        "loginButton": "Log In",
+        "noAccount": "Don't have an account?",
+        "registerLink": "Sign Up",
+        "usernameLabel": "Username",
+        "usernamePlaceholder": "Your nickname",
+        "ageLabel": "Age",
+        "confirmPasswordLabel": "Confirm Password",
+        "createAccountButton": "Create Account",
+        "hasAccount": "Already have an account?",
+        "loginLink": "Log In",
+        "loginError": "Error: ",
+        "loginSuccess": "Login successful!",
+        "registerError": "Error registering: ",
+        "registerSuccess": "Registration successful!",
+        "unknownError": "Unknown error",
+        "serverError": "Server connection error.",
+        "emailTaken": "This email is already in use."
+
+    },
+    "activityForm": {
+        "title": "New Base Exercise",
+        "subtitle": "Add an exercise to your personal catalog",
+        "typeLabel": "Activity Type",
+        "typeGym": "Gym / Strength",
+        "typeSport": "Sport / Cardio",
+        "nameLabel": "Exercise Name",
+        "namePlaceholder": "Ex: Bench Press",
+        "descLabel": "Description (Optional)",
+        "descPlaceholder": "Ex: With olympic barbell",
+        "muscleGroupLabel": "Muscle Group",
+        "mgChest": "Chest",
+        "mgBack": "Back",
+        "mgLegs": "Legs",
+        "mgShoulders": "Shoulders",
+        "mgArms": "Arms",
+        "mgCore": "Abs / Core",
+        "saving": "Saving...",
+        "saveButton": "Save Personal Exercise",
+        "errorNameRequired": "Name is required",
+        "errorAuth": "You must be logged in to create an exercise.",
+        "success": "Exercise saved to your private catalog successfully!",
+        "errorSave": "There was an error saving the exercise."
+    },
+    "routineForm": {
+        "title": "Create New Routine",
+        "subtitle": "Design your plan by grouping exercises from the catalog",
+        "nameLabel": "Routine Name",
+        "namePlaceholder": "Ex: Ultimate Push Day",
+        "levelLabel": "Level",
+        "levelBeginner": "Beginner",
+        "levelIntermediate": "Intermediate",
+        "levelAdvanced": "Advanced",
+        "selectExercise": "Select Exercise from Catalog",
+        "addButton": "Add to Routine",
+        "series": "Sets",
+        "reps": "Reps",
+        "minutes": "Minutes",
+        "intensity": "Intensity",
+        "intLow": "Low",
+        "intMedium": "Medium",
+        "intHigh": "High",
+        "remove": "Remove",
+        "saving": "Saving...",
+        "saveButton": "Save Complete Routine",
+        "errorNoName": "Routine name is missing",
+        "errorNoExercises": "Add at least one exercise",
+        "errorAuth": "You must be logged in to create routines",
+        "success": "Routine created successfully!",
+        "errorSave": "Unknown error while saving"
+    },
+    "historyTable": {
+        "loading": "Loading history...",
+        "empty": "You haven't completed any workouts yet.",
+        "emptyHint": "Go to Home, select a routine, and click \"Complete Routine\".",
+        "colRoutine": "Completed Routine",
+        "colDate": "Date and Time",
+        "colAction": "Action",
+        "viewDetails": "View Details",
+        "comingSoon": "Coming soon: view workout details"
+    }
+}

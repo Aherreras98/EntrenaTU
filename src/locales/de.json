@@ -1,0 +1,162 @@
+{
+    "header": {
+        "login": "Anmelden",
+        "start": "Starten"
+    },
+    "sidebar": {
+        "home": "Startseite",
+        "routines": "Trainingspläne",
+        "history": "Verlauf",
+        "dashboard": "Dashboard",
+        "profile": "Profil",
+        "logout": "Abmelden",
+        "login": "Anmelden"
+    },
+    "hero": {
+        "title1": "Erreiche dein",
+        "title2": "Höchstes Level",
+        "description": "EntrenaTu ist die ultimative Plattform, um deine Trainingspläne zu verwalten, deinen Fortschritt zu überwachen und jeden Tag deine Grenzen zu überschreiten.",
+        "startNow": "Jetzt starten",
+        "alreadyHaveAccount": "Ich habe bereits ein Konto"
+    },
+    "features": {
+        "badge": "Was wir bieten",
+        "title": "Alles, was du brauchst, um dich zu entwickeln",
+        "routines": {
+            "title": "Individuelle Trainingspläne",
+            "desc": "Erstelle und verwalte deine eigenen Trainingspläne oder wähle aus unseren vordefinierten Vorlagen."
+        },
+        "tracking": {
+            "title": "Detaillierte Verfolgung",
+            "desc": "Visualisiere deinen Fortschritt mit intuitiven Diagrammen für Gewicht, Wiederholungen und Gesamtvolumen."
+        },
+        "history": {
+            "title": "Vollständiger Verlauf",
+            "desc": "Greife auf jede vergangene Sitzung zu, um deine Leistung zu analysieren und deine persönlichen Rekorde zu brechen."
+        }
+    },
+    "home": {
+        "title": "Dein Dashboard",
+        "subtitle": "Wähle einen deiner Trainingspläne und beginne zu trainieren.",
+        "loading": "Deine Trainingspläne werden geladen...",
+        "empty": "Du hast noch keine Trainingspläne erstellt.",
+        "emptyHint": "Gehe in den Bereich \"Trainingspläne\", um deinen ersten Plan zu erstellen.",
+        "level": "Level",
+        "noLevel": "Nicht definiert",
+        "executing": "Wird registriert...",
+        "completeBtn": "Training abschließen",
+        "alertSuccess": "Hervorragende Arbeit! Du hast das Training abgeschlossen: {{name}} 💪",
+        "alertError": "Beim Speichern des Trainings ist ein Fehler aufgetreten.",
+        "alertLogin": "Du musst angemeldet sein, um ein Training zu protokollieren."
+    },
+    "routines": {
+        "title": "Planung",
+        "subtitle": "Erstelle Basisübungen und kombiniere sie zu deinen Trainingsplänen.",
+        "tabCreate": "Plan erstellen",
+        "tabAdd": "Übung zum Katalog hinzufügen"
+    },
+    "history": {
+        "title": "Verlauf",
+        "subtitle": "Überprüfe deine vergangenen Trainings und analysiere deine Leistung."
+    },
+    "profile": {
+        "title": "Mein Profil",
+        "subtitle": "Verwalte dein Konto und personalisiere dein Erlebnis.",
+        "uploading": "Wird hochgeladen...",
+        "changeAvatar": "Avatar ändern",
+        "addAvatar": "Avatar hinzufügen",
+        "hello": "Hallo,",
+        "memberSince": "Community-Mitglied seit",
+        "editName": "Namen bearbeiten",
+        "changePassword": "Passwort ändern",
+        "emailSuccess": "✓ Wiederherstellungs-E-Mail erfolgreich gesendet.",
+        "emailError": "Fehler beim Senden der Wiederherstellungs-E-Mail.",
+        "fileTooLarge": "Die Datei ist zu groß. Das Limit beträgt {{size}}MB.",
+        "avatarError": "Fehler beim Hochladen des Avatars: "
+    },
+    "auth": {
+        "emailLabel": "E-Mail-Adresse",
+        "emailPlaceholder": "beispiel@email.com",
+        "passwordLabel": "Passwort",
+        "forgotPassword": "Passwort vergessen?",
+        "loading": "Wird geladen...",
+        "loginButton": "Anmelden",
+        "noAccount": "Hast du noch kein Konto?",
+        "registerLink": "Registrieren",
+        "usernameLabel": "Benutzername",
+        "usernamePlaceholder": "Dein Spitzname",
+        "ageLabel": "Alter",
+        "confirmPasswordLabel": "Passwort bestätigen",
+        "createAccountButton": "Konto erstellen",
+        "hasAccount": "Hast du bereits ein Konto?",
+        "loginLink": "Anmelden",
+        "loginError": "Fehler: ",
+        "loginSuccess": "Anmeldung erfolgreich!",
+        "registerError": "Fehler bei der Registrierung: ",
+        "registerSuccess": "Registrierung erfolgreich!",
+        "unknownError": "Unbekannter Fehler",
+        "serverError": "Verbindungsfehler zum Server.",
+        "emailTaken": "Diese E-Mail-Adresse wird bereits verwendet."
+    },
+    "activityForm": {
+        "title": "Neue Basisübung",
+        "subtitle": "Füge eine Übung zu deinem persönlichen Katalog hinzu",
+        "typeLabel": "Aktivitätstyp",
+        "typeGym": "Fitnessstudio / Kraft",
+        "typeSport": "Sport / Ausdauer",
+        "nameLabel": "Name der Übung",
+        "namePlaceholder": "Bsp.: Bankdrücken",
+        "descLabel": "Beschreibung (Optional)",
+        "descPlaceholder": "Bsp.: Mit einer Langhantel",
+        "muscleGroupLabel": "Muskelgruppe",
+        "mgChest": "Brust",
+        "mgBack": "Rücken",
+        "mgLegs": "Beine",
+        "mgShoulders": "Schultern",
+        "mgArms": "Arme",
+        "mgCore": "Bauchmuskeln / Core",
+        "saving": "Wird gespeichert...",
+        "saveButton": "Persönliche Übung speichern",
+        "errorNameRequired": "Der Name ist erforderlich",
+        "errorAuth": "Du musst angemeldet sein, um eine Übung zu erstellen.",
+        "success": "Übung erfolgreich in deinem privaten Katalog gespeichert!",
+        "errorSave": "Beim Speichern ist ein Fehler aufgetreten."
+    },
+    "routineForm": {
+        "title": "Neuen Trainingsplan erstellen",
+        "subtitle": "Gestalte deinen Plan durch Gruppieren von Übungen aus dem Katalog",
+        "nameLabel": "Name des Trainingsplans",
+        "namePlaceholder": "Bsp.: Ultimativer Push-Day",
+        "levelLabel": "Level",
+        "levelBeginner": "Anfänger",
+        "levelIntermediate": "Fortgeschritten",
+        "levelAdvanced": "Profi",
+        "selectExercise": "Übung aus dem Katalog auswählen",
+        "addButton": "Zum Plan hinzufügen",
+        "series": "Sätze",
+        "reps": "Wiederholungen",
+        "minutes": "Minuten",
+        "intensity": "Intensität",
+        "intLow": "Niedrig",
+        "intMedium": "Mittel",
+        "intHigh": "Hoch",
+        "remove": "Entfernen",
+        "saving": "Wird gespeichert...",
+        "saveButton": "Vollständigen Plan speichern",
+        "errorNoName": "Der Name des Trainingsplans fehlt",
+        "errorNoExercises": "Füge mindestens eine Übung hinzu",
+        "errorAuth": "Du musst angemeldet sein, um Trainingspläne zu erstellen",
+        "success": "Trainingsplan erfolgreich erstellt!",
+        "errorSave": "Unbekannter Fehler beim Speichern"
+    },
+    "historyTable": {
+        "loading": "Verlauf wird geladen...",
+        "empty": "Du hast noch keine Trainings abgeschlossen.",
+        "emptyHint": "Gehe zur Startseite, wähle einen Trainingsplan und klicke auf \"Training abschließen\".",
+        "colRoutine": "Abgeschlossenes Training",
+        "colDate": "Datum und Uhrzeit",
+        "colAction": "Aktion",
+        "viewDetails": "Details anzeigen",
+        "comingSoon": "Demnächst: Trainingsdetails anzeigen"
+    }
+}

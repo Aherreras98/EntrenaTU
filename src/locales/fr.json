@@ -1,0 +1,162 @@
+{
+    "header": {
+        "login": "Connexion",
+        "start": "Commencer"
+    },
+    "sidebar": {
+        "home": "Accueil",
+        "routines": "Programmes",
+        "history": "Historique",
+        "dashboard": "Tableau de bord",
+        "profile": "Profil",
+        "logout": "Déconnexion",
+        "login": "Se connecter"
+    },
+    "hero": {
+        "title1": "Atteignez votre",
+        "title2": "Niveau Maximum",
+        "description": "EntrenaTu est la plateforme ultime pour gérer vos programmes, suivre vos progrès et repousser vos limites chaque jour.",
+        "startNow": "Commencer Maintenant",
+        "alreadyHaveAccount": "J'ai déjà un compte"
+    },
+    "features": {
+        "badge": "Ce que nous offrons",
+        "title": "Tout ce dont vous avez besoin pour évoluer",
+        "routines": {
+            "title": "Programmes Personnalisés",
+            "desc": "Créez et gérez vos propres plans d'entraînement ou choisissez parmi nos modèles prédéfinis."
+        },
+        "tracking": {
+            "title": "Suivi Détaillé",
+            "desc": "Visualisez vos progrès avec des graphiques intuitifs de poids, répétitions et volume total."
+        },
+        "history": {
+            "title": "Historique Complet",
+            "desc": "Accédez à chaque session passée pour analyser vos performances et battre vos records personnels."
+        }
+    },
+    "home": {
+        "title": "Votre Tableau de bord",
+        "subtitle": "Sélectionnez l'un de vos programmes et commencez à vous entraîner.",
+        "loading": "Chargement de vos programmes...",
+        "empty": "Vous n'avez pas encore créé de programmes.",
+        "emptyHint": "Allez dans la section \"Programmes\" pour créer votre premier plan d'entraînement.",
+        "level": "Niveau",
+        "noLevel": "Non défini",
+        "executing": "Enregistrement...",
+        "completeBtn": "Terminer le Programme",
+        "alertSuccess": "Excellent travail ! Vous avez terminé le programme : {{name}} 💪",
+        "alertError": "Une erreur est survenue lors de l'enregistrement de l'entraînement.",
+        "alertLogin": "Vous devez être connecté pour enregistrer un entraînement."
+    },
+    "routines": {
+        "title": "Planification",
+        "subtitle": "Créez des exercices de base et associez-les pour former vos programmes.",
+        "tabCreate": "Créer un Programme",
+        "tabAdd": "Ajouter un Exercice au Catalogue"
+    },
+    "history": {
+        "title": "Historique",
+        "subtitle": "Consultez vos entraînements passés et analysez vos performances."
+    },
+    "profile": {
+        "title": "Mon Profil",
+        "subtitle": "Gérez votre compte et personnalisez votre expérience.",
+        "uploading": "Téléchargement...",
+        "changeAvatar": "Changer d'Avatar",
+        "addAvatar": "Ajouter un Avatar",
+        "hello": "Bonjour,",
+        "memberSince": "Membre de la communauté depuis le",
+        "editName": "Modifier le Nom",
+        "changePassword": "Changer le Mot de passe",
+        "emailSuccess": "✓ E-mail de récupération envoyé avec succès.",
+        "emailError": "Erreur lors de l'envoi de l'e-mail de récupération.",
+        "fileTooLarge": "Le fichier est trop volumineux. La limite est de {{size}} Mo.",
+        "avatarError": "Erreur lors du téléchargement de l'avatar : "
+    },
+    "auth": {
+        "emailLabel": "Adresse e-mail",
+        "emailPlaceholder": "exemple@email.com",
+        "passwordLabel": "Mot de passe",
+        "forgotPassword": "Mot de passe oublié ?",
+        "loading": "Chargement...",
+        "loginButton": "Se connecter",
+        "noAccount": "Vous n'avez pas de compte ?",
+        "registerLink": "S'inscrire",
+        "usernameLabel": "Nom d'utilisateur",
+        "usernamePlaceholder": "Votre pseudo",
+        "ageLabel": "Âge",
+        "confirmPasswordLabel": "Confirmer le mot de passe",
+        "createAccountButton": "Créer un compte",
+        "hasAccount": "Vous avez déjà un compte ?",
+        "loginLink": "Se connecter",
+        "loginError": "Erreur : ",
+        "loginSuccess": "Connexion réussie !",
+        "registerError": "Erreur lors de l'inscription : ",
+        "registerSuccess": "Inscription réussie !",
+        "unknownError": "Erreur inconnue",
+        "serverError": "Erreur de connexion au serveur.",
+        "emailTaken": "Cette adresse e-mail est deja en cours d'utilisation."
+    },
+    "activityForm": {
+        "title": "Nouvel Exercice de Base",
+        "subtitle": "Ajoutez un exercice à votre catalogue personnel",
+        "typeLabel": "Type d'activité",
+        "typeGym": "Salle de sport / Force",
+        "typeSport": "Sport / Cardio",
+        "nameLabel": "Nom de l'exercice",
+        "namePlaceholder": "Ex : Développé couché",
+        "descLabel": "Description (Optionnelle)",
+        "descPlaceholder": "Ex : Avec barre olympique",
+        "muscleGroupLabel": "Groupe Musculaire",
+        "mgChest": "Pectoraux",
+        "mgBack": "Dos",
+        "mgLegs": "Jambes",
+        "mgShoulders": "Épaules",
+        "mgArms": "Bras",
+        "mgCore": "Abdos / Core",
+        "saving": "Enregistrement...",
+        "saveButton": "Enregistrer l'Exercice Personnel",
+        "errorNameRequired": "Le nom est obligatoire",
+        "errorAuth": "Vous devez vous connecter pour créer un exercice.",
+        "success": "Exercice enregistré dans votre catalogue privé avec succès !",
+        "errorSave": "Une erreur est survenue lors de l'enregistrement."
+    },
+    "routineForm": {
+        "title": "Créer un Nouveau Programme",
+        "subtitle": "Concevez votre plan en regroupant des exercices du catalogue",
+        "nameLabel": "Nom du Programme",
+        "namePlaceholder": "Ex : Push Day Ultime",
+        "levelLabel": "Niveau",
+        "levelBeginner": "Débutant",
+        "levelIntermediate": "Intermédiaire",
+        "levelAdvanced": "Avancé",
+        "selectExercise": "Sélectionner un Exercice du Catalogue",
+        "addButton": "Ajouter au Programme",
+        "series": "Séries",
+        "reps": "Répétitions",
+        "minutes": "Minutes",
+        "intensity": "Intensité",
+        "intLow": "Faible",
+        "intMedium": "Moyenne",
+        "intHigh": "Élevée",
+        "remove": "Retirer",
+        "saving": "Enregistrement...",
+        "saveButton": "Enregistrer le Programme Complet",
+        "errorNoName": "Il manque le nom du programme",
+        "errorNoExercises": "Ajoutez au moins un exercice",
+        "errorAuth": "Vous devez vous connecter pour créer des programmes",
+        "success": "Programme créé avec succès !",
+        "errorSave": "Erreur inconnue lors de l'enregistrement"
+    },
+    "historyTable": {
+        "loading": "Chargement de l'historique...",
+        "empty": "Vous n'avez pas encore terminé d'entraînement.",
+        "emptyHint": "Allez à l'Accueil, sélectionnez un programme et cliquez sur \"Terminer le Programme\".",
+        "colRoutine": "Programme Terminé",
+        "colDate": "Date et Heure",
+        "colAction": "Action",
+        "viewDetails": "Voir les détails",
+        "comingSoon": "Prochainement : voir les détails de l'entraînement"
+    }
+}

@@ -1,0 +1,162 @@
+{
+    "header": {
+        "login": "Entrar",
+        "start": "Começar"
+    },
+    "sidebar": {
+        "home": "Início",
+        "routines": "Rotinas",
+        "history": "Histórico",
+        "dashboard": "Painel",
+        "profile": "Perfil",
+        "logout": "Sair",
+        "login": "Iniciar Sessão"
+    },
+    "hero": {
+        "title1": "Alcance o seu",
+        "title2": "Nível Máximo",
+        "description": "EntrenaTu é a plataforma definitiva para gerir as suas rotinas, monitorizar o seu progresso e superar os seus limites todos os dias.",
+        "startNow": "Começar Agora",
+        "alreadyHaveAccount": "Já tenho conta"
+    },
+    "features": {
+        "badge": "O que oferecemos",
+        "title": "Tudo o que precisa para evoluir",
+        "routines": {
+            "title": "Rotinas Personalizadas",
+            "desc": "Crie e faça a gestão dos seus próprios planos de treino ou escolha entre os nossos modelos predefinidos."
+        },
+        "tracking": {
+            "title": "Monitorização Detalhada",
+            "desc": "Visualize o seu progresso com gráficos intuitivos de peso, repetições e volume total."
+        },
+        "history": {
+            "title": "Histórico Completo",
+            "desc": "Aceda a cada sessão passada para analisar o seu desempenho e bater os seus recordes pessoais."
+        }
+    },
+    "home": {
+        "title": "O seu Painel",
+        "subtitle": "Selecione uma das suas rotinas e comece a treinar.",
+        "loading": "A carregar as suas rotinas...",
+        "empty": "Ainda não criou nenhuma rotina.",
+        "emptyHint": "Vá à secção \"Rotinas\" para criar o seu primeiro plano de treino.",
+        "level": "Nível",
+        "noLevel": "Não definido",
+        "executing": "A registar...",
+        "completeBtn": "Completar Rotina",
+        "alertSuccess": "Excelente trabalho! Completou a rotina: {{name}} 💪",
+        "alertError": "Ocorreu um erro ao registar o treino.",
+        "alertLogin": "Deve iniciar sessão para registar um treino."
+    },
+    "routines": {
+        "title": "Planeamento",
+        "subtitle": "Crie exercícios base e una-os para formar as suas rotinas.",
+        "tabCreate": "Criar Rotina",
+        "tabAdd": "Adicionar Exercício ao Catálogo"
+    },
+    "history": {
+        "title": "Histórico",
+        "subtitle": "Consulte os seus treinos passados e analise o seu desempenho."
+    },
+    "profile": {
+        "title": "O meu Perfil",
+        "subtitle": "Faça a gestão da sua conta e personalize a sua experiência.",
+        "uploading": "A enviar...",
+        "changeAvatar": "Mudar Avatar",
+        "addAvatar": "Adicionar Avatar",
+        "hello": "Olá,",
+        "memberSince": "Membro da comunidade desde",
+        "editName": "Editar Nome",
+        "changePassword": "Mudar Palavra-passe",
+        "emailSuccess": "✓ E-mail de recuperação enviado com sucesso.",
+        "emailError": "Erro ao enviar o e-mail de recuperação.",
+        "fileTooLarge": "O ficheiro é demasiado grande. O limite é {{size}}MB.",
+        "avatarError": "Erro ao enviar o avatar: "
+    },
+    "auth": {
+        "emailLabel": "E-mail",
+        "emailPlaceholder": "exemplo@correio.com",
+        "passwordLabel": "Palavra-passe",
+        "forgotPassword": "Esqueceu-se da sua palavra-passe?",
+        "loading": "A carregar...",
+        "loginButton": "Iniciar Sessão",
+        "noAccount": "Não tem conta?",
+        "registerLink": "Registe-se",
+        "usernameLabel": "Nome de Utilizador",
+        "usernamePlaceholder": "A sua alcunha",
+        "ageLabel": "Idade",
+        "confirmPasswordLabel": "Confirmar Palavra-passe",
+        "createAccountButton": "Criar Conta",
+        "hasAccount": "Já tem conta?",
+        "loginLink": "Iniciar Sessão",
+        "loginError": "Erro: ",
+        "loginSuccess": "Sessão iniciada com sucesso!",
+        "registerError": "Erro ao registar: ",
+        "registerSuccess": "Registo concluído com sucesso!",
+        "unknownError": "Erro desconhecido",
+        "serverError": "Erro de ligação ao servidor.",
+        "emailTaken": "Este e-mail está em uso."
+    },
+    "activityForm": {
+        "title": "Novo Exercício Base",
+        "subtitle": "Adicione um exercício ao seu catálogo pessoal",
+        "typeLabel": "Tipo de atividade",
+        "typeGym": "Ginásio / Força",
+        "typeSport": "Desporto / Cardio",
+        "nameLabel": "Nome do Exercício",
+        "namePlaceholder": "Ex: Supino",
+        "descLabel": "Descrição (Opcional)",
+        "descPlaceholder": "Ex: Com barra olímpica",
+        "muscleGroupLabel": "Grupo Muscular",
+        "mgChest": "Peito",
+        "mgBack": "Costas",
+        "mgLegs": "Pernas",
+        "mgShoulders": "Ombros",
+        "mgArms": "Braços",
+        "mgCore": "Abdominais / Core",
+        "saving": "A guardar...",
+        "saveButton": "Guardar Exercício Pessoal",
+        "errorNameRequired": "O nome é obrigatório",
+        "errorAuth": "Deve iniciar sessão para criar um exercício.",
+        "success": "Exercício guardado no seu catálogo privado com sucesso!",
+        "errorSave": "Ocorreu um erro ao guardar o exercício."
+    },
+    "routineForm": {
+        "title": "Criar Nova Rotina",
+        "subtitle": "Crie o seu plano agrupando exercícios do catálogo",
+        "nameLabel": "Nome da Rotina",
+        "namePlaceholder": "Ex: Push Day Supremo",
+        "levelLabel": "Nível",
+        "levelBeginner": "Principiante",
+        "levelIntermediate": "Intermédio",
+        "levelAdvanced": "Avançado",
+        "selectExercise": "Selecionar Exercício do Catálogo",
+        "addButton": "Adicionar à Rotina",
+        "series": "Séries",
+        "reps": "Reps",
+        "minutes": "Minutos",
+        "intensity": "Intensidade",
+        "intLow": "Baixa",
+        "intMedium": "Média",
+        "intHigh": "Alta",
+        "remove": "Remover",
+        "saving": "A guardar...",
+        "saveButton": "Guardar Rotina Completa",
+        "errorNoName": "Falta o nome da rotina",
+        "errorNoExercises": "Adicione pelo menos um exercício",
+        "errorAuth": "Deve iniciar sessão para criar rotinas",
+        "success": "Rotina criada com sucesso!",
+        "errorSave": "Erro desconhecido ao guardar"
+    },
+    "historyTable": {
+        "loading": "A carregar histórico...",
+        "empty": "Ainda não completou nenhum treino.",
+        "emptyHint": "Vá ao Início, selecione uma rotina e clique em \"Completar Rotina\".",
+        "colRoutine": "Rotina Realizada",
+        "colDate": "Data e Hora",
+        "colAction": "Ação",
+        "viewDetails": "Ver detalhes",
+        "comingSoon": "Brevemente: ver detalhes do treino"
+    }
+}
