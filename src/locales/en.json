@@ -67,7 +67,7 @@
         "addAvatar": "Add Avatar",
         "hello": "Hello,",
         "memberSince": "Community member since",
-        "editName": "Edit Name",
+        "editName": "Edit prifle",
         "changePassword": "Change Password",
         "emailSuccess": "✓ Recovery email sent successfully.",
         "emailError": "Error sending recovery email.",
@@ -147,7 +147,7 @@
         "errorNoName": "Routine name is missing",
         "errorNoExercises": "Add at least one exercise",
         "errorAuth": "You must be logged in to create routines",
-        "success": "Routine created successfully!",
+        "success": "Routine successfully created, go to START to complete it!",
         "errorSave": "Unknown error while saving"
     },
     "historyTable": {

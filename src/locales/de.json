@@ -67,7 +67,7 @@
         "addAvatar": "Avatar hinzufügen",
         "hello": "Hallo,",
         "memberSince": "Community-Mitglied seit",
-        "editName": "Namen bearbeiten",
+        "editName": "Profil bearbeiten",
         "changePassword": "Passwort ändern",
         "emailSuccess": "✓ Wiederherstellungs-E-Mail erfolgreich gesendet.",
         "emailError": "Fehler beim Senden der Wiederherstellungs-E-Mail.",
@@ -146,7 +146,7 @@
         "errorNoName": "Der Name des Trainingsplans fehlt",
         "errorNoExercises": "Füge mindestens eine Übung hinzu",
         "errorAuth": "Du musst angemeldet sein, um Trainingspläne zu erstellen",
-        "success": "Trainingsplan erfolgreich erstellt!",
+        "success": "Routine erfolgreich erstellt, gehen Sie zu START, um sie abzuschließen.!",
         "errorSave": "Unbekannter Fehler beim Speichern"
     },
     "historyTable": {

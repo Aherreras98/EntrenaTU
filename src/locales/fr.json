@@ -67,7 +67,7 @@
         "addAvatar": "Ajouter un Avatar",
         "hello": "Bonjour,",
         "memberSince": "Membre de la communauté depuis le",
-        "editName": "Modifier le Nom",
+        "editName": "Modifier le profil",
         "changePassword": "Changer le Mot de passe",
         "emailSuccess": "✓ E-mail de récupération envoyé avec succès.",
         "emailError": "Erreur lors de l'envoi de l'e-mail de récupération.",
@@ -146,7 +146,7 @@
         "errorNoName": "Il manque le nom du programme",
         "errorNoExercises": "Ajoutez au moins un exercice",
         "errorAuth": "Vous devez vous connecter pour créer des programmes",
-        "success": "Programme créé avec succès !",
+        "success": "Routine créée avec succès, cliquez sur DÉMARRER pour la terminer. !",
         "errorSave": "Erreur inconnue lors de l'enregistrement"
     },
     "historyTable": {
