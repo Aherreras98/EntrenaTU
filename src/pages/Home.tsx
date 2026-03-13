@@ -268,5 +268,6 @@ export default function Home() {
                 )}
             </Modal>
         </div>
+        
     );
 }
