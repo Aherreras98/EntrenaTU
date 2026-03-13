@@ -12,10 +12,11 @@ export default function AppLayout() {
 
         <Sidebar />
 
-        <main className="flex-1 w-full min-w-0 bg-surface text-text-main p-6 overflow-y-auto transition-colors duration-300">
-          <Outlet />
+        <main className="flex-1 w-full min-w-0 bg-surface text-text-main p-4 md:p-8 overflow-x-hidden transition-colors duration-300">
+          <div className="max-w-full">
+            <Outlet />
+          </div>
         </main>
-        
       </div>
 
       <Footer />
