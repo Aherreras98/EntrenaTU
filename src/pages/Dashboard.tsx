@@ -13,27 +13,25 @@ export default function AdminDashboard() {
         chartData: [] as { name: string, value: number }[]
     });
 
-    // Estado para el RUD (Read, Update, Delete) de usuarios
     const [usersList, setUsersList] = useState<any[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingUser, setEditingUser] = useState<any>(null);
-    const [formData, setFormData] = useState({ username: '', email: '', age: '' });
+    
+    // Solo necesitamos el username en el estado del formulario
+    const [formData, setFormData] = useState({ username: '' });
 
     const fetchDashboardData = async () => {
         try {
-            // Traemos los usuarios para la tabla y gráficas
             const { data: users, count: usersCount, error: usersError } = await supabase
                 .from('Profiles')
                 .select('*', { count: 'exact' });
 
             if (usersError) throw usersError;
 
-            // Traemos el total de rutinas
             const { count: routinesCount } = await supabase
                 .from('rutinas')
                 .select('*', { count: 'exact', head: true });
 
-            // Calculamos los últimos 7 días exactos para la gráfica
             const last7Days = Array.from({ length: 7 }, (_, i) => {
                 const d = new Date();
                 d.setDate(d.getDate() - (6 - i));
@@ -68,55 +66,54 @@ export default function AdminDashboard() {
         fetchDashboardData();
     }, []);
 
-    // --- FUNCIONES UPDATE Y DELETE ---
-
+    // --- ELIMINAR ---
     const handleDeleteUser = async (id: string) => {
-        if (!window.confirm("¿Estás seguro de que deseas eliminar este usuario?")) return;
+        if (!window.confirm("¿Estás seguro de que deseas eliminar este perfil? Esta acción no se puede deshacer.")) return;
         
         try {
             const { error } = await supabase.from('Profiles').delete().eq('id', id);
-            if (error) throw error;
+            
+            if (error) {
+                console.error("Error de Supabase (Delete):", error);
+                throw new Error("No tienes permisos para eliminar o hubo un error en la base de datos.");
+            }
             
             setUsersList(usersList.filter(user => user.id !== id));
             setStats(prev => ({ ...prev, totalUsers: prev.totalUsers - 1 }));
             toast.success("Usuario eliminado correctamente");
-        } catch (error) {
-            console.error(error);
-            toast.error("Error al eliminar el usuario");
+        } catch (error: any) {
+            toast.error(error.message || "Error al eliminar el usuario");
         }
     };
 
+    // --- ABRIR MODAL ---
     const handleOpenEditModal = (user: any) => {
         setEditingUser(user);
-        setFormData({ username: user.username || '', email: user.email || '', age: user.age || '' });
+        setFormData({ username: user.username || '' }); // Solo cargamos el nombre
         setIsModalOpen(true);
     };
 
+    // --- ACTUALIZAR (SOLO NOMBRE) ---
     const handleUpdateUser = async (e: React.FormEvent) => {
         e.preventDefault();
-        
-        // Si por alguna razón no hay usuario en edición, cancelamos
         if (!editingUser) return; 
 
         try {
-            // ACTUALIZAR USUARIO EXISTENTE
             const { error } = await supabase
                 .from('Profiles')
-                .update({ 
-                    username: formData.username, 
-                    email: formData.email, 
-                    age: formData.age 
-                })
+                .update({ username: formData.username }) // Solo enviamos el nombre modificado
                 .eq('id', editingUser.id);
             
-            if (error) throw error;
+            if (error) {
+                console.error("Error de Supabase (Update):", error);
+                throw new Error("No tienes permisos o hubo un problema al guardar.");
+            }
             
-            toast.success("Usuario actualizado correctamente");
+            toast.success("Nombre actualizado correctamente");
             setIsModalOpen(false);
-            fetchDashboardData(); // Recargamos para actualizar la tabla
-        } catch (error) {
-            console.error(error);
-            toast.error("Error al actualizar el usuario");
+            fetchDashboardData(); 
+        } catch (error: any) {
+            toast.error(error.message || "Error al actualizar el usuario");
         }
     };
 
@@ -124,7 +121,6 @@ export default function AdminDashboard() {
 
     return (
         <div className="w-full max-w-6xl mx-auto p-6 animate-in fade-in duration-500">
-            {/* Cabecera del Dashboard */}
             <div className="mb-8">
                 <h1 className="text-3xl font-bold text-zinc-900 dark:text-white flex items-center gap-3">
                     <ChartBarIcon className="text-primary w-8 h-8" />
@@ -132,7 +128,6 @@ export default function AdminDashboard() {
                 </h1>
             </div>
 
-            {/* Tarjetas de Estadísticas */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-white/10 shadow-xl flex items-center gap-6">
                     <div className="bg-primary/10 p-4 rounded-xl">
@@ -155,7 +150,6 @@ export default function AdminDashboard() {
                 </div>
             </div>
 
-            {/* Gráfica */}
             <div className="grid grid-cols-1 gap-6 mb-8">
                 <BarChartElement 
                     title="Nuevos usuarios (Últimos 7 días)" 
@@ -163,11 +157,9 @@ export default function AdminDashboard() {
                 />
             </div>
 
-            {/* Tabla RUD de Usuarios (Read, Update, Delete) */}
             <div className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200 dark:border-white/10 shadow-xl">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Gestión de Usuarios</h2>
-                    {/* El botón de crear ha sido eliminado de aquí */}
                 </div>
                 
                 <div className="overflow-x-auto">
@@ -176,7 +168,6 @@ export default function AdminDashboard() {
                             <tr>
                                 <th scope="col" className="px-6 py-3">Usuario</th>
                                 <th scope="col" className="px-6 py-3">Email</th>
-                                <th scope="col" className="px-6 py-3">Edad</th>
                                 <th scope="col" className="px-6 py-3 text-right">Acciones</th>
                             </tr>
                         </thead>
@@ -193,13 +184,13 @@ export default function AdminDashboard() {
                                         )}
                                         {user.username || 'Sin nombre'}
                                     </td>
+                                    {/* El email se muestra a modo informativo, pero no se puede editar */}
                                     <td className="px-6 py-4">{user.email}</td>
-                                    <td className="px-6 py-4">{user.age || '-'}</td>
                                     <td className="px-6 py-4 text-right flex justify-end gap-2">
                                         <button 
                                             onClick={() => handleOpenEditModal(user)}
                                             className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                                            title="Editar"
+                                            title="Editar Nombre"
                                         >
                                             <PencilSquareIcon className="w-5 h-5" />
                                         </button>
@@ -223,38 +214,23 @@ export default function AdminDashboard() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
                     <div className="bg-white dark:bg-zinc-900 w-full max-w-md p-6 rounded-2xl shadow-2xl">
                         <h3 className="text-xl font-bold mb-4 text-zinc-900 dark:text-white">
-                            Editar Usuario
+                            Editar Nombre de Usuario
                         </h3>
+                        <p className="text-sm text-zinc-500 mb-4">
+                            Estás editando a: <span className="font-semibold text-zinc-800 dark:text-zinc-200">{editingUser?.email}</span>
+                        </p>
                         <form onSubmit={handleUpdateUser} className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Nombre de Usuario</label>
+                                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Nombre</label>
                                 <input 
                                     type="text" 
                                     value={formData.username}
-                                    onChange={(e) => setFormData({...formData, username: e.target.value})}
+                                    onChange={(e) => setFormData({ username: e.target.value })}
                                     className="w-full px-4 py-2 border rounded-lg bg-transparent dark:border-zinc-700 dark:text-white"
                                     required
                                 />
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Email</label>
-                                <input 
-                                    type="email" 
-                                    value={formData.email}
-                                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                    className="w-full px-4 py-2 border rounded-lg bg-transparent dark:border-zinc-700 dark:text-white"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Edad</label>
-                                <input 
-                                    type="number" 
-                                    value={formData.age}
-                                    onChange={(e) => setFormData({...formData, age: e.target.value})}
-                                    className="w-full px-4 py-2 border rounded-lg bg-transparent dark:border-zinc-700 dark:text-white"
-                                />
-                            </div>
+                            
                             <div className="flex gap-3 justify-end mt-6">
                                 <button 
                                     type="button" 
